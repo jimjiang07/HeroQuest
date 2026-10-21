@@ -4,12 +4,34 @@ import {readFileSync} from 'node:fs';
 /* Smoke tests: every activity can be played from start to finish and every planned print day renders.
    Wrong taps never block progress, so these tests only tap the right answers. */
 
-test('home page shows a Maths lane and an English lane', async ({page})=>{
+const seed=(page,state)=>page.addInitScript(s=>localStorage.setItem('hq-v1',JSON.stringify(s)),state);
+
+test('home path opens one day at a time, maths and English together', async ({page})=>{
   await page.goto('/');
-  await expect(page.locator('.lane.maths')).toBeVisible();
-  await expect(page.locator('.lane.english')).toBeVisible();
-  await expect(page.locator('.tile[data-id="jt10"]')).toBeVisible();
-  await expect(page.locator('.tile[data-id="blend"]')).toBeVisible();
+  await expect(page.locator('.castle')).toBeVisible();
+  await expect(page.locator('.pstep.cur button.tile[data-id="jt10"]')).toBeVisible();
+  await expect(page.locator('.pstep.cur button.tile[data-id="blend"]')).toBeVisible();
+  await expect(page.locator('button.tile[data-id="groups"]')).toHaveCount(0);     // next day stays locked
+});
+
+test('a day opens only after both its maths and English are finished', async ({page})=>{
+  await seed(page,{acts:{jt10:{plays:1,done:[]}}});
+  await page.goto('/');
+  await expect(page.locator('button.tile[data-id="groups"]')).toHaveCount(0);     // English not done yet
+});
+
+test('finishing both activities of a day opens the next day', async ({page})=>{
+  await seed(page,{acts:{jt10:{plays:1,done:[]},blend:{plays:1,done:[]}}});
+  await page.goto('/');
+  await expect(page.locator('.pstep.cur button.tile[data-id="groups"]')).toBeVisible();
+  await expect(page.locator('.pstep.cur button.tile[data-id="blend2"]')).toBeVisible();
+  await expect(page.locator('button.tile[data-id="jt10"]')).toBeVisible();         // finished days stay replayable
+});
+
+test('grown-up switch unlocks every planned step', async ({page})=>{
+  await seed(page,{unlockAll:true});
+  await page.goto('/');
+  for(const id of ['jt10','blend','groups','blend2','crystal-boss','blend-boss']) await expect(page.locator(`button.tile[data-id="${id}"]`)).toBeVisible();
 });
 
 test('Jump Through 10 plays to the end', async ({page})=>{

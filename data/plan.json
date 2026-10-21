@@ -1,6 +1,49 @@
 {
  "term": "Term 4 2026 (10 weeks, 3 days a week: maths + English every session, plus a thinking game)",
- "note": "Add a day by creating a unit in data/units/ and listing it here. Print page: print/index.html",
+ "note": "Add a day by creating a unit in data/units/ and listing it here. Weeks after the last planned one show on the app's path as 'coming soon' steps on sessionDays. Print page: print/index.html",
+ "totalWeeks": 10,
+ "sessionDays": [
+  "mon",
+  "wed",
+  "fri"
+ ],
+ "lands": [
+  {
+   "name": "Crystal Caves",
+   "weeks": [
+    1,
+    2
+   ]
+  },
+  {
+   "name": "Goblin Forest",
+   "weeks": [
+    3,
+    4
+   ]
+  },
+  {
+   "name": "Misty Swamp",
+   "weeks": [
+    5,
+    6
+   ]
+  },
+  {
+   "name": "Sky Tower",
+   "weeks": [
+    7,
+    8
+   ]
+  },
+  {
+   "name": "Royal Road",
+   "weeks": [
+    9,
+    10
+   ]
+  }
+ ],
  "weeks": {
   "2": {
    "wed": {

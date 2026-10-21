@@ -5,6 +5,9 @@ import {readFileSync} from 'node:fs';
 const A=JSON.parse(readFileSync('data/units/groups-power-2.json','utf8')).app;
 const SHOTS=process.env.GROUPS_SHOTS;                         // optional folder for layout screenshots
 
+// later days are locked until earlier ones are played, so open them all
+test.beforeEach(async ({page})=>{await page.addInitScript(()=>localStorage.setItem('hq-v1',JSON.stringify({unlockAll:true})))});
+
 test('Groups Power plays to the end', async ({page})=>{
   const errors=[]; page.on('pageerror',e=>errors.push(String(e)));
   const shot=async n=>{ if(SHOTS) await page.screenshot({path:`${SHOTS}/groups-${n}.png`,fullPage:true}); };

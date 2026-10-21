@@ -96,7 +96,7 @@ function readTicks(el,n,msg){
 
 /* ============ activity engine ============ */
 let act=null,cur=0,ok=false,prompt='';
-let ACT={},TILES=[];
+let ACT={},PATH=[];
 function setPrompt(t){prompt=t;say(t)}
 const root=document.documentElement;
 function setOK(v=true){
@@ -116,7 +116,7 @@ function openAct(id){
 function goHome(){
   if(synth)synth.cancel();act=null;delete root.dataset.sub;
   $('#ttl').textContent='Hero Quest';$('#home').style.display='none';$('#foot').style.display='none';
-  drawProg();renderHub();window.scrollTo(0,0);
+  drawProg();renderHub();
 }
 function go(i){
   const last=act.steps.length-1;
@@ -154,39 +154,62 @@ function artHTML(spec){
   if(k==='tiles')return `<div class="tt">${[...v].map(ch=>`<div class="tl bl" style="width:46px;height:54px;font-size:30px;border-width:4px;border-radius:12px">${ch}</div>`).join('')}</div>`;
   return `<span class="big">${v}</span>`;
 }
-function tileHTML(t){
-  if(t.soon)return `<button class="tile soon" aria-disabled="true" data-soon="1"><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="stat">Coming soon</div></button>`;
-  const st=actState(t.id),played=st.plays||0;
-  const stat=played?'⭐ played '+played+'×':'New';
-  return `<button class="tile ${played?'done':''}" data-id="${t.id}" aria-label="${t.name}"><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="tag">${t.tag}</div><div class="stat">${stat}</div></button>`;
+/* ============ home: the quest path ============ */
+// a step is one day (maths + English); it opens once every step below it is finished
+const DAYNAME={mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri'};
+const played=t=>!t||t.paper||(actState(t.id).plays||0)>0;
+const stepDone=s=>!s.soon&&played(s.maths)&&played(s.english);
+let shownDone=null;
+function tileHTML(t,sub,open){
+  if(!t)return '';
+  const lab=sub==='maths'?'Maths':'English';
+  if(t.paper)return `<div class="tile ptile paper ${sub}"><div class="lab">${lab}</div><div class="art"><span class="big">✏️</span></div><div class="nm">${t.name}</div><div class="stat">Paper only</div></div>`;
+  const n=actState(t.id).plays||0,stat=n?`⭐ played ${n}×`:'Play';
+  if(!open)return `<div class="tile ptile ${sub}" aria-disabled="true"><div class="lab">${lab}</div><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="stat">🔒</div></div>`;
+  return `<button class="tile ptile ${sub} ${n?'done':''}" data-id="${t.id}" aria-label="${lab}: ${t.name}"><div class="lab">${lab}</div><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="stat">${stat}</div></button>`;
 }
 function renderHub(){
   stage.className='hub';
-  const lane=(k,title)=>`<section class="lane ${k}"><h2>${title}</h2><div class="tiles">${TILES.filter(t=>t.lane===k).map(tileHTML).join('')}</div></section>`;
-  stage.innerHTML=`<div class="welcome">Pick a quest! 🗡️</div><div class="lanes">${lane('maths','Maths')}${lane('english','English')}</div>`;
-  $$('.tile',stage).forEach(b=>b.onclick=()=>{
-    audio();
-    if(b.dataset.soon){sfx.oops();return}
-    sfx.pop();openAct(b.dataset.id);
+  const cur=PATH.findIndex(s=>!stepDone(s)),reach=cur<0?PATH.length:cur,doneN=PATH.filter(stepDone).length;
+  const groups=[];
+  PATH.forEach((s,i)=>{
+    const done=stepDone(s),open=!s.soon&&(i<=reach||saved.unlockAll),state=s.soon?'soon':done?'done':open?(i===reach?'cur':'open'):'lock';
+    if(groups.at(-1)?.land!==s.land)groups.push({land:s.land,steps:[]});
+    const badge=done?'✓':s.boss?'🐉':state==='lock'||state==='soon'?'🔒':i+1;
+    const body=s.soon?`<div class="soonmsg">Coming soon</div>`:`<div class="spair">${tileHTML(s.maths,'maths',open)}${tileHTML(s.english,'english',open)}</div>`;
+    groups.at(-1).steps.push(`<div class="pstep ${state} ${s.boss?'boss':''} ${i%2?'r':'l'}" id="ps${i}"><div class="pbadge">${badge}</div>
+      <div class="pday">${s.final?'Grand boss · ':s.boss?'Boss · ':''}Week ${s.wk} ${DAYNAME[s.d]}</div>${body}</div>`);
   });
+  // drawn top-down with the castle first, so the path climbs as he scrolls up
+  const won=doneN===PATH.length&&PATH.length>0;
+  stage.innerHTML=`<div class="welcome">Climb to the castle! 🏰</div>
+    <div class="qpath"><div class="castle ${won?'won':''}"><span>🏰</span><b>${won?'You reached the castle!':'The castle'}</b></div>
+    ${groups.reverse().map(g=>`<div class="land">${g.land}</div>${g.steps.reverse().join('')}`).join('')}<div class="pstart">Start here ⚔️</div></div>`;
+  $$('button.tile',stage).forEach(b=>b.onclick=()=>{audio();sfx.pop();openAct(b.dataset.id)});
+  if(shownDone!==null&&doneN>shownDone){sfx.cheer();confetti();say(won?'You reached the castle! Amazing!':'Step complete! The next step is open.')}
+  shownDone=doneN;
+  const target=$('#ps'+Math.min(reach,PATH.length-1),stage);
+  if(target)target.scrollIntoView({block:'center'});else window.scrollTo(0,0);
 }
 
 /* ============ settings ============ */
 const ov=$('#ov');
-$('#gear').onclick=()=>{$('#vOn').checked=cfg.voice;$('#sOn').checked=cfg.sfx;$('#vRate').value=cfg.rate;ov.classList.add('show')};
+$('#gear').onclick=()=>{$('#uAll').checked=!!saved.unlockAll;$('#vOn').checked=cfg.voice;$('#sOn').checked=cfg.sfx;$('#vRate').value=cfg.rate;ov.classList.add('show')};
 $('#close').onclick=()=>{ov.classList.remove('show');say('Hello! This is my voice.')};
 ov.onclick=e=>{if(e.target===ov)ov.classList.remove('show')};
 $('#vOn').onchange=e=>{cfg.voice=e.target.checked;saveCfg()};
 $('#sOn').onchange=e=>{cfg.sfx=e.target.checked;saveCfg()};
 $('#vRate').oninput=e=>{cfg.rate=+e.target.value;saveCfg()};
 $('#vSel').onchange=e=>{cfg.voiceName=e.target.value;saveCfg();say('Hello! This is my voice.')};
-$('#reset').onclick=()=>{saved.acts={};persist();if(act)drawProg();else renderHub()};
+$('#reset').onclick=()=>{saved.acts={};shownDone=null;persist();if(act)drawProg();else renderHub()};
+$('#uAll').onchange=e=>{saved.unlockAll=e.target.checked;persist();if(!act)renderHub()};
 
 
 /* ============ start ============ */
-/* activities: [{id, subject, title, steps, games, R, intro, end}], tiles: [{lane, id|soon, name, tag, art}] */
+/* activities: [{id, subject, title, steps, games, R, intro, end}]
+   path: [{wk, d, land, boss, final, soon, maths, english}], each subject {id, name, art} or {paper, name} */
 function start(conf){
-  ACT=Object.fromEntries(conf.activities.map(a=>[a.id,a]));TILES=conf.tiles;goHome();
+  ACT=Object.fromEntries(conf.activities.map(a=>[a.id,a]));PATH=conf.path;goHome();
 }
 
 export {store,cfg,audio,sfx,say,$,$$,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,start,actState,readTicks};

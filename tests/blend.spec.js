@@ -44,5 +44,8 @@ async function play(page,a,shots){
   expect(errors).toEqual([]);
 }
 
+// later days are locked until earlier ones are played, so open them all
+test.beforeEach(async ({page})=>{await page.addInitScript(()=>localStorage.setItem('hq-v1',JSON.stringify({unlockAll:true})))});
+
 test('Blend Bridge 2 plays to the end', async ({page})=>{ await play(page,unit('blend-bridge-2'),process.env.SHOTS); });
 test('Blend Boss plays to the end', async ({page})=>{ await play(page,unit('blend-review-1'),process.env.SHOTS); });
