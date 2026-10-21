@@ -23,7 +23,7 @@ button:focus-visible{outline:4px solid var(--gold);outline-offset:3px}
 svg{display:block}
 
 #app{max-width:1040px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:0 clamp(12px,3vw,28px)}
-header{display:flex;align-items:center;gap:14px;padding:14px 0 10px}
+header{display:flex;align-items:center;gap:14px;padding:14px 0 10px;position:sticky;top:0;z-index:20;background:var(--bg);padding-top:max(14px,env(safe-area-inset-top,0px))}
 .hero{width:52px;height:60px;flex:none}
 .ttl{font-family:var(--disp);font-size:clamp(26px,4.4vw,40px);line-height:1;letter-spacing:.3px;text-shadow:2px 2px 0 var(--mid)}
 .prog{margin-left:auto;display:flex;gap:7px;align-items:center}
@@ -74,38 +74,43 @@ main.hub{justify-content:flex-start;align-items:stretch}
 .tile.done .stat{background:var(--ok);color:#fff}
 .tile.soon{opacity:.55;box-shadow:0 4px 0 var(--ink);cursor:default}
 .tile.soon:active{transform:none;box-shadow:0 4px 0 var(--ink)}
-/* quest path: steps climb to the castle; one step = one day */
-.qpath{position:relative;display:flex;flex-direction:column;align-items:center;gap:30px;width:100%;max-width:760px;margin:0 auto;padding:4px 0 24px}
-.qpath::before{content:"";position:absolute;top:60px;bottom:30px;left:50%;border-left:8px dashed color-mix(in srgb,var(--ink) 22%,transparent);transform:translateX(-50%)}
-.pstep{position:relative;width:min(560px,100%);border:4px solid var(--ink);border-radius:26px;background:var(--card);padding:34px 14px 16px;box-shadow:0 7px 0 var(--ink)}
-@media (min-width:700px){.pstep.l{transform:translateX(-10%)}.pstep.r{transform:translateX(10%)}}
-.pbadge{position:absolute;top:-28px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;border:4px solid var(--ink);background:var(--card);display:grid;place-items:center;font-family:var(--disp);font-size:26px;line-height:1}
-.pstep.done .pbadge{background:var(--ok);color:#fff}
-.pstep.cur{border-color:var(--gold);box-shadow:0 7px 0 var(--gold),0 0 0 5px color-mix(in srgb,var(--gold) 30%,transparent)}
-.pstep.cur .pbadge{background:var(--gold);color:#1d2140;animation:pbob 1.6s ease-in-out infinite}
-.pstep.lock,.pstep.soon{box-shadow:0 4px 0 var(--ink);border-color:color-mix(in srgb,var(--ink) 45%,var(--card))}
-.pstep.lock>*,.pstep.soon>*{opacity:.5}  /* fade the contents, keep the card solid over the path */
-.pstep.boss{background:color-mix(in srgb,var(--lane-m) 9%,var(--card))}
-.pday{text-align:center;font-weight:700;font-size:18px;color:var(--muted);margin-bottom:10px}
-.spair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.ptile{padding:10px 8px 12px;gap:6px}
-.ptile .lab{font-size:15px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--lane-m)}
-.ptile.english .lab{color:var(--lane-e)}
-.ptile .art{height:70px}
-.ptile .art svg.mini{height:70px}
-.ptile .art .big{font-size:48px}
-.ptile .nm{font-size:clamp(18px,2.8vw,24px)}
-div.ptile{box-shadow:0 4px 0 var(--ink);cursor:default}
-.soonmsg{text-align:center;font-size:18px;font-weight:600;color:var(--muted)}
-.pstep.soon{padding:30px 14px 10px}
-.pstep.soon .pday{margin-bottom:2px}
-.land{position:relative;font-family:var(--disp);font-size:clamp(26px,4.4vw,36px);color:var(--c);background:var(--bg);padding:2px 18px;border-radius:16px;text-shadow:2px 2px 0 var(--mid)}
-.castle{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--bg);padding:0 16px}
-.castle span{font-size:clamp(96px,20vw,150px);line-height:1}
-.castle b{font-family:var(--disp);font-weight:400;font-size:clamp(24px,4vw,32px)}
-.castle:not(.won) span{filter:grayscale(.35)}
-.castle.won span{animation:pbob 1.6s ease-in-out infinite}
-.pstart{position:relative;font-weight:700;font-size:20px;background:var(--bg);padding:2px 14px}
+/* quest map: a road of stones climbing to the castle; one stone = one day */
+.qmap{position:relative;width:100%;max-width:560px;margin:0 auto 20px}
+.qmap>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mtxt{font-family:var(--disp)}
+.stone{cursor:pointer}
+.stone .s{fill:#fff;stroke:#1d2140;stroke-width:4}
+.stone .bin{fill:none;stroke:#1d2140;stroke-width:2.5;stroke-dasharray:4 5}
+.stone .num{font-size:30px;fill:#1d2140}
+.stone .emo{font-size:28px}
+.stone.done .s{fill:#f4b400}
+.stone.done .emo{font-size:34px;fill:#fff;font-family:var(--disp)}
+.stone.cur .s,.stone.open .s{fill:#fff6c9;stroke-width:5}
+.stone.lock .s,.stone.soon .s{fill:#e4e6ef}
+.stone.lock .emo,.stone.soon .emo{font-size:22px;opacity:.6}
+.stone.boss .emo{font-size:34px;opacity:1}
+.stone.boss .s{stroke-width:5}
+.stone.boss:not(.done) .s{fill:#ffd9d2}
+.stone .ring{fill:none;stroke:#f4b400;stroke-width:6;opacity:.85;animation:ring 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.stone .sw{transform-box:fill-box;transform-origin:center}
+.stone .sw.no{animation:shake .4s}
+@keyframes ring{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:.4}}
+.qmap use.won{animation:pbob 1.6s ease-in-out infinite}
+.knight{position:absolute;width:clamp(52px,14%,76px);transform:translate(-50%,-100%);transition:left .9s cubic-bezier(.4,1.5,.5,1),top .9s cubic-bezier(.4,1.5,.5,1);pointer-events:none;z-index:2;filter:drop-shadow(0 4px 0 rgba(0,0,0,.18))}
+.knight svg{width:100%;height:auto}
+.daycard{position:absolute;left:50%;transform:translateX(-50%);width:min(400px,94%);background:var(--card);border:4px solid var(--ink);border-radius:26px;padding:12px 12px 14px;box-shadow:0 8px 0 var(--ink);z-index:3}
+.daycard::before{content:"";position:absolute;left:50%;top:-15px;width:22px;height:22px;background:var(--card);border-left:4px solid var(--ink);border-top:4px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
+.dh{text-align:center;font-family:var(--disp);font-size:clamp(20px,3.6vw,26px);margin:0 0 10px}
+.dpair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dtile{padding:10px 8px 12px;gap:6px}
+.dtile .lab{font-size:15px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--lane-m)}
+.dtile.english .lab{color:var(--lane-e)}
+.dtile .art{height:72px}
+.dtile .art svg.mini{height:72px}
+.dtile .art .big{font-size:48px}
+.dtile .nm{font-size:clamp(18px,3vw,24px)}
+.dst{font-size:17px;font-weight:700;border-radius:14px;padding:3px 14px;background:var(--gold);color:#1d2140}
+.dtile.done .dst{background:var(--ok);color:#fff}
 @keyframes pbob{0%,100%{translate:0 0}50%{translate:0 -6px}}
 
 /* ten frame */

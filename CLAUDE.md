@@ -33,10 +33,10 @@ This repo is **public** (GitHub Pages). Never put names, schools, addresses, pho
 ```
 index.html                app shell (header, stage, footer, settings dialog, SVG symbols)
 src/
-  engine.js               storage, sound, voice, step flow, home page (quest path), settings. Activities plug in via start()
+  engine.js               storage, sound, voice, step flow, home page (quest map), settings. Activities plug in via start()
   shared.js               EMO (emoji for words), BL (blends), hlw() (highlight a blend), NUMW, shuffle: used by app AND print
   styles.css              all app styles (design tokens at the top of the file)
-  app.js                  builds the quest path from plan.json: one step per day (maths + English), drawn by MODULES[app.module]
+  app.js                  builds the quest map from plan.json: one step per day (maths + English), drawn by MODULES[app.module]
   activities/             one module per activity: export default function make(data) → {id, subject, title, steps, games, R, intro, end}
 data/
   plan.json               which unit is on which day (week → day → subject → unit id), plus lands and session days for the path
@@ -69,7 +69,8 @@ If the content needs a new kind of page (for example subtraction or digraphs), a
    The block needs `id` (progress key: never rename), `module`, `title`, `tag`, `art`, `intro`, `end`.
    New content for an existing module needs no code: just a unit with an `"app"` block, listed in `plan.json`.
 3. Register a new module in `MODULES` in `src/app.js`.
-   The home page is a path to the castle: a day opens only when both activities of the day below are finished
+   The home page is an illustrated map from START (top) to the castle (bottom), one stone per day. A day opens only when
+   both activities of the day before it are finished
    (grown-ups can switch on "Unlock every step" in settings). A subject with `"app": null` counts as done (paper only).
 4. Add a play-through test to `tests/smoke.spec.js` (tap only correct answers).
 

@@ -16,7 +16,7 @@ test('Crystal Caves Boss plays to the end', async ({page})=>{
   const eq=async()=>(await page.innerText('#eq')).match(/(\d+) \+ (\d+)/).slice(1).map(Number);
 
   await page.goto('/');
-  await page.click('.tile[data-id="crystal-boss"]'); await page.click('#next');
+  await page.click('.stone[data-key="2-fri"]'); await page.click('.tile[data-id="crystal-boss"]'); await page.click('#next');
   await page.click('#hop'); await page.waitForTimeout(1300);   // trick
   await page.click('#cnt'); await expect(page.locator('#next')).toBeEnabled({timeout:15000});
   await page.click('#next');

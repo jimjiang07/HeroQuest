@@ -9,7 +9,7 @@ async function play(page,a,shots){
   const errors=[]; page.on('pageerror',e=>errors.push(String(e)));
   const shot=async n=>{ if(shots) await page.screenshot({path:`${shots}/${a.id}-${n}.png`}); };
   await page.goto('/');
-  await page.click(`.tile[data-id="${a.id}"]`); await page.click('#next');
+  await page.click(`.stone[data-key="${a.id==='blend2'?'2-thu':'2-fri'}"]`); await page.click(`.tile[data-id="${a.id}"]`); await page.click('#next');
   await page.click('#sl'); await page.waitForTimeout(1000); await page.click('#add');
   await expect(page.locator('#next')).toBeEnabled({timeout:8000}); await page.click('#next');
   for(let i=0;i<a.blends.families.length;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }

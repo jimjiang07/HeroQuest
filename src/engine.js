@@ -154,42 +154,90 @@ function artHTML(spec){
   if(k==='tiles')return `<div class="tt">${[...v].map(ch=>`<div class="tl bl" style="width:46px;height:54px;font-size:30px;border-width:4px;border-radius:12px">${ch}</div>`).join('')}</div>`;
   return `<span class="big">${v}</span>`;
 }
-/* ============ home: the quest path ============ */
-// a step is one day (maths + English); it opens once every step below it is finished
-const DAYNAME={mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri'};
+/* ============ home: the quest map ============ */
+// one stone per day (maths + English); a stone opens once every stone below it is finished
+const DAYNAME={mon:'Monday',tue:'Tuesday',wed:'Wednesday',thu:'Thursday',fri:'Friday'};
+const LANDS={'Crystal Caves':{c:'#5b4bc4',art:['crystal','crystal']},'Goblin Forest':{c:'#2f9e44',art:['tree','goblinhead']},
+  'Misty Swamp':{c:'#0c8599',art:['reeds','frog']},'Sky Tower':{c:'#d9480f',art:['tower','tower']},'Royal Road':{c:'#c98a00',art:['coins','clock']}};
 const played=t=>!t||t.paper||(actState(t.id).plays||0)>0;
 const stepDone=s=>!s.soon&&played(s.maths)&&played(s.english);
-let shownDone=null;
-function tileHTML(t,sub,open){
+const MW=400,GAP=124,XS=[200,300,200,100];
+let shownDone=null,shownReach=null,picked=null;
+// top to bottom: START at the top, the castle at the bottom
+// room opens below the chosen stone so its card never covers another stone
+function mapLayout(open,room){
+  const pts=[];let y=230,land='';
+  PATH.forEach((s,i)=>{if(i){y+=GAP+(s.land!==land?80:0)+(i-1===open?room:0)}land=s.land;pts.push({x:XS[i%4],y})});
+  return {H:y+290,pts};
+}
+// smooth road through the stones (Catmull-Rom as cubic Béziers)
+function roadPath(p){
+  let d=`M${p[0].x} ${p[0].y}`;
+  for(let i=0;i<p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;
+    d+=` C${b.x+(c.x-a.x)/6} ${b.y+(c.y-a.y)/6} ${c.x-(e.x-b.x)/6} ${c.y-(e.y-b.y)/6} ${c.x} ${c.y}`}
+  return d;
+}
+function dayTile(t,sub){
   if(!t)return '';
   const lab=sub==='maths'?'Maths':'English';
-  if(t.paper)return `<div class="tile ptile paper ${sub}"><div class="lab">${lab}</div><div class="art"><span class="big">✏️</span></div><div class="nm">${t.name}</div><div class="stat">Paper only</div></div>`;
-  const n=actState(t.id).plays||0,stat=n?`⭐ played ${n}×`:'Play';
-  if(!open)return `<div class="tile ptile ${sub}" aria-disabled="true"><div class="lab">${lab}</div><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="stat">🔒</div></div>`;
-  return `<button class="tile ptile ${sub} ${n?'done':''}" data-id="${t.id}" aria-label="${lab}: ${t.name}"><div class="lab">${lab}</div><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="stat">${stat}</div></button>`;
+  if(t.paper)return `<div class="dtile ${sub}"><div class="lab">${lab}</div><div class="art"><span class="big">✏️</span></div><div class="nm">${t.name}</div><div class="dst">Paper only</div></div>`;
+  const n=actState(t.id).plays||0;
+  return `<button class="dtile tile ${sub} ${n?'done':''}" data-id="${t.id}" aria-label="${lab}: ${t.name}"><div class="lab">${lab}</div><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="dst">${n?'✓ Done':'Play ›'}</div></button>`;
 }
 function renderHub(){
   stage.className='hub';
-  const cur=PATH.findIndex(s=>!stepDone(s)),reach=cur<0?PATH.length:cur,doneN=PATH.filter(stepDone).length;
-  const groups=[];
-  PATH.forEach((s,i)=>{
-    const done=stepDone(s),open=!s.soon&&(i<=reach||saved.unlockAll),state=s.soon?'soon':done?'done':open?(i===reach?'cur':'open'):'lock';
-    if(groups.at(-1)?.land!==s.land)groups.push({land:s.land,steps:[]});
-    const badge=done?'✓':s.boss?'🐉':state==='lock'||state==='soon'?'🔒':i+1;
-    const body=s.soon?`<div class="soonmsg">Coming soon</div>`:`<div class="spair">${tileHTML(s.maths,'maths',open)}${tileHTML(s.english,'english',open)}</div>`;
-    groups.at(-1).steps.push(`<div class="pstep ${state} ${s.boss?'boss':''} ${i%2?'r':'l'}" id="ps${i}"><div class="pbadge">${badge}</div>
-      <div class="pday">${s.final?'Grand boss · ':s.boss?'Boss · ':''}Week ${s.wk} ${DAYNAME[s.d]}</div>${body}</div>`);
+  const reach=(i=>i<0?PATH.length:i)(PATH.findIndex(s=>!stepDone(s))),doneN=PATH.filter(stepDone).length,won=PATH.length>0&&doneN===PATH.length;
+  const isOpen=i=>!PATH[i].soon&&(i<=reach||saved.unlockAll);
+  if(picked===null||picked>=PATH.length||!isOpen(picked))picked=Math.min(reach,PATH.length-1);
+  const mapW=Math.min(560,stage.clientWidth||560),room=PATH[picked]&&!PATH[picked].soon?Math.max(0,330*MW/mapW-GAP+90):0;
+  const {H,pts}=mapLayout(picked,room),pc=(v,of)=>(v/of*100).toFixed(3)+'%';
+  let g='',banners='';
+  // land bands with scenery and a name banner
+  const lands=[...new Set(PATH.map(s=>s.land))];
+  lands.forEach(name=>{
+    const L=LANDS[name]||{c:'#6a6f92',art:['tree','tree']},ix=PATH.map((s,i)=>s.land===name?i:-1).filter(i=>i>=0);
+    const top=Math.min(...ix.map(i=>pts[i].y))-96,bot=Math.max(...ix.map(i=>pts[i].y))+62;
+    g+=`<rect x="10" y="${top}" width="380" height="${bot-top}" rx="30" style="fill:color-mix(in srgb,${L.c} 14%,var(--bg));stroke:${L.c}" stroke-width="3"/>`;
+    ix.forEach((i,k)=>{const x=pts[i].x,sx=x===200?(k%2?52:348):x>200?84:316;
+      g+=`<use href="#${L.art[k%2]}" x="${sx-30}" y="${pts[i].y-34}" width="60" height="56"/>`});
+    const w=name.length*13+50;
+    banners+=`<rect x="${200-w/2}" y="${top-18}" width="${w}" height="36" rx="12" fill="${L.c}" stroke="#1d2140" stroke-width="3"/><text class="mtxt" x="200" y="${top+8}" text-anchor="middle" font-size="21" fill="#fff">${name}</text>`;
   });
-  // drawn top-down with the castle first, so the path climbs as he scrolls up
-  const won=doneN===PATH.length&&PATH.length>0;
-  stage.innerHTML=`<div class="welcome">Climb to the castle! 🏰</div>
-    <div class="qpath"><div class="castle ${won?'won':''}"><span>🏰</span><b>${won?'You reached the castle!':'The castle'}</b></div>
-    ${groups.reverse().map(g=>`<div class="land">${g.land}</div>${g.steps.reverse().join('')}`).join('')}<div class="pstart">Start here ⚔️</div></div>`;
-  $$('button.tile',stage).forEach(b=>b.onclick=()=>{audio();sfx.pop();openAct(b.dataset.id)});
-  if(shownDone!==null&&doneN>shownDone){sfx.cheer();confetti();say(won?'You reached the castle! Amazing!':'Step complete! The next step is open.')}
-  shownDone=doneN;
-  const target=$('#ps'+Math.min(reach,PATH.length-1),stage);
-  if(target)target.scrollIntoView({block:'center'});else window.scrollTo(0,0);
+  // the road: start flag → stones → castle gate
+  const road=roadPath([{x:200,y:40},...pts,{x:200,y:H-120}]);
+  g+=`<path d="${road}" fill="none" stroke="#1d2140" stroke-width="34" stroke-linecap="round"/><path d="${road}" fill="none" stroke="#f1dfb8" stroke-width="26" stroke-linecap="round"/><path d="${road}" fill="none" stroke="#d9bf8c" stroke-width="3" stroke-dasharray="7 12" stroke-linecap="round"/>`;
+  g+=banners;
+  g+=`<use href="#mountains" x="14" y="${H-190}" width="150" height="68"/><use href="#mountains" x="250" y="${H-174}" width="136" height="60"/>`;
+  g+=`<use href="#castle" x="110" y="${H-160}" width="180" height="124" class="${won?'won':''}"/>`;
+  g+=`<use href="#flag" x="112" y="14" width="36" height="54"/><text class="mtxt" x="130" y="92" text-anchor="middle" font-size="16" style="fill:var(--ink)">START</text>`;
+  // stones
+  PATH.forEach((s,i)=>{
+    const {x,y}=pts[i],done=stepDone(s),st=s.soon?'soon':done?'done':!isOpen(i)?'lock':i===reach?'cur':'open',r=s.boss?36:31;
+    const face=done?'★':s.boss?'🐉':st==='lock'||st==='soon'?'🔒':i+1;
+    g+=`<g class="stone ${st} ${s.boss?'boss':''} ${i===picked?'picked':''}" data-i="${i}" data-key="${s.wk}-${s.d}" transform="translate(${x} ${y})" role="button" aria-label="${DAYNAME[s.d]} week ${s.wk}: ${st}"><g class="sw">
+      ${i===picked?`<circle class="ring" r="${r+11}"/>`:''}<circle class="s" r="${r}"/>${s.boss?`<circle class="bin" r="${r-8}"/>`:''}<text class="${typeof face==='number'?'mtxt num':'emo'}" y="${typeof face==='number'?10:9}" text-anchor="middle">${face}</text></g></g>`;
+  });
+  // only the chosen stone shows its activities
+  const P=PATH[picked],cp=pts[picked];
+  const card=P&&!P.soon?`<div class="daycard" style="top:${pc(cp.y+48,H)}"><div class="dh">${P.final?'Grand boss! ':P.boss?'Boss day! ':''}${DAYNAME[P.d]} · Week ${P.wk}</div>
+    <div class="dpair">${dayTile(P.maths,'maths')}${dayTile(P.english,'english')}</div></div>`:'';
+  const kFrom=shownReach!==null&&shownReach<reach&&shownReach<PATH.length?shownReach:Math.min(reach,PATH.length-1);
+  const kp=won?{x:200,y:H-60}:pts[kFrom];
+  stage.innerHTML=`<div class="qmap" style="aspect-ratio:${MW}/${H}">
+    <svg viewBox="0 0 ${MW} ${H}" aria-hidden="false">${g}</svg>
+    <div class="knight" id="knight" style="left:${pc(kp.x,MW)};top:${pc(kp.y-20,H)}"><svg viewBox="0 0 100 120"><use href="#hero"/></svg></div>${card}</div>`;
+  $$('.stone',stage).forEach(el=>el.onclick=()=>{
+    audio();const i=+el.dataset.i;
+    if(!isOpen(i)){const w=$('.sw',el);w.classList.remove('no');void w.getBoundingClientRect();w.classList.add('no');sfx.oops();say(PATH[i].soon?'This stone is coming soon!':'Finish the stone below first!');return}
+    sfx.pop();picked=i;renderHub();
+  });
+  $$('button.dtile',stage).forEach(b=>b.onclick=()=>{audio();sfx.pop();openAct(b.dataset.id)});
+  // a newly finished day: cheer, then the knight hops up to the next stone
+  if(shownDone!==null&&doneN>shownDone){sfx.cheer();confetti();say(won?'You reached the castle! Amazing!':'Day complete! Hop to the next stone!')}
+  if(kFrom!==reach&&!won&&reach<PATH.length){const t=pts[reach];setTimeout(()=>{const k=$('#knight');if(k){k.style.left=pc(t.x,MW);k.style.top=pc(t.y-20,H);sfx.hop()}},700)}
+  shownDone=doneN;shownReach=reach;
+  const el=$(`.stone[data-i="${picked}"]`,stage);
+  if(el)el.scrollIntoView({block:'center'});
 }
 
 /* ============ settings ============ */
@@ -201,7 +249,7 @@ $('#vOn').onchange=e=>{cfg.voice=e.target.checked;saveCfg()};
 $('#sOn').onchange=e=>{cfg.sfx=e.target.checked;saveCfg()};
 $('#vRate').oninput=e=>{cfg.rate=+e.target.value;saveCfg()};
 $('#vSel').onchange=e=>{cfg.voiceName=e.target.value;saveCfg();say('Hello! This is my voice.')};
-$('#reset').onclick=()=>{saved.acts={};shownDone=null;persist();if(act)drawProg();else renderHub()};
+$('#reset').onclick=()=>{saved.acts={};shownDone=shownReach=picked=null;persist();if(act)drawProg();else renderHub()};
 $('#uAll').onchange=e=>{saved.unlockAll=e.target.checked;persist();if(!act)renderHub()};
 
 

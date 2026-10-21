@@ -17,7 +17,7 @@ test('Groups Power plays to the end', async ({page})=>{
     if(await page.locator('#more').count()) await page.click('#more');
   };
   await page.goto('/');
-  await page.click('.tile[data-id="groups"]'); await page.click('#next');
+  await page.click('.stone[data-key="2-thu"]'); await page.click('.tile[data-id="groups"]'); await page.click('#next');
   await page.click('#add'); await shot('trick'); await page.click('#cnt');      // trick
   await expect(page.locator('#next')).toBeEnabled({timeout:8000});
   await page.click('#next');                                   // read cards
