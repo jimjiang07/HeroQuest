@@ -1,0 +1,14 @@
+{
+  "name": "hero-quest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive iPad activities and printable worksheets for daily maths and English practice.",
+  "scripts": {
+    "start": "npx http-server -p 4173 -c-1",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

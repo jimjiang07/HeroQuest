@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero Quest Map – 10-Week Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1d2140; --gold:#f4b400; --gold-soft:#fff4cf; --c:#c98a00; --c-soft:#fff4cf; --c-mid:#ffe08a;
+  --disp:'Luckiest Guy','Impact','Arial Black',sans-serif;
+  --body:'Fredoka','Arial Rounded MT Bold','Trebuchet MS',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:#cfd3dc;font-family:var(--body);color:var(--ink)}
+.page{width:210mm;height:297mm;margin:10mm auto;background:#fff;padding:9mm 10mm;display:flex;flex-direction:column;gap:5mm;
+  overflow:hidden;position:relative;box-shadow:0 3mm 8mm rgba(29,33,64,.25)}
+@page{size:A4;margin:0}
+@media print{body{background:none}.page{margin:0;box-shadow:none}}
+svg{display:block}
+
+.hd{flex:none;display:flex;align-items:center;gap:4mm;height:26mm;padding:2.5mm 4mm;border:3px solid var(--ink);border-radius:5mm;
+  background:var(--c-soft);position:relative;overflow:hidden}
+.hd::before{content:"";position:absolute;right:-8mm;top:-8mm;width:46mm;height:46mm;border-radius:50%;background:var(--c-mid);opacity:.6}
+.hd-art{position:relative;flex:none;width:21mm;height:24mm}
+.hd-art svg{width:100%;height:100%}
+.hd-txt{position:relative;flex:1}
+.kicker{font-size:3.8mm;font-weight:600;color:#a06c00}
+h1{font-family:var(--disp);font-weight:400;font-size:11.5mm;margin:.6mm 0 0;line-height:1;text-shadow:.6mm .6mm 0 var(--c-mid)}
+.heroname{font-size:3.8mm;font-weight:500;margin-top:1.5mm}
+.heroname span{display:inline-block;width:52mm;border-bottom:2px solid var(--ink);margin-left:1mm}
+.lvlbox{position:relative;flex:none;display:flex;flex-direction:column;align-items:center;gap:1mm;font-weight:700;font-size:3.4mm}
+.lvlbox .row{display:flex;align-items:center;gap:1.5mm;font-family:var(--disp);font-size:6mm;font-weight:400}
+.box{display:inline-block;width:14mm;height:11mm;border:2.4px dashed var(--ink);border-radius:2.4mm;background:#fff}
+
+.map{flex:none;width:190mm;height:202.5mm}
+.map svg{width:100%;height:100%}
+
+.bottom{flex:1;min-height:0;display:grid;grid-template-columns:1.15fr 1.15fr .7fr;gap:4mm}
+.panel{position:relative;border:2.5px solid var(--ink);border-radius:4.5mm;padding:6.5mm 3.5mm 2.5mm}
+.tag{position:absolute;top:-4mm;left:4mm;background:var(--c);color:#fff;font-family:var(--disp);font-size:4.4mm;line-height:1;
+  padding:1.4mm 3mm .8mm;border:2.5px solid var(--ink);border-radius:3mm}
+.steps{display:flex;flex-direction:column;justify-content:center;gap:2mm;height:100%}
+.step{display:flex;align-items:center;gap:2mm;font-size:3.9mm;font-weight:600;line-height:1.15}
+.step svg{width:7mm;height:7mm;flex:none}
+.chests{display:flex;flex-direction:column;justify-content:center;gap:1.4mm;height:100%}
+.chest-row{display:flex;align-items:flex-end;gap:1.5mm;font-size:3.5mm;font-weight:600}
+.chest-row svg{width:6.5mm;height:5.5mm;flex:none}
+.chest-row span{flex:1;border-bottom:1.6px solid var(--ink);height:4mm}
+.token{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;height:100%;font-size:3.3mm;font-weight:600}
+.token .cut{width:20mm;height:20mm;border-radius:50%;border:2px dashed var(--ink);display:flex;align-items:center;justify-content:center;background:var(--c-soft)}
+.token .cut svg{width:14mm;height:16mm}
+.token .sc{display:flex;align-items:center;gap:1mm}
+.token .sc svg{width:4.5mm;height:4.5mm}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.2l2.9 6.4 7 .7-5.3 4.7 1.6 6.9L12 17.3l-6.2 3.6 1.6-6.9L2.1 9.3l7-.7z"/></symbol>
+  <symbol id="crown" viewBox="0 0 24 24"><path d="M2 19 3.5 6l5 5L12 3.5 15.5 11l5-5L22 19z" fill="#f4b400" stroke="#1d2140" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="pencil" viewBox="0 0 24 24"><g stroke="#1d2140" stroke-width="1.6" stroke-linejoin="round"><path d="M4 20l1-5L16 4l4 4L9 19z" fill="#f4b400"/><path d="M4 20l1-5 4 4z" fill="#ffd9b0"/><path d="M14 6l4 4" fill="none"/></g></symbol>
+  <symbol id="sword" viewBox="0 0 24 24">
+   <line x1="9" y1="15" x2="21" y2="3" stroke="#1d2140" stroke-width="5" stroke-linecap="round"/>
+   <line x1="9" y1="15" x2="21" y2="3" stroke="#e9eef5" stroke-width="2.4" stroke-linecap="round"/>
+   <line x1="5.5" y1="11.5" x2="12.5" y2="18.5" stroke="#1d2140" stroke-width="4.2" stroke-linecap="round"/>
+   <line x1="5.5" y1="11.5" x2="12.5" y2="18.5" stroke="#f4b400" stroke-width="1.8" stroke-linecap="round"/>
+   <line x1="8" y1="16" x2="3.5" y2="20.5" stroke="#1d2140" stroke-width="4.2" stroke-linecap="round"/>
+   <line x1="8" y1="16" x2="3.5" y2="20.5" stroke="#a0673a" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="scissors" viewBox="0 0 24 24"><g fill="none" stroke="#1d2140" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L21 18M8.5 16.5L21 6"/></g></symbol>
+  <symbol id="chest" viewBox="0 0 48 40"><g stroke="#1d2140" stroke-width="2.4" stroke-linejoin="round">
+   <path d="M4 17Q4 4 24 4Q44 4 44 17Z" fill="#a0673a"/><rect x="4" y="17" width="40" height="20" rx="2" fill="#8a5a2b"/>
+   <rect x="4" y="17" width="40" height="5" fill="#f4b400"/><rect x="20" y="14" width="8" height="11" rx="1.5" fill="#f4b400"/>
+   <circle cx="24" cy="20" r="1.4" fill="#1d2140" stroke="none"/></g></symbol>
+
+  <symbol id="hero" viewBox="0 0 100 120">
+   <g stroke="#1d2140" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="80" y="8" width="8" height="56" rx="3" fill="#e9eef5"/>
+    <rect x="72" y="62" width="24" height="7" rx="3.5" fill="#f4b400"/>
+    <rect x="80.5" y="69" width="7" height="16" rx="3" fill="#a0673a"/>
+    <rect x="34" y="94" width="12" height="22" rx="4" fill="#5b6b8c"/>
+    <rect x="54" y="94" width="12" height="22" rx="4" fill="#5b6b8c"/>
+    <path d="M30 62Q50 54 70 62L74 98Q50 104 26 98Z" fill="#3b7dd8"/>
+    <rect x="28" y="82" width="44" height="6" fill="#a0673a"/>
+    <circle cx="84" cy="76" r="5" fill="#ffd9b0"/>
+    <circle cx="50" cy="40" r="19" fill="#ffd9b0"/>
+    <path d="M50 16Q54 2 68 6Q58 8 56 18Z" fill="#e03131"/>
+    <path d="M30 42Q30 16 50 16Q70 16 70 42L62 42L62 33L38 33L38 42Z" fill="#c9d3df"/>
+    <circle cx="44" cy="41" r="2.4" fill="#1d2140" stroke="none"/>
+    <circle cx="56" cy="41" r="2.4" fill="#1d2140" stroke="none"/>
+    <path d="M44 48Q50 53 56 48" fill="none"/>
+    <path d="M8 64H34V80Q34 94 21 101Q8 94 8 80Z" fill="#f4b400"/>
+    <path d="M21 70V92M13 79H29" fill="none"/>
+   </g>
+  </symbol>
+
+  <!-- zone scenery -->
+  <symbol id="tree" viewBox="0 0 40 48"><g stroke="#1d2140" stroke-width="2.4" stroke-linejoin="round">
+   <rect x="16" y="36" width="8" height="10" fill="#a0673a"/>
+   <path d="M20 2L36 24H28L38 38H2L12 24H4Z" fill="#2f9e44"/></g></symbol>
+  <symbol id="goblinhead" viewBox="0 0 48 44"><g stroke="#1d2140" stroke-width="2.4" stroke-linejoin="round">
+   <path d="M10 20L1 12L8 28ZM38 20L47 12L40 28Z" fill="#8bc34a"/><ellipse cx="24" cy="24" rx="16" ry="15" fill="#8bc34a"/>
+   <path d="M14 12L13 2L19 8L24 0L29 8L35 2L34 12Q24 9 14 12Z" fill="#f4b400"/>
+   <circle cx="18" cy="22" r="4" fill="#fff"/><circle cx="30" cy="22" r="4" fill="#fff"/>
+   <circle cx="18.5" cy="23" r="1.7" fill="#1d2140" stroke="none"/><circle cx="29.5" cy="23" r="1.7" fill="#1d2140" stroke="none"/>
+   <path d="M17 32Q24 37 31 32" fill="none"/></g></symbol>
+  <symbol id="reeds" viewBox="0 0 48 44"><g stroke="#1d2140" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+   <ellipse cx="24" cy="36" rx="22" ry="7" fill="#66d9e8"/>
+   <path d="M14 36V12M24 36V6M34 36V14" fill="none" stroke="#2b8a3e" stroke-width="2.6"/>
+   <rect x="11" y="10" width="6" height="12" rx="3" fill="#8a5a2b"/><rect x="21" y="4" width="6" height="12" rx="3" fill="#8a5a2b"/><rect x="31" y="12" width="6" height="12" rx="3" fill="#8a5a2b"/></g></symbol>
+  <symbol id="frog" viewBox="0 0 48 40"><g stroke="#1d2140" stroke-width="2.2" stroke-linejoin="round">
+   <ellipse cx="24" cy="32" rx="22" ry="6" fill="#66d9e8"/>
+   <ellipse cx="24" cy="24" rx="15" ry="11" fill="#40c057"/>
+   <circle cx="16" cy="12" r="6" fill="#40c057"/><circle cx="32" cy="12" r="6" fill="#40c057"/>
+   <circle cx="16" cy="12" r="2.4" fill="#1d2140" stroke="none"/><circle cx="32" cy="12" r="2.4" fill="#1d2140" stroke="none"/>
+   <path d="M17 27Q24 31 31 27" fill="none"/></g></symbol>
+  <symbol id="tower" viewBox="0 0 40 52"><g stroke="#1d2140" stroke-width="2.4" stroke-linejoin="round">
+   <path d="M20 2V10" fill="none"/><path d="M20 2H31L28 5L31 8H20Z" fill="#e03131"/>
+   <path d="M6 12H11V16H15V12H25V16H29V12H34V22H6Z" fill="#e8590c"/>
+   <rect x="8" y="22" width="24" height="28" fill="#fd7e14"/>
+   <path d="M16 50V40Q20 35 24 40V50Z" fill="#8a5a2b"/></g></symbol>
+  <symbol id="crystal" viewBox="0 0 48 44"><g stroke="#1d2140" stroke-width="2.2" stroke-linejoin="round">
+   <path d="M6 42L10 22L16 16L20 24L18 42Z" fill="#b197fc"/>
+   <path d="M18 42L22 10L28 2L33 12L32 42Z" fill="#7950f2"/>
+   <path d="M32 42L34 24L40 20L44 28L42 42Z" fill="#d0bfff"/>
+   <path d="M2 42H46" fill="none"/></g></symbol>
+  <symbol id="clock" viewBox="0 0 40 40"><g stroke="#1d2140" stroke-width="2.4" stroke-linecap="round">
+   <circle cx="20" cy="20" r="17" fill="#fff"/><path d="M20 20V9M20 20L28 24" fill="none"/>
+   <circle cx="20" cy="20" r="2" fill="#1d2140" stroke="none"/></g></symbol>
+  <symbol id="coins" viewBox="0 0 40 40"><g stroke="#1d2140" stroke-width="2.2">
+   <ellipse cx="20" cy="33" rx="15" ry="5" fill="#f4b400"/><ellipse cx="20" cy="27" rx="15" ry="5" fill="#f4b400"/>
+   <ellipse cx="20" cy="21" rx="15" ry="5" fill="#f4b400"/><circle cx="26" cy="11" r="8" fill="#ffd43b"/>
+   <text x="26" y="14.5" text-anchor="middle" font-size="10" font-weight="700" font-family="Fredoka, sans-serif" fill="#1d2140" stroke="none">$</text></g></symbol>
+  <symbol id="flag" viewBox="0 0 40 60"><g stroke="#1d2140" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+   <path d="M10 58V4" fill="none"/><path d="M10 6H36L30 15L36 24H10Z" fill="#40c057"/>
+   <ellipse cx="10" cy="58" rx="8" ry="2.5" fill="#a0673a"/></g></symbol>
+  <symbol id="mountains" viewBox="0 0 200 90"><g stroke="#1d2140" stroke-width="2.6" stroke-linejoin="round">
+   <path d="M2 88L60 20L118 88Z" fill="#ced4da"/><path d="M48 34L60 20L72 34L66 40L60 34L54 40Z" fill="#fff"/>
+   <path d="M70 88L130 6L198 88Z" fill="#adb5bd"/><path d="M116 25L130 6L144 25L137 31L130 24L123 31Z" fill="#fff"/></g></symbol>
+  <symbol id="castle" viewBox="0 0 160 110"><g stroke="#1d2140" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+   <path d="M30 8V-2M130 8V-2M80 2V-12" fill="none"/>
+   <path d="M30 -2H44L40 2L44 6H30Z" fill="#e03131"/><path d="M130 -2H144L140 2L144 6H130Z" fill="#e03131"/>
+   <path d="M80 -12H96L91 -7L96 -2H80Z" fill="#f4b400"/>
+   <rect x="38" y="44" width="84" height="62" fill="#dee2e6"/>
+   <path d="M38 44V36H48V44H58V36H68V44H92V36H102V44H112V36H122V44" fill="#dee2e6"/>
+   <rect x="16" y="24" width="28" height="82" fill="#ced4da"/><path d="M12 24L30 6L48 24Z" fill="#5b4bc4"/>
+   <rect x="116" y="24" width="28" height="82" fill="#ced4da"/><path d="M112 24L130 6L148 24Z" fill="#5b4bc4"/>
+   <rect x="64" y="20" width="32" height="40" fill="#ced4da"/><path d="M60 20L80 2L100 20Z" fill="#d6402b"/>
+   <path d="M66 106V82Q80 66 94 82V106Z" fill="#8a5a2b"/><path d="M80 72V106" fill="none" stroke-width="2"/>
+   <rect x="26" y="40" width="8" height="12" rx="4" fill="#1d2140"/><rect x="126" y="40" width="8" height="12" rx="4" fill="#1d2140"/>
+   <circle cx="80" cy="36" r="6" fill="#f4b400"/></g></symbol>
+ </defs>
+</svg>
+
+<div class="page">
+ <header class="hd">
+  <div class="hd-art"><svg><use href="#hero"/></svg></div>
+  <div class="hd-txt">
+   <div class="kicker">My 10-week maths adventure</div>
+   <h1>Hero Quest Map</h1>
+   <div class="heroname">Hero name:<span></span></div>
+  </div>
+  <div class="lvlbox">I'm on level<div class="row"><i class="box"></i>/ 20</div></div>
+ </header>
+
+ <div class="map"><svg id="map" viewBox="0 0 760 810"></svg></div>
+
+ <div class="bottom">
+  <div class="panel">
+   <div class="tag">How to play</div>
+   <div class="steps">
+    <div class="step"><svg><use href="#sword"/></svg>Win the boss battle</div>
+    <div class="step"><svg><use href="#pencil"/></svg>Colour the next stone</div>
+    <div class="step"><svg><use href="#chest"/></svg>Clear a land = open a chest!</div>
+   </div>
+  </div>
+  <div class="panel">
+   <div class="tag">Treasure</div>
+   <div class="chests" id="chests"></div>
+  </div>
+  <div class="panel">
+   <div class="tag">Token</div>
+   <div class="token">
+    <div class="cut"><svg><use href="#hero"/></svg></div>
+    <div class="sc"><svg><use href="#scissors"/></svg>Cut me out!</div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<script>
+const INK='#1d2140';
+const X=[140,300,460,620];
+const zones=[
+  {name:'Crystal Caves',   c:'#5b4bc4', soft:'#eeecfb', art:['crystal','crystal']},
+  {name:'Goblin Forest',   c:'#2f9e44', soft:'#e7f6ea', art:['tree','goblinhead']},
+  {name:'Misty Swamp', c:'#0c8599', soft:'#e3f6f8', art:['reeds','frog']},
+  {name:'Sky Tower',       c:'#d9480f', soft:'#fdeee4', art:['tower','tower']},
+  {name:'Royal Road',      c:'#c98a00', soft:'#fff4cf', art:['coins','clock']}
+];
+
+
+let s='';
+// scenery behind the castle
+s+=`<use href="#mountains" x="20" y="8" width="200" height="90"/>`;
+s+=`<use href="#mountains" x="230" y="30" width="140" height="64"/>`;
+
+// zone bands
+zones.forEach((z,r)=>{
+  const cy=739-r*143, top=cy-67;
+  s+=`<rect x="12" y="${top}" width="736" height="135" rx="22" fill="${z.soft}" stroke="${z.c}" stroke-width="2.5"/>`;
+});
+
+// road
+const road='M55 739 L620 739 C715 739 715 596 620 596 L140 596 C45 596 45 453 140 453 L620 453 C715 453 715 310 620 310 L140 310 C45 310 45 167 140 167 L620 167 L620 92';
+s+=`<path d="${road}" fill="none" stroke="${INK}" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>`;
+s+=`<path d="${road}" fill="none" stroke="#f1dfb8" stroke-width="23" stroke-linecap="round" stroke-linejoin="round"/>`;
+s+=`<path d="${road}" fill="none" stroke="#d9bf8c" stroke-width="2.5" stroke-dasharray="6 10" stroke-linecap="round"/>`;
+
+// castle + start
+s+=`<use href="#castle" x="540" y="2" width="160" height="110"/>`;
+s+=`<use href="#flag" x="14" y="690" width="40" height="60"/>`;
+s+=`<text x="34" y="772" text-anchor="middle" font-family="Luckiest Guy, Impact, sans-serif" font-size="15" fill="${INK}">START</text>`;
+
+// zones: scenery, labels, stones
+zones.forEach((z,r)=>{
+  const cy=739-r*143, top=cy-67, ltr=r%2===0;
+  // scenery in the gaps above the road
+  s+=`<use href="#${z.art[0]}" x="${ltr?196:516}" y="${cy-60}" width="48" height="44"/>`;
+  s+=`<use href="#${z.art[1]}" x="${ltr?516:196}" y="${cy-60}" width="48" height="44"/>`;
+  // zone label
+  const w=z.name.length*11+44;
+  s+=`<rect x="${380-w/2}" y="${top-14}" width="${w}" height="28" rx="10" fill="${z.c}" stroke="${INK}" stroke-width="2.5"/>`;
+  s+=`<text x="380" y="${top+7}" text-anchor="middle" font-family="Luckiest Guy, Impact, sans-serif" font-size="17" fill="#fff">${z.name}</text>`;
+  // stones
+  for(let i=0;i<4;i++){
+    const n=r*4+i+1, x=ltr?X[i]:X[3-i], boss=i===3; // boss = last stone of a land
+    if(boss){
+      s+=`<circle cx="${x}" cy="${cy}" r="35" fill="${z.c}" stroke="${INK}" stroke-width="3"/>`;
+      s+=`<circle cx="${x}" cy="${cy}" r="25" fill="#fff" stroke="${INK}" stroke-width="2.5"/>`;
+      // treasure chest when a land is cleared
+      const cxs=ltr?540:220;
+      s+=`<use href="#chest" x="${cxs-22}" y="${cy+19}" width="42" height="35"/>`;
+      s+=`<circle cx="${cxs+20}" cy="${cy+22}" r="9" fill="#fff" stroke="${INK}" stroke-width="2"/>`;
+      s+=`<text x="${cxs+20}" y="${cy+26.5}" text-anchor="middle" font-size="12" font-weight="700" font-family="Fredoka, sans-serif" fill="${INK}">${r+1}</text>`;
+    }else{
+      s+=`<circle cx="${x}" cy="${cy}" r="27" fill="#fff" stroke="${INK}" stroke-width="3"/>`;
+    }
+    s+=`<text x="${x}" y="${cy+8.5}" text-anchor="middle" font-family="Luckiest Guy, Impact, sans-serif" font-size="${boss?22:24}" fill="#c3c6d4">${n}</text>`;
+    const ly=cy+(boss?55:48);
+    s+=`<line x1="${x-32}" y1="${ly}" x2="${x+32}" y2="${ly}" stroke="${INK}" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>`;
+  }
+});
+document.getElementById('map').innerHTML=s;
+
+document.getElementById('chests').innerHTML=zones.map((z,i)=>
+  `<div class="chest-row"><svg><use href="#chest"/></svg>${i+1}<span></span></div>`).join('');
+</script>
+</body>
+</html>

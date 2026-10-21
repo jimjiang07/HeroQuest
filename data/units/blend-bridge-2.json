@@ -1,0 +1,570 @@
+{
+ "id": "blend-bridge-2",
+ "app": {
+  "id": "blend2",
+  "module": "blend",
+  "title": "Blend Bridge 2",
+  "tag": "Read & Say + 2 games",
+  "art": "tiles:cr",
+  "intro": {
+   "title": "Blend Bridge 2: new blends!",
+   "say": "Hi! Today we learn new blends: c r, t r, p l and g r. Tap Start."
+  },
+  "end": {
+   "title": "You crossed Blend Bridge 2!",
+   "sub": "Now do the English practice page with a pencil. ✏️",
+   "say": "Amazing reading! You crossed Blend Bridge 2! Now do the practice page with a pencil."
+  },
+  "trick": {
+   "blend": [
+    "c",
+    "r"
+   ],
+   "rest": [
+    "a",
+    "b"
+   ],
+   "word": "crab"
+  },
+  "blends": {
+   "families": [
+    [
+     "cr",
+     [
+      "crab",
+      "crib",
+      "crop"
+     ]
+    ],
+    [
+     "tr",
+     [
+      "tree",
+      "trip",
+      "trap"
+     ]
+    ],
+    [
+     "pl",
+     [
+      "plug",
+      "plan",
+      "plum"
+     ]
+    ],
+    [
+     "gr",
+     [
+      "grin",
+      "grab",
+      "grub"
+     ]
+    ],
+    [
+     "cl",
+     [
+      "clap",
+      "clip",
+      "clock"
+     ]
+    ],
+    [
+     "sw",
+     [
+      "swim",
+      "swam",
+      "swap"
+     ]
+    ]
+   ]
+  },
+  "sound": {
+   "items": [
+    [
+     "crab",
+     [
+      "cr",
+      "a",
+      "b"
+     ],
+     [
+      "clap",
+      "grin"
+     ]
+    ],
+    [
+     "tram",
+     [
+      "tr",
+      "a",
+      "m"
+     ],
+     [
+      "truck",
+      "drum"
+     ]
+    ],
+    [
+     "plug",
+     [
+      "pl",
+      "u",
+      "g"
+     ],
+     [
+      "plant",
+      "clock"
+     ]
+    ],
+    [
+     "truck",
+     [
+      "tr",
+      "u",
+      "ck"
+     ],
+     [
+      "tram",
+      "tree"
+     ]
+    ],
+    [
+     "plant",
+     [
+      "pl",
+      "a",
+      "nt"
+     ],
+     [
+      "planet",
+      "plug"
+     ]
+    ],
+    [
+     "dress",
+     [
+      "dr",
+      "e",
+      "ss"
+     ],
+     [
+      "drum",
+      "crab"
+     ]
+    ]
+   ]
+  },
+  "sent": {
+   "items": [
+    [
+     "crab",
+     "The crab can grab."
+    ],
+    [
+     "truck",
+     "The truck can stop."
+    ],
+    [
+     "plug",
+     "Plug it in."
+    ],
+    [
+     "tree",
+     "The tree has a nest."
+    ],
+    [
+     "swim",
+     "I can swim fast."
+    ],
+    [
+     "tram",
+     "Hop on the red tram."
+    ]
+   ]
+  },
+  "match": {
+   "items": [
+    [
+     "plant",
+     [
+      "planet",
+      "plug"
+     ]
+    ],
+    [
+     "tram",
+     [
+      "truck",
+      "tree"
+     ]
+    ],
+    [
+     "clock",
+     [
+      "clap",
+      "crab"
+     ]
+    ],
+    [
+     "planet",
+     [
+      "plant",
+      "plus"
+     ]
+    ],
+    [
+     "trumpet",
+     [
+      "truck",
+      "tram"
+     ]
+    ],
+    [
+     "dress",
+     [
+      "drum",
+      "truck"
+     ]
+    ]
+   ]
+  },
+  "circle": {
+   "questions": [
+    [
+     "clap",
+     [
+      "cl",
+      "cr",
+      "pl"
+     ],
+     0,
+     "start"
+    ],
+    [
+     "plug",
+     [
+      "bl",
+      "pl",
+      "gl"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "grin",
+     [
+      "gr",
+      "gl",
+      "dr"
+     ],
+     0,
+     "start"
+    ],
+    [
+     "swim",
+     [
+      "sw",
+      "sl",
+      "sm"
+     ],
+     0,
+     "start"
+    ],
+    [
+     "truck",
+     [
+      "dr",
+      "tr",
+      "br"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "crab",
+     [
+      "cl",
+      "cr",
+      "gr"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "brick",
+     [
+      "br",
+      "bl",
+      "dr"
+     ],
+     0,
+     "start"
+    ],
+    [
+     "plant",
+     [
+      "nd",
+      "nt",
+      "st"
+     ],
+     1,
+     "end"
+    ]
+   ]
+  },
+  "build": {
+   "words": [
+    "tram",
+    "plug",
+    "grin",
+    "truck",
+    "plant",
+    "dress"
+   ]
+  },
+  "bridge": {
+   "questions": [
+    [
+     "cr",
+     "crab",
+     "clap"
+    ],
+    [
+     "tr",
+     "truck",
+     "drum"
+    ],
+    [
+     "pl",
+     "plan",
+     "clan"
+    ],
+    [
+     "gr",
+     "grin",
+     "glad"
+    ],
+    [
+     "cl",
+     "clock",
+     "crop"
+    ],
+    [
+     "sw",
+     "swim",
+     "slim"
+    ],
+    [
+     "br",
+     "brick",
+     "drip"
+    ],
+    [
+     "tr",
+     "trip",
+     "drip"
+    ],
+    [
+     "nt",
+     "plant",
+     "plan",
+     "end"
+    ],
+    [
+     "cr",
+     "crop",
+     "clip"
+    ]
+   ]
+  }
+ },
+ "print": {
+  "kind": "eng-blend",
+  "cls": "q5",
+  "title": "Blend Bridge 2",
+  "trick": {
+   "blend": [
+    "c",
+    "r"
+   ],
+   "rest": [
+    "a",
+    "b"
+   ],
+   "word": "crab"
+  },
+  "families": [
+   [
+    "cr",
+    [
+     "crab",
+     "crib",
+     "crop"
+    ]
+   ],
+   [
+    "tr",
+    [
+     "tree",
+     "trip",
+     "trap"
+    ]
+   ],
+   [
+    "pl",
+    [
+     "plug",
+     "plan",
+     "plum"
+    ]
+   ],
+   [
+    "gr",
+    [
+     "grin",
+     "grab",
+     "grub"
+    ]
+   ]
+  ],
+  "sentences": [
+   [
+    "crab",
+    "The crab can grab."
+   ],
+   [
+    "truck",
+    "The truck can stop."
+   ],
+   [
+    "plug",
+    "Plug it in."
+   ],
+   [
+    "tree",
+    "The tree has a nest."
+   ]
+  ],
+  "circle": [
+   [
+    "clap",
+    [
+     "cl",
+     "cr"
+    ]
+   ],
+   [
+    "plug",
+    [
+     "pl",
+     "bl"
+    ]
+   ],
+   [
+    "grin",
+    [
+     "gr",
+     "gl"
+    ]
+   ],
+   [
+    "swim",
+    [
+     "sw",
+     "sl"
+    ]
+   ],
+   [
+    "truck",
+    [
+     "tr",
+     "dr"
+    ]
+   ],
+   [
+    "crab",
+    [
+     "cr",
+     "cl"
+    ]
+   ]
+  ],
+  "practice": [
+   [
+    "clap",
+    0,
+    "B"
+   ],
+   [
+    "plug",
+    0,
+    "B"
+   ],
+   [
+    "grin",
+    0,
+    "B"
+   ],
+   [
+    "truck",
+    0,
+    "C"
+   ],
+   [
+    "swim",
+    0,
+    "C"
+   ],
+   [
+    "crab",
+    0,
+    "C"
+   ],
+   [
+    "clock",
+    0,
+    "C"
+   ],
+   [
+    "clap",
+    -1,
+    "D"
+   ],
+   [
+    "plug",
+    -1,
+    "D"
+   ],
+   [
+    "grin",
+    -1,
+    "D"
+   ],
+   [
+    "swim",
+    -1,
+    "D"
+   ],
+   [
+    "truck",
+    -1,
+    "D"
+   ],
+   [
+    "tree",
+    -1,
+    "D"
+   ],
+   [
+    "crab",
+    -1,
+    "D"
+   ],
+   [
+    "clock",
+    -1,
+    "D"
+   ]
+  ]
+ }
+}

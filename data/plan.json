@@ -1,0 +1,20 @@
+{
+ "term": "Term 4 2026 (10 weeks, 3 days a week: maths + English every session, plus a thinking game)",
+ "note": "Add a day by creating a unit in data/units/ and listing it here. Print page: print/index.html",
+ "weeks": {
+  "2": {
+   "wed": {
+    "maths": "jump-through-10",
+    "english": "blend-bridge"
+   },
+   "thu": {
+    "maths": "groups-power-2",
+    "english": "blend-bridge-2"
+   },
+   "fri": {
+    "maths": "boss-crystal-caves",
+    "english": "blend-review-1"
+   }
+  }
+ }
+}

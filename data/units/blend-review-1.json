@@ -1,0 +1,630 @@
+{
+ "id": "blend-review-1",
+ "app": {
+  "id": "blend-boss",
+  "module": "blend",
+  "title": "Blend Boss",
+  "tag": "Boss battle + 2 games",
+  "art": "tiles:fl",
+  "intro": {
+   "title": "Beat the Blend Boss!",
+   "say": "Hi! Today you face the Blend Boss. You know all these blends. Tap Start."
+  },
+  "end": {
+   "title": "You beat the Blend Boss!",
+   "sub": "Now do the English practice page with a pencil. ✏️",
+   "say": "You beat the Blend Boss! Brilliant reading! Now do the practice page with a pencil."
+  },
+  "trick": {
+   "blend": [
+    "f",
+    "l"
+   ],
+   "rest": [
+    "a",
+    "g"
+   ],
+   "word": "flag"
+  },
+  "blends": {
+   "families": [
+    [
+     "fl",
+     [
+      "flag",
+      "flat",
+      "flip"
+     ]
+    ],
+    [
+     "st",
+     [
+      "star",
+      "stop",
+      "step"
+     ]
+    ],
+    [
+     "tr",
+     [
+      "tree",
+      "trip",
+      "trap"
+     ]
+    ],
+    [
+     "pl",
+     [
+      "plug",
+      "plan",
+      "plum"
+     ]
+    ],
+    [
+     "cr",
+     [
+      "crab",
+      "crop",
+      "crib"
+     ]
+    ],
+    [
+     "nt",
+     [
+      "tent",
+      "hunt",
+      "went"
+     ]
+    ]
+   ]
+  },
+  "sound": {
+   "items": [
+    [
+     "frog",
+     [
+      "fr",
+      "o",
+      "g"
+     ],
+     [
+      "flag",
+      "drum"
+     ]
+    ],
+    [
+     "sled",
+     [
+      "sl",
+      "e",
+      "d"
+     ],
+     [
+      "star",
+      "swim"
+     ]
+    ],
+    [
+     "fist",
+     [
+      "f",
+      "i",
+      "st"
+     ],
+     [
+      "flag",
+      "vest"
+     ]
+    ],
+    [
+     "brick",
+     [
+      "br",
+      "i",
+      "ck"
+     ],
+     [
+      "clock",
+      "truck"
+     ]
+    ],
+    [
+     "hand",
+     [
+      "h",
+      "a",
+      "nd"
+     ],
+     [
+      "ant",
+      "tent"
+     ]
+    ],
+    [
+     "trumpet",
+     [
+      "tr",
+      "u",
+      "m",
+      "p",
+      "e",
+      "t"
+     ],
+     [
+      "truck",
+      "tram"
+     ]
+    ]
+   ]
+  },
+  "sent": {
+   "items": [
+    [
+     "sled",
+     "The sled is fast."
+    ],
+    [
+     "frog",
+     "The frog can flip."
+    ],
+    [
+     "drum",
+     "Grab the drum."
+    ],
+    [
+     "star",
+     "I can see a star."
+    ],
+    [
+     "plant",
+     "The plant is in the sun."
+    ],
+    [
+     "clock",
+     "Stop the clock."
+    ]
+   ]
+  },
+  "match": {
+   "items": [
+    [
+     "frog",
+     [
+      "flag",
+      "fist"
+     ]
+    ],
+    [
+     "star",
+     [
+      "stop",
+      "sled"
+     ]
+    ],
+    [
+     "clap",
+     [
+      "clock",
+      "crab"
+     ]
+    ],
+    [
+     "tent",
+     [
+      "ant",
+      "nest"
+     ]
+    ],
+    [
+     "brick",
+     [
+      "drum",
+      "truck"
+     ]
+    ],
+    [
+     "vest",
+     [
+      "nest",
+      "fist"
+     ]
+    ]
+   ]
+  },
+  "circle": {
+   "questions": [
+    [
+     "frog",
+     [
+      "fl",
+      "fr",
+      "dr"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "star",
+     [
+      "st",
+      "sl",
+      "sw"
+     ],
+     0,
+     "start"
+    ],
+    [
+     "drum",
+     [
+      "tr",
+      "dr",
+      "br"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "clap",
+     [
+      "pl",
+      "cl",
+      "cr"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "brick",
+     [
+      "br",
+      "dr",
+      "gr"
+     ],
+     0,
+     "start"
+    ],
+    [
+     "tent",
+     [
+      "nd",
+      "nt",
+      "mp"
+     ],
+     1,
+     "end"
+    ],
+    [
+     "hand",
+     [
+      "nd",
+      "nt",
+      "st"
+     ],
+     0,
+     "end"
+    ],
+    [
+     "nest",
+     [
+      "nt",
+      "st",
+      "sk"
+     ],
+     1,
+     "end"
+    ]
+   ]
+  },
+  "boss": {
+   "items": [
+    [
+     "The frog can swim.",
+     "frog",
+     [
+      "flag",
+      "fist"
+     ]
+    ],
+    [
+     "I can hit the drum.",
+     "drum",
+     [
+      "dress",
+      "truck"
+     ]
+    ],
+    [
+     "The plant is in a pot.",
+     "plant",
+     [
+      "planet",
+      "plug"
+     ]
+    ],
+    [
+     "Get in the tent.",
+     "tent",
+     [
+      "nest",
+      "hand"
+     ]
+    ],
+    [
+     "Stop at the red tram.",
+     "tram",
+     [
+      "truck",
+      "tree"
+     ]
+    ]
+   ]
+  },
+  "build": {
+   "words": [
+    "frog",
+    "sled",
+    "plant",
+    "dress",
+    "truck",
+    "nest"
+   ]
+  },
+  "bridge": {
+   "questions": [
+    [
+     "fr",
+     "frog",
+     "flag"
+    ],
+    [
+     "sl",
+     "sled",
+     "step"
+    ],
+    [
+     "dr",
+     "drip",
+     "trip"
+    ],
+    [
+     "st",
+     "stop",
+     "slip"
+    ],
+    [
+     "cr",
+     "crab",
+     "clap"
+    ],
+    [
+     "pl",
+     "plug",
+     "slug"
+    ],
+    [
+     "gr",
+     "grab",
+     "crab"
+    ],
+    [
+     "sw",
+     "swim",
+     "slim"
+    ],
+    [
+     "nd",
+     "sand",
+     "sat",
+     "end"
+    ],
+    [
+     "mp",
+     "jump",
+     "jug",
+     "end"
+    ],
+    [
+     "nt",
+     "tent",
+     "ten",
+     "end"
+    ],
+    [
+     "st",
+     "nest",
+     "net",
+     "end"
+    ]
+   ]
+  }
+ },
+ "print": {
+  "kind": "eng-blend",
+  "cls": "q5",
+  "title": "Blend Boss",
+  "trick": {
+   "blend": [
+    "f",
+    "l"
+   ],
+   "rest": [
+    "a",
+    "g"
+   ],
+   "word": "flag"
+  },
+  "families": [
+   [
+    "fl",
+    [
+     "flag",
+     "flat",
+     "flip"
+    ]
+   ],
+   [
+    "st",
+    [
+     "star",
+     "stop",
+     "step"
+    ]
+   ],
+   [
+    "tr",
+    [
+     "tree",
+     "trip",
+     "trap"
+    ]
+   ],
+   [
+    "pl",
+    [
+     "plug",
+     "plan",
+     "plum"
+    ]
+   ]
+  ],
+  "sentences": [
+   [
+    "sled",
+    "The sled is fast."
+   ],
+   [
+    "frog",
+    "The frog can flip."
+   ],
+   [
+    "drum",
+    "Grab the drum."
+   ],
+   [
+    "star",
+    "I can see a star."
+   ]
+  ],
+  "circle": [
+   [
+    "frog",
+    [
+     "fl",
+     "fr"
+    ]
+   ],
+   [
+    "star",
+    [
+     "st",
+     "sl"
+    ]
+   ],
+   [
+    "drum",
+    [
+     "tr",
+     "dr"
+    ]
+   ],
+   [
+    "flag",
+    [
+     "fl",
+     "fr"
+    ]
+   ],
+   [
+    "clap",
+    [
+     "pl",
+     "cl"
+    ]
+   ],
+   [
+    "brick",
+    [
+     "br",
+     "dr"
+    ]
+   ]
+  ],
+  "practice": [
+   [
+    "frog",
+    0,
+    "B"
+   ],
+   [
+    "flag",
+    0,
+    "B"
+   ],
+   [
+    "tent",
+    2,
+    "B"
+   ],
+   [
+    "drum",
+    0,
+    "C"
+   ],
+   [
+    "star",
+    0,
+    "C"
+   ],
+   [
+    "hand",
+    2,
+    "C"
+   ],
+   [
+    "sled",
+    0,
+    "C"
+   ],
+   [
+    "crab",
+    -1,
+    "D"
+   ],
+   [
+    "tree",
+    -1,
+    "D"
+   ],
+   [
+    "plug",
+    -1,
+    "D"
+   ],
+   [
+    "brick",
+    -1,
+    "D"
+   ],
+   [
+    "clock",
+    -1,
+    "D"
+   ],
+   [
+    "nest",
+    -1,
+    "D"
+   ],
+   [
+    "stop",
+    -1,
+    "D"
+   ],
+   [
+    "truck",
+    -1,
+    "D"
+   ]
+  ]
+ }
+}

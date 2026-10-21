@@ -1,0 +1,269 @@
+{
+ "id": "blend-bridge",
+ "app": {
+  "id": "blend",
+  "module": "blend",
+  "title": "Blend Bridge",
+  "tag": "Read & Say + 2 games",
+  "art": "tiles:sl",
+  "intro": {
+   "title": "Let’s cross the Blend Bridge!",
+   "say": "Hi! Let’s cross the Blend Bridge. Tap Start."
+  },
+  "end": {
+   "title": "You crossed the Blend Bridge!",
+   "sub": "Now do the English practice page with a pencil. ✏️",
+   "say": "Great job! You crossed the Blend Bridge! Now do the practice page with a pencil."
+  },
+  "trick": {
+   "blend": [
+    "s",
+    "l"
+   ],
+   "rest": [
+    "e",
+    "d"
+   ],
+   "word": "sled"
+  },
+  "blends": {
+   "families": [
+    [
+     "fr",
+     [
+      "frog",
+      "from",
+      "free"
+     ]
+    ],
+    [
+     "fl",
+     [
+      "flag",
+      "flip",
+      "flat"
+     ]
+    ],
+    [
+     "dr",
+     [
+      "drum",
+      "drip",
+      "drop"
+     ]
+    ],
+    [
+     "st",
+     [
+      "star",
+      "stop",
+      "step"
+     ]
+    ]
+   ]
+  },
+  "sent": {
+   "items": [
+    [
+     "frog",
+     "The frog can jump."
+    ],
+    [
+     "flag",
+     "Stop at the flag."
+    ],
+    [
+     "star",
+     "Step on the star."
+    ],
+    [
+     "tent",
+     "The drum is in the tent."
+    ]
+   ]
+  },
+  "circle": {
+   "questions": [
+    [
+     "sled",
+     [
+      "sk",
+      "sl"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "tree",
+     [
+      "dr",
+      "tr"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "brick",
+     [
+      "bl",
+      "br"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "crab",
+     [
+      "cl",
+      "cr"
+     ],
+     1,
+     "start"
+    ],
+    [
+     "nest",
+     [
+      "nt",
+      "st"
+     ],
+     1,
+     "end"
+    ],
+    [
+     "hand",
+     [
+      "nd",
+      "nt"
+     ],
+     0,
+     "end"
+    ]
+   ]
+  },
+  "build": {
+   "words": [
+    "frog",
+    "drum",
+    "flag",
+    "sled",
+    "crab"
+   ]
+  },
+  "bridge": {
+   "questions": [
+    [
+     "fl",
+     "flag",
+     "frog"
+    ],
+    [
+     "st",
+     "star",
+     "sled"
+    ],
+    [
+     "dr",
+     "drum",
+     "tree"
+    ],
+    [
+     "fr",
+     "frog",
+     "flag"
+    ],
+    [
+     "cr",
+     "crab",
+     "clap"
+    ],
+    [
+     "sl",
+     "sled",
+     "star"
+    ]
+   ]
+  }
+ },
+ "print": {
+  "kind": "eng-blend",
+  "cls": "q5",
+  "title": "Blend Bridge",
+  "practice": [
+   [
+    "drum",
+    0,
+    "B"
+   ],
+   [
+    "star",
+    0,
+    "B"
+   ],
+   [
+    "hand",
+    2,
+    "B"
+   ],
+   [
+    "crab",
+    0,
+    "C"
+   ],
+   [
+    "brick",
+    0,
+    "C"
+   ],
+   [
+    "nest",
+    2,
+    "C"
+   ],
+   [
+    "tree",
+    0,
+    "C"
+   ],
+   [
+    "sled",
+    0,
+    "D"
+   ],
+   [
+    "stop",
+    0,
+    "D"
+   ],
+   [
+    "ant",
+    -1,
+    "D"
+   ],
+   [
+    "frog",
+    -1,
+    "D"
+   ],
+   [
+    "flag",
+    -1,
+    "D"
+   ],
+   [
+    "tent",
+    -1,
+    "D"
+   ],
+   [
+    "drum",
+    -1,
+    "D"
+   ],
+   [
+    "crab",
+    -1,
+    "D"
+   ]
+  ]
+ }
+}

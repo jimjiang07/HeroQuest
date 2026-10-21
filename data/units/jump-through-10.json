@@ -1,0 +1,238 @@
+{
+ "id": "jump-through-10",
+ "app": {
+  "id": "jt10",
+  "module": "add10",
+  "title": "Jump Through 10",
+  "tag": "Read & Say + 2 games",
+  "art": "frame:9,6",
+  "intro": {
+   "title": "Let’s jump through 10!",
+   "say": "Hi! Let’s jump through ten. Tap Start."
+  },
+  "end": {
+   "title": "You jumped through 10!",
+   "sub": "Now do the maths practice page with a pencil. ✏️",
+   "say": "Great job! You jumped through ten! Now do the practice page with a pencil."
+  },
+  "fill": {
+   "rounds": [
+    8,
+    6,
+    9
+   ]
+  },
+  "trick": {
+   "a": 9,
+   "b": 6
+  },
+  "read": {
+   "pairs": [
+    [
+     9,
+     4
+    ],
+    [
+     8,
+     5
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     8,
+     7
+    ],
+    [
+     9,
+     8
+    ],
+    [
+     6,
+     7
+    ]
+   ]
+  },
+  "easy": {
+   "questions": [
+    [
+     "3 + 9",
+     "9 + 3",
+     1,
+     9,
+     3
+    ],
+    [
+     "8 + 4",
+     "4 + 8",
+     0,
+     8,
+     4
+    ],
+    [
+     "2 + 7",
+     "7 + 2",
+     1,
+     7,
+     2
+    ]
+   ]
+  },
+  "make": {
+   "questions": [
+    [
+     7,
+     [
+      2,
+      3,
+      4
+     ],
+     3
+    ],
+    [
+     4,
+     [
+      5,
+      6,
+      7
+     ],
+     6
+    ],
+    [
+     9,
+     [
+      1,
+      2,
+      3
+     ],
+     1
+    ]
+   ]
+  },
+  "memory": {
+   "values": [
+    1,
+    9,
+    2,
+    8,
+    3,
+    7,
+    4,
+    6,
+    5,
+    5
+   ]
+  },
+  "balloon": {
+   "rounds": [
+    [
+     9,
+     4
+    ],
+    [
+     8,
+     5
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     9,
+     6
+    ],
+    [
+     8,
+     7
+    ],
+    [
+     9,
+     8
+    ]
+   ]
+  }
+ },
+ "print": {
+  "kind": "math-add",
+  "cls": "q2",
+  "title": "Jump Through 10",
+  "practice": [
+   [
+    9,
+    3,
+    "B"
+   ],
+   [
+    8,
+    4,
+    "B"
+   ],
+   [
+    9,
+    5,
+    "B"
+   ],
+   [
+    7,
+    4,
+    "C"
+   ],
+   [
+    8,
+    5,
+    "C"
+   ],
+   [
+    9,
+    6,
+    "C"
+   ],
+   [
+    7,
+    6,
+    "C"
+   ],
+   [
+    8,
+    7,
+    "D"
+   ],
+   [
+    9,
+    7,
+    "D"
+   ],
+   [
+    6,
+    8,
+    "D"
+   ],
+   [
+    7,
+    9,
+    "D"
+   ],
+   [
+    8,
+    9,
+    "D"
+   ],
+   [
+    6,
+    9,
+    "D"
+   ],
+   [
+    7,
+    7,
+    "D"
+   ],
+   [
+    9,
+    9,
+    "D"
+   ]
+  ]
+ }
+}
