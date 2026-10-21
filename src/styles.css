@@ -77,8 +77,6 @@ main.hub{justify-content:flex-start;align-items:stretch}
 .tile .tag{font-size:17px;font-weight:600;color:var(--muted)}
 .tile .stat{font-size:16px;font-weight:700;border-radius:14px;padding:2px 12px;background:var(--soft);color:var(--ink)}
 .tile.done .stat{background:var(--ok);color:#fff}
-.tile.today{border-color:var(--gold);box-shadow:0 7px 0 var(--gold),0 0 0 4px color-mix(in srgb,var(--gold) 35%,transparent)}
-.tile.today:not(.done) .stat{background:var(--gold);color:#1d2140}
 .tile.soon{opacity:.55;box-shadow:0 4px 0 var(--ink);cursor:default}
 .tile.soon:active{transform:none;box-shadow:0 4px 0 var(--ink)}
 

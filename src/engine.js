@@ -96,7 +96,7 @@ function readTicks(el,n,msg){
 
 /* ============ activity engine ============ */
 let act=null,cur=0,ok=false,prompt='';
-let ACT={},TILES=[],TODAY='';
+let ACT={},TILES=[];
 function setPrompt(t){prompt=t;say(t)}
 const root=document.documentElement;
 function setOK(v=true){
@@ -157,15 +157,13 @@ function artHTML(spec){
 function tileHTML(t){
   if(t.soon)return `<button class="tile soon" aria-disabled="true" data-soon="1"><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="stat">Coming soon</div></button>`;
   const st=actState(t.id),played=st.plays||0;
-  const stat=played?'⭐ played '+played+'×':t.today?'Today’s quest':'New';
-  return `<button class="tile ${played?'done':''} ${t.today?'today':''}" data-id="${t.id}" aria-label="${t.name}"><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="tag">${t.tag}</div><div class="stat">${stat}</div></button>`;
+  const stat=played?'⭐ played '+played+'×':'New';
+  return `<button class="tile ${played?'done':''}" data-id="${t.id}" aria-label="${t.name}"><div class="art">${artHTML(t.art)}</div><div class="nm">${t.name}</div><div class="tag">${t.tag}</div><div class="stat">${stat}</div></button>`;
 }
 function renderHub(){
   stage.className='hub';
-  // today's quests lead each lane; older ones stay below for replay
-  const order=t=>t.today?0:t.soon?2:1;
-  const lane=(k,title)=>`<section class="lane ${k}"><h2>${title}</h2><div class="tiles">${TILES.filter(t=>t.lane===k).sort((a,b)=>order(a)-order(b)).map(tileHTML).join('')}</div></section>`;
-  stage.innerHTML=`<div class="welcome">${TODAY?TODAY+' · ':''}Pick a quest! 🗡️</div><div class="lanes">${lane('maths','Maths')}${lane('english','English')}</div>`;
+  const lane=(k,title)=>`<section class="lane ${k}"><h2>${title}</h2><div class="tiles">${TILES.filter(t=>t.lane===k).map(tileHTML).join('')}</div></section>`;
+  stage.innerHTML=`<div class="welcome">Pick a quest! 🗡️</div><div class="lanes">${lane('maths','Maths')}${lane('english','English')}</div>`;
   $$('.tile',stage).forEach(b=>b.onclick=()=>{
     audio();
     if(b.dataset.soon){sfx.oops();return}
@@ -186,9 +184,9 @@ $('#reset').onclick=()=>{saved.acts={};persist();if(act)drawProg();else renderHu
 
 
 /* ============ start ============ */
-/* activities: [{id, subject, title, steps, games, R, intro, end}], tiles: [{lane, id|soon, name, tag, art, today?}], today: label */
+/* activities: [{id, subject, title, steps, games, R, intro, end}], tiles: [{lane, id|soon, name, tag, art}] */
 function start(conf){
-  ACT=Object.fromEntries(conf.activities.map(a=>[a.id,a]));TILES=conf.tiles;TODAY=conf.today||'';goHome();
+  ACT=Object.fromEntries(conf.activities.map(a=>[a.id,a]));TILES=conf.tiles;goHome();
 }
 
 export {store,cfg,audio,sfx,say,$,$$,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,start,actState,readTicks};

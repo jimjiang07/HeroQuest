@@ -36,7 +36,7 @@ src/
   engine.js               storage, sound, voice, step flow, home page, settings. Activities plug in via start()
   shared.js               EMO (emoji for words), BL (blends), hlw() (highlight a blend), NUMW, shuffle: used by app AND print
   styles.css              all app styles (design tokens at the top of the file)
-  app.js                  loads every planned unit; each "app" block becomes a tile drawn by MODULES[app.module]; marks today's quests
+  app.js                  loads every planned unit; each "app" block becomes a tile drawn by MODULES[app.module]
   activities/             one module per activity: export default function make(data) → {id, subject, title, steps, games, R, intro, end}
 data/
   hub.json                extra "Coming soon" tiles only (real tiles come from units in plan.json)
