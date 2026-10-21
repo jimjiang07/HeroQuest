@@ -11,8 +11,8 @@ test.beforeEach(async ({page})=>{await page.addInitScript(()=>localStorage.setIt
 test('Crystal Caves Boss plays to the end', async ({page})=>{
   const errors=[]; page.on('pageerror',e=>errors.push(String(e)));
   const shot=async n=>{ if(SHOTS) await page.screenshot({path:`${SHOTS}/${n}.png`}); };
-  const ready=()=>page.locator('#more, #next:enabled').first().waitFor({timeout:15000});
-  const moreOrNext=async()=>{ await ready(); if(await page.locator('#more').count()) await page.click('#more'); };
+  const ready=()=>page.locator('#next[data-more], #next:enabled').first().waitFor({timeout:15000});
+  const moreOrNext=async()=>{ await ready(); if(await page.locator('#next[data-more]').count()) await page.click('#next'); };
   const eq=async()=>(await page.innerText('#eq')).match(/(\d+) \+ (\d+)/).slice(1).map(Number);
 
   await page.goto('/');
@@ -20,9 +20,9 @@ test('Crystal Caves Boss plays to the end', async ({page})=>{
   await page.click('#hop'); await page.waitForTimeout(1300);   // trick
   await page.click('#cnt'); await expect(page.locator('#next')).toBeEnabled({timeout:15000});
   await page.click('#next');
-  for(let i=0;i<app.read.pairs.length;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
+  for(let i=0;i<app.read.pairs.length;i++) { if(await page.locator(`.hr[data-i="${i}"]`).isHidden()) await page.click('#next'); await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
   await page.click('#next');
-  for(const [,,k] of app.easy.questions){ await page.click(`.ch[data-k="${k}"]`); if(await page.locator('#more').count()) await page.click('#more'); }
+  for(const [,,k] of app.easy.questions){ await page.click(`.ch[data-k="${k}"]`); if(await page.locator('#next[data-more]').count()) await page.click('#next'); }
   await page.click('#next');
   for(const [,,v] of app.make.questions){ await page.click(`.ch[data-v="${v}"]`); await moreOrNext(); }
   await page.click('#next');                                   // split

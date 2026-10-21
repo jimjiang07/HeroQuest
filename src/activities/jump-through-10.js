@@ -1,4 +1,4 @@
-import {$,$$,say,sfx,audio,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,readTicks,shuffle,NUMW,EMO,hlw,cfg} from '../engine.js';
+import {$,$$,say,sfx,audio,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,onNext,readTicks,shuffle,NUMW,EMO,hlw,cfg} from '../engine.js';
 
 /* Maths activity: Jump Through 10 (add through ten). Content comes from a unit's "app" block (e.g. data/units/jump-through-10.json).
    Optional blocks split/think/bigger/boss add extra steps only when present. */
@@ -9,7 +9,7 @@ export default function make(data){
   const xs=b=>`<div class="extras" id="ex">${Array.from({length:b},()=>`<div class="xs">${dot('or')}</div>`).join('')}</div>`;
   const rods=t=>Array.from({length:t},()=>`<div class="rod" aria-hidden="true"><div class="bar">${'<i></i>'.repeat(10)}</div><b>10</b></div>`).join('');
   const shake=b=>{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.oops();$('#msg').textContent='Try again!';say('Try again!')};
-  const nextOr=(last,fn)=>{if(last)setOK();else{$('#act').innerHTML=`<button class="btn red" id="more">One more ›</button>`;$('#more').onclick=fn}};
+  const nextOr=(last,fn)=>{if(last)setOK();else onNext(fn)};
   // counters hop from the extras into the empty cells of the frame
   const fillTen=async o=>{const cells=$$('#fr .cell');for(let i=o;i<10;i++){$('#ex').lastElementChild?.remove();cells[i].innerHTML=dot('gd pop');sfx.hop();await sleep(260)}};
   RM.fill=el=>{
@@ -23,7 +23,7 @@ export default function make(data){
         audio();c.outerHTML=`<div class="cell">${dot('gd pop')}</div>`;sfx.pop();empties--;
         if(empties===0){
           sfx.ding();$('#eq').textContent=`${n} + ${10-n} = 10`;$('#msg').textContent=`${n} and ${10-n} make 10!`;say(`${n} and ${10-n} make 10!`);
-          if(r<rounds.length-1){$('#act').innerHTML=`<button class="btn red" id="more">One more ›</button>`;$('#more').onclick=()=>{r++;draw()}}
+          if(r<rounds.length-1)onNext(()=>{r++;draw()})
           else setOK();
         }
       });
@@ -90,7 +90,7 @@ export default function make(data){
         if(+b.dataset.k===right){
           b.classList.add('right');sfx.ding();$('#msg').textContent=`Yes! Start with the big number: ${big}, then count on ${small}.`;
           say(`Yes! Start with the big number. ${big}, then count on ${small}.`);$$('.ch',el).forEach(c=>c.disabled=true);
-          if(q<Q.length-1){$('#act').innerHTML=`<button class="btn red" id="more">One more ›</button>`;$('#more').onclick=()=>{q++;draw()}}else setOK();
+          if(q<Q.length-1)onNext(()=>{q++;draw()});else setOK();
         }else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.oops();$('#msg').textContent='Hmm, try the other one.';say('Hmm, try the other one.')}
       });
     };
@@ -112,7 +112,7 @@ export default function make(data){
           b.classList.add('right');$$('.ch',el).forEach(c=>c.disabled=true);
           const cells=$$('#fr .cell');for(let i=n;i<10;i++){cells[i].innerHTML=dot('gd pop');sfx.pop();await sleep(160)}
           sfx.ding();$('#eq').textContent=`${n} + ${right} = 10`;$('#msg').textContent=`${n} and ${right} make 10!`;say(`${n} and ${right} make ten!`);
-          if(q<Q.length-1){$('#act').innerHTML=`<button class="btn red" id="more">One more ›</button>`;$('#more').onclick=()=>{q++;draw()}}else setOK();
+          if(q<Q.length-1)onNext(()=>{q++;draw()});else setOK();
         }else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.oops();$('#msg').textContent='Try again!';say('Try again!')}
       });
     };

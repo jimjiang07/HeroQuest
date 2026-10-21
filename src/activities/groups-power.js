@@ -1,4 +1,4 @@
-import {$,$$,say,sfx,audio,sleep,dot,confetti,setOK,setPrompt,shuffle,NUMW,readTicks} from '../engine.js';
+import {$,$$,say,sfx,audio,sleep,dot,confetti,setOK,setPrompt,onNext,shuffle,NUMW,readTicks} from '../engine.js';
 
 /* Maths activity: Groups Power (multiplication as equal groups). Content comes from data/units/groups-power-2.json ("app"). */
 export default function make(data){
@@ -24,7 +24,7 @@ export default function make(data){
   // light each bag in turn with its running total badge
   const skip=async(bags,n,from=0)=>{for(let i=0;i<bags.length;i++){bags[i].classList.add('lit');bags[i].dataset.c=from+(i+1)*n;sfx.pop();await sleep(520)}};
   const wrong=b=>{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.oops();$('#msg').textContent='Try again!';say('Try again!')};
-  const moreOr=(i,len,next)=>{if(i<len-1){$('#act').innerHTML=`<button class="btn red" id="more">One more ›</button>`;$('#more').onclick=next}else setOK()};
+  const moreOr=(i,len,next)=>{if(i<len-1)onNext(next);else setOK()};
 
   RG.trick=el=>{
     const {g,n}=data.trick,known=g*n,ans=known+n;

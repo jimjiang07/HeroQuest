@@ -13,8 +13,8 @@ test('Groups Power plays to the end', async ({page})=>{
   const shot=async n=>{ if(SHOTS) await page.screenshot({path:`${SHOTS}/groups-${n}.png`,fullPage:true}); };
   // after a right answer: wait for "One more" or an enabled Next, then take "One more" if it is there
   const more=async()=>{
-    await expect(page.locator('#more').or(page.locator('#next:enabled'))).toBeVisible({timeout:10000});
-    if(await page.locator('#more').count()) await page.click('#more');
+    await expect(page.locator('#next:enabled')).toBeVisible({timeout:10000});
+    if(await page.locator('#next[data-more]').count()) await page.click('#next');
   };
   await page.goto('/');
   await page.click('.stone[data-key="2-thu"]'); await page.click('.tile[data-id="groups"]'); await page.click('#next');
@@ -22,7 +22,7 @@ test('Groups Power plays to the end', async ({page})=>{
   await expect(page.locator('#next')).toBeEnabled({timeout:8000});
   await page.click('#next');                                   // read cards
   await shot('read');
-  for(let i=0;i<A.read.facts.length;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
+  for(let i=0;i<A.read.facts.length;i++) { if(await page.locator(`.hr[data-i="${i}"]`).isHidden()) await page.click('#next'); await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
   await page.click('#next');                                   // turn it around
   await shot('same');
   for(const [a,b] of A.same.questions){ await page.click(`.ch[data-v="${a*b}"]`); await more(); }

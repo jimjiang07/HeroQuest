@@ -44,17 +44,17 @@ test('Jump Through 10 plays to the end', async ({page})=>{
   await page.click('.tile[data-id="jt10"]'); await page.click('#next');
   for(const n of [8,6,9]){
     for(let i=0;i<10-n;i++) await page.locator('.cell.empty').first().click();
-    if(await page.locator('#more').count()) await page.click('#more');
+    if(await page.locator('#next[data-more]').count()) await page.click('#next');
   }
   await page.click('#next'); await page.click('#hop'); await page.waitForTimeout(1300);
   await page.click('#cnt'); await expect(page.locator('#next')).toBeEnabled({timeout:15000});
   await page.click('#next');
   await expect(page.locator('.tick[data-i="0"]')).toBeHidden();      // no tick until the card was heard
-  for(let i=0;i<6;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
+  for(let i=0;i<6;i++) { if(await page.locator(`.hr[data-i="${i}"]`).isHidden()) await page.click('#next'); await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
   await page.click('#next');
-  for(const k of [1,0,1]){ await page.click(`.ch[data-k="${k}"]`); if(await page.locator('#more').count()) await page.click('#more'); }
+  for(const k of [1,0,1]){ await page.click(`.ch[data-k="${k}"]`); if(await page.locator('#next[data-more]').count()) await page.click('#next'); }
   await page.click('#next');
-  for(const v of [3,6,1]){ await page.click(`.ch[data-v="${v}"]`); await page.waitForTimeout(1700); if(await page.locator('#more').count()) await page.click('#more'); }
+  for(const v of [3,6,1]){ await page.click(`.ch[data-v="${v}"]`); await page.waitForTimeout(1700); if(await page.locator('#next[data-more]').count()) await page.click('#next'); }
   await page.click('#next');                                   // memory game
   const vals=await page.$$eval('.mc .front b',els=>els.map(e=>+e.textContent));
   const used=new Set();
@@ -80,15 +80,15 @@ test('Blend Bridge plays to the end', async ({page})=>{
   await page.click('#sl'); await page.waitForTimeout(1000); await page.click('#add');
   await expect(page.locator('#next')).toBeEnabled({timeout:8000});
   await page.click('#next');
-  for(let i=0;i<4;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
+  for(let i=0;i<4;i++) { if(await page.locator(`.hr[data-i="${i}"]`).isHidden()) await page.click('#next'); await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
   await page.click('#next');
-  for(let i=0;i<4;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
+  for(let i=0;i<4;i++) { if(await page.locator(`.hr[data-i="${i}"]`).isHidden()) await page.click('#next'); await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
   await page.click('#next');
-  for(let q=0;q<6;q++){ await page.click(q<5?'.ch[data-k="1"]':'.ch[data-k="0"]'); if(await page.locator('#more').count()) await page.click('#more'); }
+  for(let q=0;q<6;q++){ await page.click(q<5?'.ch[data-k="1"]':'.ch[data-k="0"]'); if(await page.locator('#next[data-more]').count()) await page.click('#next'); }
   await page.click('#next');                                   // builder game
   for(const w of ['frog','drum','flag','sled','crab']){
     for(const ch of w) await page.locator(`.lt:not(.used)[data-c="${ch}"]`).first().click();
-    await page.waitForTimeout(250); if(await page.locator('#more').count()) await page.click('#more'); }
+    await page.waitForTimeout(250); if(await page.locator('#next[data-more]').count()) await page.click('#next'); }
   await page.click('#next');                                   // bridge game
   for(const w of ['flag','star','drum','frog','crab','sled']){ await page.click(`.ch[data-w="${w}"]`); await page.waitForTimeout(1500); }
   await expect(page.locator('#next')).toBeEnabled({timeout:6000});

@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 
 /* Play-through tests for the longer blend units: tap only right answers, driven by the unit data. */
 const unit=f=>JSON.parse(readFileSync(`data/units/${f}.json`,'utf8')).app;
-const more=async page=>{ if(await page.locator('#more').count()) await page.click('#more'); };
+const more=async page=>{ if(await page.locator('#next[data-more]').count()) await page.click('#next'); };
 
 async function play(page,a,shots){
   const errors=[]; page.on('pageerror',e=>errors.push(String(e)));
@@ -12,14 +12,14 @@ async function play(page,a,shots){
   await page.click(`.stone[data-key="${a.id==='blend2'?'2-thu':'2-fri'}"]`); await page.click(`.tile[data-id="${a.id}"]`); await page.click('#next');
   await page.click('#sl'); await page.waitForTimeout(1000); await page.click('#add');
   await expect(page.locator('#next')).toBeEnabled({timeout:8000}); await page.click('#next');
-  for(let i=0;i<a.blends.families.length;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
+  for(let i=0;i<a.blends.families.length;i++) { if(await page.locator(`.hr[data-i="${i}"]`).isHidden()) await page.click('#next'); await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
   await page.click('#next');                                   // sound it out
   for(const [w,snd] of a.sound.items){
     for(let i=0;i<snd.length;i++) await page.click(`.snd[data-i="${i}"]`);
     if(w===a.sound.items[0][0]) await shot('sound');
     await page.click(`.pc[data-w="${w}"]`); await more(page); }
   await page.click('#next');
-  for(let i=0;i<a.sent.items.length;i++) { await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
+  for(let i=0;i<a.sent.items.length;i++) { if(await page.locator(`.hr[data-i="${i}"]`).isHidden()) await page.click('#next'); await page.click(`.hr[data-i="${i}"]`); await page.click(`.tick[data-i="${i}"]`); }
   await page.click('#next');                                   // read and match
   await shot('match');
   for(const [w] of a.match.items){ await page.click(`.pc[data-w="${w}"]`); await more(page); }

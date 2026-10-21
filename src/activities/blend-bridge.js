@@ -1,4 +1,4 @@
-import {$,$$,say,sfx,audio,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,readTicks,shuffle,NUMW,EMO,BL,hlw,cfg} from '../engine.js';
+import {$,$$,say,sfx,audio,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,onNext,readTicks,shuffle,NUMW,EMO,BL,hlw,cfg} from '../engine.js';
 
 /* English activity: Blend Bridge (consonant blends). Content comes from a unit's "app" block; a step only appears when its block exists. */
 const ORDER=['trick','blends','sound','sent','match','circle','boss','build','bridge'],GAMES=['build','bridge'];
@@ -8,7 +8,7 @@ export default function make(data){
   const oops=b=>{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.oops();const m=$('#msg');if(m)m.textContent='Try again!';say('Try again!')};
   const pics=(right,wrong)=>shuffle([right,...wrong]).map(w=>`<button class="ch pc" data-w="${w}" aria-label="${w}">${EMO[w]}</button>`).join('');
   const bigWord=w=>{const m=$('#msg');m.innerHTML=hlw(w);m.style.cssText='font-family:var(--read);font-size:clamp(40px,8vw,72px)'};
-  const next=(more,label='One more ›')=>{if(more){$('#act').innerHTML=`<button class="btn red" id="more">${label}</button>`;$('#more').onclick=more}else{sfx.cheer();confetti();setOK()}};
+  const next=more=>{if(more)onNext(more);else{sfx.cheer();confetti();setOK()}};
   const words=t=>t.split(' ').map(w=>{const c=w.replace(/[.,!?]/g,''),p=w.slice(c.length);return `<span>${hlw(c)}${p}</span>`}).join(' ');
   RE.trick=el=>{
     const [x,y]=data.trick.blend,rest=data.trick.rest,word=data.trick.word;
@@ -73,7 +73,7 @@ export default function make(data){
           b.classList.add('right');$$('.ch',el).forEach(c=>c.disabled=true);sfx.ding();
           $('#msg').innerHTML=`${hlw(w)}`;$('#msg').style.fontFamily='var(--read)';$('#msg').style.fontSize='clamp(40px,8vw,72px)';
           say(`Yes! ${w}!`);
-          if(q<Q.length-1){$('#act').innerHTML=`<button class="btn red" id="more">One more ›</button>`;$('#more').onclick=()=>{q++;draw()}}else setOK();
+          if(q<Q.length-1)onNext(()=>{q++;draw()});else setOK();
         }else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.oops();$('#msg').textContent='Try again!';say('Try again!')}
       });
     };
@@ -97,7 +97,7 @@ export default function make(data){
       $$('.pc',el).forEach(b=>b.onclick=()=>{
         audio();if(b.dataset.w!==word)return oops(b);
         b.classList.add('right');$$('.pc',el).forEach(c=>c.disabled=true);sfx.ding();bigWord(word);say(`${snd.join(', ')}. ${word}!`);
-        next(w<W.length-1&&(()=>{w++;draw()}),'Next word ›');
+        next(w<W.length-1&&(()=>{w++;draw()}));
       });
     };
     draw();
@@ -113,7 +113,7 @@ export default function make(data){
       $$('.pc',el).forEach(b=>b.onclick=()=>{
         audio();if(b.dataset.w!==word)return oops(b);
         b.classList.add('right');$$('.pc',el).forEach(c=>c.disabled=true);sfx.ding();$('#msg').textContent='Yes!';say(`Yes! ${word}!`);
-        next(w<W.length-1&&(()=>{w++;draw()}),'Next word ›');
+        next(w<W.length-1&&(()=>{w++;draw()}));
       });
     };
     draw();
@@ -132,7 +132,7 @@ export default function make(data){
       $$('.pc',el).forEach(b=>b.onclick=()=>{
         audio();if(b.dataset.w!==right)return oops(b);
         b.classList.add('right');$$('.pc',el).forEach(c=>c.disabled=true);sfx.ding();$('#msg').textContent='You beat the boss question!';say(t);
-        next(q<S.length-1&&(()=>{q++;draw()}),'Next boss ›');
+        next(q<S.length-1&&(()=>{q++;draw()}));
       });
     };
     draw();
@@ -157,7 +157,7 @@ export default function make(data){
           const sl=$('#sl'+next);sl.textContent=b.dataset.c;sl.classList.add('full');b.classList.add('used');sfx.pop();next++;
           if(next===letters.length){
             sfx.ding();$('#msg').innerHTML=hlw(word);$('#msg').style.cssText='font-family:var(--read);font-size:clamp(44px,9vw,80px)';say(word+'!');
-            if(w<W.length-1)$('#act').innerHTML=`<button class="btn red" id="more">Next word ›</button>`,$('#more').onclick=()=>{w++;draw()};
+            if(w<W.length-1)onNext(()=>{w++;draw()});
             else{sfx.cheer();confetti();setOK()}
           }
         }else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.oops();say('Try another letter.')}

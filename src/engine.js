@@ -84,20 +84,35 @@ function confetti(){
 }
 
 /* ticks stay hidden until their item has been heard once, so a quick tap-through can't skip the reading */
+// long lists show only what fits on screen; Next brings the next batch once those are ticked
 function readTicks(el,n,msg){
-  const said=new Set(),heard=new Set();
+  const said=new Set(),heard=new Set(),items=$$('.tick',el).map(b=>b.closest('.rc,.fam,.sent'));
+  let page=[];
+  const showFrom=start=>{
+    window.scrollTo(0,0);items.forEach(it=>it.hidden=true);page=[];
+    const limit=innerHeight-($('#foot').offsetHeight||0)-8;
+    for(let i=start;i<items.length;i++){items[i].hidden=false;
+      if(page.length&&items[i].getBoundingClientRect().bottom>limit){items[i].hidden=true;break}
+      page.push(i)}
+  };
   $$('.tick',el).forEach(b=>{b.disabled=true;b.onclick=()=>{
-    const i=+b.dataset.i,c=b.closest('.rc,.fam,.sent');audio();
-    if(said.has(i)){said.delete(i);c.classList.remove('said')}else{said.add(i);c.classList.add('said');sfx.ding()}
+    const i=+b.dataset.i,c=items[i];audio();
+    if(said.has(i)){said.delete(i);c.classList.remove('said');clearNext();$('#next').disabled=!ok;return}
+    said.add(i);c.classList.add('said');sfx.ding();
     if(said.size===n){sfx.cheer();say(msg);setOK()}
+    else if(page.every(k=>said.has(k)))onNext(()=>showFrom(page.at(-1)+1));
   }});
+  requestAnimationFrame(()=>showFrom(0));
   return i=>{if(heard.has(i))return;heard.add(i);const t=$(`.tick[data-i="${i}"]`,el);t.disabled=false;t.classList.add('open')};
 }
 
 /* ============ activity engine ============ */
-let act=null,cur=0,ok=false,prompt='';
+let act=null,cur=0,ok=false,prompt='',pending=null;
 let ACT={},PATH=[];
 function setPrompt(t){prompt=t;say(t)}
+// inside a step, Next moves to the next question; once the step is done it moves to the next step
+function onNext(fn){pending=fn;const n=$('#next');n.disabled=false;n.dataset.more='1'}
+function clearNext(){pending=null;delete $('#next').dataset.more}
 const root=document.documentElement;
 function setOK(v=true){
   ok=v;$('#next').disabled=!ok;
@@ -120,7 +135,7 @@ function goHome(){
 }
 function go(i){
   const last=act.steps.length-1;
-  cur=Math.max(0,Math.min(last,i));ok=(cur===0||cur===last);
+  cur=Math.max(0,Math.min(last,i));ok=(cur===0||cur===last);clearNext();
   $('#back').style.visibility=cur===0?'hidden':'visible';
   $('#next').textContent=cur===0?'Start ›':cur===last?'Play again':'Next ›';
   $('#next').disabled=!ok;
@@ -128,7 +143,11 @@ function go(i){
   const key=act.steps[cur];
   (act.R[key]||R[key])(stage);
 }
-$('#next').onclick=()=>{audio();sfx.pop();cur===act.steps.length-1?go(1):go(cur+1)};
+$('#next').onclick=()=>{
+  audio();sfx.pop();
+  if(pending){const fn=pending;clearNext();$('#next').disabled=!ok;fn();window.scrollTo(0,0);return}
+  cur===act.steps.length-1?go(1):go(cur+1);
+};
 $('#back').onclick=()=>{sfx.pop();go(cur-1)};
 $('#hear').onclick=()=>{audio();say(prompt)};
 $('#home').onclick=()=>{sfx.pop();goHome()};
@@ -136,7 +155,7 @@ $('#home').onclick=()=>{sfx.pop();goHome()};
 /* shared steps */
 const R={
   intro(el){
-    el.innerHTML=`<svg style="width:min(190px,36vw);height:auto" viewBox="0 0 100 120" aria-hidden="true"><use href="#hero"/></svg>
+    el.innerHTML=`<svg style="width:min(190px,calc(36*var(--v)));height:auto" viewBox="0 0 100 120" aria-hidden="true"><use href="#hero"/></svg>
       <div class="prompt">${act.intro.title}</div><div class="sub">Tap Start. Turn the sound up. 🔊</div>`;
     prompt=act.intro.say;
   },
@@ -260,4 +279,4 @@ function start(conf){
   ACT=Object.fromEntries(conf.activities.map(a=>[a.id,a]));PATH=conf.path;goHome();
 }
 
-export {store,cfg,audio,sfx,say,$,$$,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,start,actState,readTicks};
+export {store,cfg,audio,sfx,say,$,$$,sleep,dot,frameHTML,miniFrame,confetti,setOK,setPrompt,onNext,start,actState,readTicks};
