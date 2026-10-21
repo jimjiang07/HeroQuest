@@ -1,5 +1,5 @@
 import {test,expect} from '@playwright/test';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 
 /* Smoke tests: every activity can be played from start to finish and every planned print day renders.
    Wrong taps never block progress, so these tests only tap the right answers. */
@@ -11,6 +11,7 @@ test('home map opens one day at a time, maths and English together', async ({pag
   await expect(page.locator('.stone')).toHaveCount(27);
   await expect(page.locator('.daycard button.tile[data-id="jt10"]')).toBeVisible();
   await expect(page.locator('.daycard button.tile[data-id="blend"]')).toBeVisible();
+  await expect(page.locator('.daycard a.wsheet')).toHaveAttribute('href','worksheets/2-wed.pdf');
   await page.click('.stone[data-key="2-thu"]');                                  // locked: shakes, card stays put
   await expect(page.locator('.daycard button.tile[data-id="jt10"]')).toBeVisible();
 });
@@ -98,6 +99,9 @@ test('Blend Bridge plays to the end', async ({page})=>{
 });
 
 const plan=JSON.parse(readFileSync('data/plan.json','utf8'));
+test('every planned day has its worksheet PDF (run npm run pdfs after changing units)', ()=>{
+  for(const [wk,days] of Object.entries(plan.weeks)) for(const d of Object.keys(days)) expect(existsSync(`worksheets/${wk}-${d}.pdf`),`worksheets/${wk}-${d}.pdf`).toBe(true);
+});
 for(const [wk,days] of Object.entries(plan.weeks)) for(const [d,subjects] of Object.entries(days)){
   test(`print page renders week ${wk} ${d}`, async ({page})=>{
     const errors=[]; page.on('pageerror',e=>errors.push(String(e)));

@@ -212,7 +212,7 @@ function renderHub(){
   const reach=(i=>i<0?PATH.length:i)(PATH.findIndex(s=>!stepDone(s))),doneN=PATH.filter(stepDone).length,won=PATH.length>0&&doneN===PATH.length;
   const isOpen=i=>!PATH[i].soon&&(i<=reach||saved.unlockAll);
   if(picked===null||picked>=PATH.length||!isOpen(picked))picked=Math.min(reach,PATH.length-1);
-  const mapW=Math.min(560,stage.clientWidth||560),room=PATH[picked]&&!PATH[picked].soon?Math.max(0,330*MW/mapW-GAP+90):0;
+  const mapW=Math.min(560,stage.clientWidth||560),room=PATH[picked]&&!PATH[picked].soon?Math.max(0,410*MW/mapW-GAP+90):0;
   const {H,pts}=mapLayout(picked,room),pc=(v,of)=>(v/of*100).toFixed(3)+'%';
   let g='',banners='';
   // land bands with scenery and a name banner
@@ -243,7 +243,8 @@ function renderHub(){
   // only the chosen stone shows its activities
   const P=PATH[picked],cp=pts[picked];
   const card=P&&!P.soon?`<div class="daycard" style="top:${pc(cp.y+48,H)}"><div class="dh">${P.final?'Grand boss! ':P.boss?'Boss day! ':''}${DAYNAME[P.d]} · Week ${P.wk}</div>
-    <div class="dpair">${dayTile(P.maths,'maths')}${dayTile(P.english,'english')}</div></div>`:'';
+    <div class="dpair">${dayTile(P.maths,'maths')}${dayTile(P.english,'english')}</div>
+    <a class="btn alt wsheet" href="worksheets/${P.wk}-${P.d}.pdf" target="_blank" rel="noopener">🖨 Worksheet</a></div>`:'';
   const kFrom=shownReach!==null&&shownReach<reach&&shownReach<PATH.length?shownReach:Math.min(reach,PATH.length-1);
   const kp=won?{x:200,y:H-60}:pts[kFrom];
   stage.innerHTML=`<div class="qmap" style="aspect-ratio:${MW}/${H}">

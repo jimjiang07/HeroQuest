@@ -43,6 +43,8 @@ data/
   units/<id>.json         content for one unit: "app" (null if there is no interactive version yet) and "print" (sheet content)
 print/
   index.html, print.js, print.css    draws the sheets for a day from plan.json + units. Open print/index.html#2-wed
+worksheets/               one PDF per planned day (npm run pdfs), linked from the app's day card
+scripts/make-pdfs.mjs     writes those PDFs from the print page
 tests/smoke.spec.js       Playwright: each activity can be played to the end, each planned print day renders without overflow
 legacy/                   older standalone worksheets; port into units when needed (see legacy/README.md)
 ```
@@ -56,7 +58,8 @@ Files are served as-is by GitHub Pages (branch `main`, root).
    Existing `print.kind` values: `math-add`, `math-mul`, `eng-blend`. Copy the closest unit and change the content.
 2. Add it to `data/plan.json` under `weeks → <week number> → <mon|tue|wed|thu|fri> → { "maths": "<unit-id>", "english": "<unit-id>" }`.
 3. Open `print/index.html#<week>-<day>`, check both pages (maths front, English back) and print one to be sure.
-4. `npm test`. The test generates a check per planned day: no text may overflow a card or section.
+4. `npm run pdfs` to (re)write `worksheets/<week>-<day>.pdf`: the app's day card links to it for download and printing.
+5. `npm test`. The test generates a check per planned day: no text may overflow a card or section, and the PDF must exist.
 
 If the content needs a new kind of page (for example subtraction or digraphs), add a builder in `print/print.js` and register it in `KINDS`.
 `legacy/math-subtraction-back-through-10.html` and `legacy/math-times-tables.html` already contain picture code and content to reuse.

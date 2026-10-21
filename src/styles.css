@@ -123,6 +123,7 @@ main.hub{justify-content:flex-start;align-items:stretch}
 .dtile .nm{font-size:clamp(18px,calc(3*var(--v)),24px)}
 .dst{font-size:17px;font-weight:700;border-radius:14px;padding:3px 14px;background:var(--gold);color:#1d2140}
 .dtile.done .dst{background:var(--ok);color:#fff}
+.wsheet{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:14px;text-decoration:none;min-height:56px;font-size:clamp(18px,calc(3*var(--v)),24px)}
 @keyframes pbob{0%,100%{translate:0 0}50%{translate:0 -6px}}
 
 /* ten frame */
