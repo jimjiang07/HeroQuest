@@ -34,11 +34,15 @@ const sfx={
 /* ============ voice ============ */
 const synth=window.speechSynthesis||null;
 let voices=[];
+// best first: downloaded Premium/Enhanced (or browser neural) voices, then Australian, then other British-style English
+const NOVELTY=/^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Fred|Junior|Ralph|Kathy|Princess|Deranged|Hysterical|Pipe Organ)\b/i;
+const vRank=v=>(/premium/i.test(v.name)?6:/enhanced|neural|natural|online/i.test(v.name)?4:/siri/i.test(v.name)?3:0)+(v.lang==='en-AU'?2:/en-(GB|NZ|IE)/.test(v.lang)?1:0);
 function loadVoices(){
-  if(!synth)return;voices=synth.getVoices().filter(v=>/^en/i.test(v.lang));
+  if(!synth)return;
+  voices=synth.getVoices().filter(v=>/^en/i.test(v.lang)&&!NOVELTY.test(v.name)).sort((a,b)=>vRank(b)-vRank(a));
   const sel=document.getElementById('vSel');
-  sel.innerHTML=voices.map(v=>`<option value="${v.name}">${v.name} (${v.lang})</option>`).join('')||'<option>Default</option>';
-  const pick=voices.find(v=>v.name===cfg.voiceName)||voices.find(v=>v.lang==='en-AU')||voices.find(v=>v.lang==='en-GB')||voices[0];
+  sel.innerHTML=voices.map(v=>`<option value="${v.name}">${vRank(v)>=4?'⭐ ':''}${v.name} (${v.lang})</option>`).join('')||'<option>Default</option>';
+  const pick=voices.find(v=>v.name===cfg.voiceName)||voices[0];
   if(pick)sel.value=pick.name;
 }
 if(synth){loadVoices();synth.onvoiceschanged=loadVoices}
@@ -48,7 +52,7 @@ function say(text,done){
   try{
     synth.cancel();const u=new SpeechSynthesisUtterance(text);
     const v=voiceNow();if(v){u.voice=v;u.lang=v.lang}else u.lang='en-AU';
-    u.rate=cfg.rate;u.pitch=1.08;if(done)u.onend=done;synth.speak(u);
+    u.rate=cfg.rate;u.pitch=1;if(done)u.onend=done;synth.speak(u);
   }catch(e){}
 }
 
