@@ -1,0 +1,203 @@
+{
+ "app": {
+  "id": "heart",
+  "module": "heart",
+  "title": "Heart Words",
+  "intro": {
+   "title": "Learn it: heart words!",
+   "say": "Some words have a tricky part. We learn that part by heart. Look for the heart! Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "meet"
+   ],
+   "game": [
+    "memory",
+    "pop"
+   ],
+   "help": 5,
+   "own": 8,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "the",
+      "said",
+      "was",
+      "you",
+      "they"
+     ]
+    },
+    {
+     "words": [
+      "the",
+      "said",
+      "was",
+      "you",
+      "they",
+      "to",
+      "of",
+      "my",
+      "she",
+      "he"
+     ]
+    }
+   ]
+  },
+  "words": [
+   {
+    "w": "the",
+    "heart": "e",
+    "sent": "The cat sat on the mat.",
+    "alike": [
+     "then",
+     "this"
+    ]
+   },
+   {
+    "w": "said",
+    "heart": "ai",
+    "sent": "Sam said hi to Kim.",
+    "alike": [
+     "sad",
+     "sand"
+    ]
+   },
+   {
+    "w": "was",
+    "heart": "a",
+    "sent": "It was a big red bus.",
+    "alike": [
+     "saw",
+     "has"
+    ]
+   },
+   {
+    "w": "you",
+    "heart": "ou",
+    "sent": "I can see you.",
+    "alike": [
+     "your",
+     "yes"
+    ]
+   },
+   {
+    "w": "they",
+    "heart": "ey",
+    "sent": "They can run fast.",
+    "alike": [
+     "then",
+     "the"
+    ]
+   },
+   {
+    "w": "to",
+    "heart": "o",
+    "sent": "Mia ran to the shop.",
+    "alike": [
+     "do",
+     "go"
+    ]
+   },
+   {
+    "w": "of",
+    "heart": "f",
+    "sent": "I had a cup of milk.",
+    "alike": [
+     "off",
+     "if"
+    ]
+   },
+   {
+    "w": "my",
+    "heart": "y",
+    "sent": "This is my hat.",
+    "alike": [
+     "me",
+     "by"
+    ]
+   },
+   {
+    "w": "she",
+    "heart": "e",
+    "sent": "She can fix the van.",
+    "alike": [
+     "he",
+     "shed"
+    ]
+   },
+   {
+    "w": "he",
+    "heart": "e",
+    "sent": "He can bake a cake.",
+    "alike": [
+     "hen",
+     "she"
+    ]
+   }
+  ],
+  "memory": {
+   "words": [
+    "the",
+    "said",
+    "was",
+    "you",
+    "they",
+    "she"
+   ]
+  },
+  "pop": {
+   "words": [
+    "said",
+    "was",
+    "they",
+    "you",
+    "to",
+    "my"
+   ]
+  }
+ },
+ "print": {
+  "kind": "eng-heart",
+  "cls": "q5",
+  "title": "Heart Words",
+  "words": [
+   "the",
+   "said",
+   "was",
+   "you",
+   "they",
+   "she"
+  ],
+  "hearts": {
+   "the": "e",
+   "said": "ai",
+   "was": "a",
+   "you": "ou",
+   "they": "ey",
+   "to": "o",
+   "of": "f",
+   "my": "y",
+   "she": "e",
+   "he": "e"
+  },
+  "sentences": [
+   [
+    "said",
+    "Sam said hi to Kim."
+   ],
+   [
+    "they",
+    "They can run fast."
+   ],
+   [
+    "was",
+    "It was a big red bus."
+   ]
+  ],
+  "explain": "Write a sentence with the word they."
+ }
+}

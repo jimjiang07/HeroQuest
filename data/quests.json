@@ -1,0 +1,11 @@
+{
+  "note": "One quest per skill, in the order they appear on the quest picker. id comes from the unit's app.id (the progress key: never rename). needs: quests whose boss must be beaten first.",
+  "quests": [
+    {"unit": "jump-through-10", "subject": "maths", "art": "➕", "boss": {"name": "the Crystal Dragon", "emoji": "🐉"}, "needs": []},
+    {"unit": "groups-power-2", "subject": "maths", "art": "👜", "boss": {"name": "the Bag Goblin", "emoji": "👺"}, "needs": []},
+    {"unit": "arrays", "subject": "maths", "art": "🔴", "boss": {"name": "the Grid Robot", "emoji": "🤖"}, "needs": ["groups"]},
+    {"unit": "blend-bridge", "subject": "english", "art": "🌉", "boss": {"name": "the Bridge Troll", "emoji": "🧌"}, "needs": []},
+    {"unit": "sh-ch-th", "subject": "english", "art": "🚢", "boss": {"name": "the Cave Bat", "emoji": "🦇"}, "needs": ["blend"]},
+    {"unit": "heart-words", "subject": "english", "art": "💖", "boss": {"name": "the Word Owl", "emoji": "🦉"}, "needs": []}
+  ]
+}

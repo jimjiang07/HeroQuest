@@ -1,15 +1,35 @@
 {
   "name": "hero-quest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Interactive iPad activities and printable worksheets for daily maths and English practice.",
+  "description": "Daily maths and English quests for young children (phone, tablet, laptop) with printable worksheets.",
   "scripts": {
-    "start": "npx http-server -p 4173 -c-1",
-    "test": "playwright test",
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "vue-tsc -b",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test": "vitest run && playwright test",
     "pdfs": "node scripts/make-pdfs.mjs"
   },
+  "dependencies": {
+    "@fontsource/andika": "^5.3.0",
+    "@fontsource/fredoka": "^5.3.0",
+    "@fontsource/luckiest-guy": "^5.3.0",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.44",
+    "vue-router": "^4.6.4"
+  },
   "devDependencies": {
-    "@playwright/test": "^1.48.0"
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^22.20.5",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/tsconfig": "^0.9.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
+    "vue-tsc": "^3.3.13"
   }
 }

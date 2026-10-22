@@ -277,3 +277,50 @@ h1{font-family:var(--disp);font-weight:400;font-size:11.5mm;margin:.6mm 0 0;line
 .printbar .missing{color:#d6402b;font-weight:600}
 @media print{.printbar{display:none}}
 .qi .vis svg{max-height:12mm}
+
+/* ============ paper quest sheet (one A4 page per quest) ============ */
+.page{gap:5mm}
+.qbadge b{font-family:var(--body);font-size:7mm;font-weight:700;margin:.2mm 0}
+.qbadge small{font-size:2.6mm;text-transform:uppercase;letter-spacing:.2mm}
+.heroname .dt{width:32mm}
+.page.has-x .train.dense .gv{height:13mm;margin-top:2.2mm}
+.page.has-x .train.dense .pic{height:11mm}
+.page.has-x .train.dense .pic .emo{font-size:9mm}
+
+/* handwriting lines: top line, dashed middle, baseline (NSW Foundation style); grey words are for tracing */
+.hw{position:relative;height:15mm;flex:1;min-width:0;display:flex;overflow:hidden}
+.hw i{position:absolute;left:0;right:0;height:0}
+.hw .l1{top:2mm;border-top:.35mm solid #8a8fb0}
+.hw .l2{top:6.5mm;border-top:.35mm dashed #a9adc4}
+.hw .l3{top:11mm;border-top:.5mm solid var(--ink)}
+/* line-height puts the baseline on .l3 (11mm down) for Andika */
+.hw .tr{position:relative;display:block;height:15mm;margin-left:3mm;margin-right:8mm;font-family:var(--read);font-size:12mm;line-height:13.4mm;color:#b8bccc;letter-spacing:.6mm;white-space:nowrap;overflow:hidden}
+.sec.xpl{flex:none;padding-top:7mm}
+.xq{font-family:var(--read);font-weight:700;font-size:5mm;margin-bottom:1mm}
+
+.sec.hearts{flex:1;min-height:0;display:flex;flex-direction:column}
+.hrows{flex:1;display:flex;flex-direction:column;justify-content:space-around}
+.hrow{display:flex;align-items:center;gap:4mm}
+.hword{flex:none;width:34mm;font-family:var(--read);font-weight:700;font-size:8.6mm;text-align:center;border:2px solid var(--ink);border-radius:3mm;padding:1mm 0;background:var(--c-soft)}
+.hpart{position:relative;color:var(--c);text-decoration:underline;text-decoration-thickness:.5mm;text-underline-offset:1mm}
+.hpart i{position:absolute;left:50%;top:-3.6mm;transform:translateX(-50%);font-style:normal;font-size:4mm;color:var(--c)}
+.sec.copy{flex:none;display:flex;flex-direction:column;gap:1mm}
+.cs .cst{font-family:var(--read);font-weight:700;font-size:6.4mm}
+
+.ft{flex:none;display:flex;align-items:center;gap:4mm;border-top:2px dashed #b9bdd3;padding-top:2.5mm;font-size:3.8mm;line-height:1.35}
+.tickbox{flex:none;width:8mm;height:8mm;border:2.5px solid var(--ink);border-radius:1.6mm}
+.ftx{flex:1}
+.sticker{flex:none;width:17mm;height:17mm;border-radius:50%;border:2.5px dashed var(--c);display:flex;align-items:center;justify-content:center;text-align:center;font-size:3mm;font-weight:700;color:var(--c);line-height:1.1}
+.page.none{display:flex;align-items:center;justify-content:center}
+.nosheet{font-size:6mm;text-align:center;line-height:1.5;color:#6b7090}
+.nosheet b{color:var(--ink)}
+
+.page.has-x .train.dense .wd{--tw:6.8mm;padding-bottom:5.4mm}
+.page.has-x .train.dense{gap:1.8mm}
+.page.has-x .train.dense .card{gap:.6mm}
+.page.has-x .sec.hearts .hw{height:13.6mm}
+.page.has-x .sec.hearts .hw .tr{height:13.6mm;font-size:11mm;line-height:12.4mm}
+.page.has-x .sec.hearts .hw .l1{top:1.6mm}.page.has-x .sec.hearts .hw .l2{top:5.8mm}.page.has-x .sec.hearts .hw .l3{top:10mm}
+.page.has-x .hword{font-size:7.4mm;width:30mm}
+.page.has-x .train.dense .pic{height:9.6mm}
+.page.has-x .train.dense .pic .emo{font-size:8.4mm}

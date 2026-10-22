@@ -1,0 +1,198 @@
+{
+ "app": {
+  "id": "arrays",
+  "module": "groups",
+  "title": "Arrays",
+  "picture": "array",
+  "intro": {
+   "title": "Learn it: arrays!",
+   "say": "Let’s learn about arrays. An array is rows that are all the same. Let’s build one! Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "build",
+    "same"
+   ],
+   "game": [
+    "memory"
+   ],
+   "help": 5,
+   "own": 8,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "arrays",
+   "levels": [
+    {
+     "r": [
+      2,
+      3
+     ],
+     "c": [
+      2,
+      4
+     ]
+    },
+    {
+     "r": [
+      2,
+      4
+     ],
+     "c": [
+      2,
+      5
+     ]
+    },
+    {
+     "r": [
+      2,
+      5
+     ],
+     "c": [
+      3,
+      6
+     ]
+    }
+   ]
+  },
+  "build": {
+   "rounds": [
+    [
+     3,
+     4
+    ],
+    [
+     2,
+     5
+    ]
+   ]
+  },
+  "same": {
+   "questions": [
+    [
+     2,
+     5
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     2,
+     4
+    ]
+   ]
+  },
+  "memory": {
+   "facts": [
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     2,
+     4
+    ]
+   ]
+  }
+ },
+ "print": {
+  "kind": "math-arr",
+  "cls": "q1",
+  "title": "Arrays",
+  "practice": [
+   [
+    2,
+    3,
+    "B"
+   ],
+   [
+    3,
+    4,
+    "B"
+   ],
+   [
+    2,
+    5,
+    "B"
+   ],
+   [
+    3,
+    3,
+    "C"
+   ],
+   [
+    4,
+    2,
+    "C"
+   ],
+   [
+    2,
+    4,
+    "C"
+   ],
+   [
+    3,
+    5,
+    "C"
+   ],
+   [
+    4,
+    3,
+    "D"
+   ],
+   [
+    2,
+    6,
+    "D"
+   ],
+   [
+    5,
+    2,
+    "D"
+   ],
+   [
+    3,
+    6,
+    "D"
+   ],
+   [
+    4,
+    4,
+    "D"
+   ],
+   [
+    2,
+    7,
+    "D"
+   ],
+   [
+    5,
+    3,
+    "D"
+   ],
+   [
+    4,
+    5,
+    "D"
+   ]
+  ],
+  "explain": "How do you know 3 rows of 4 is the same as 4 rows of 3?"
+ }
+}

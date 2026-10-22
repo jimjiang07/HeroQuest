@@ -1,0 +1,226 @@
+{
+ "app": {
+  "id": "digraph",
+  "module": "blend",
+  "title": "sh ch th Cave",
+  "intro": {
+   "title": "Learn it: sh, ch, th!",
+   "say": "Some letters are a team. Two letters, one sound. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "trick",
+    "blends"
+   ],
+   "game": [
+    "build",
+    "bridge"
+   ],
+   "help": 5,
+   "own": 8,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "ship",
+      "shell",
+      "fish",
+      "chip",
+      "chick",
+      "bath"
+     ]
+    },
+    {
+     "words": [
+      "ship",
+      "shell",
+      "fish",
+      "dish",
+      "chip",
+      "chick",
+      "cheese",
+      "bath",
+      "thumb",
+      "teeth"
+     ]
+    }
+   ]
+  },
+  "sounds": {
+   "sh": "sh, as in ship",
+   "ch": "ch, as in chip",
+   "th": "th, as in bath"
+  },
+  "trick": {
+   "blend": [
+    "s",
+    "h"
+   ],
+   "rest": [
+    "i",
+    "p"
+   ],
+   "word": "ship",
+   "digraph": true,
+   "sound": "sh"
+  },
+  "blends": {
+   "families": [
+    [
+     "sh",
+     [
+      "ship",
+      "shell",
+      "fish"
+     ]
+    ],
+    [
+     "ch",
+     [
+      "chip",
+      "chick",
+      "cheese"
+     ]
+    ],
+    [
+     "th",
+     [
+      "thumb",
+      "bath",
+      "teeth"
+     ]
+    ]
+   ]
+  },
+  "build": {
+   "words": [
+    "ship",
+    "chip",
+    "fish",
+    "bath",
+    "dish"
+   ]
+  },
+  "bridge": {
+   "questions": [
+    [
+     "sh",
+     "ship",
+     "chip"
+    ],
+    [
+     "ch",
+     "chick",
+     "shell"
+    ],
+    [
+     "th",
+     "thumb",
+     "fish"
+    ],
+    [
+     "sh",
+     "fish",
+     "bath"
+    ],
+    [
+     "th",
+     "bath",
+     "dish"
+    ],
+    [
+     "ch",
+     "cheese",
+     "teeth"
+    ]
+   ]
+  }
+ },
+ "print": {
+  "kind": "eng-blend",
+  "cls": "q5",
+  "title": "sh ch th Cave",
+  "bracket": "1 sound",
+  "explain": "Write a sentence with a sh, ch or th word.",
+  "practice": [
+   [
+    "ship",
+    0,
+    "B"
+   ],
+   [
+    "chip",
+    0,
+    "B"
+   ],
+   [
+    "fish",
+    2,
+    "B"
+   ],
+   [
+    "dish",
+    2,
+    "C"
+   ],
+   [
+    "chick",
+    0,
+    "C"
+   ],
+   [
+    "bath",
+    2,
+    "C"
+   ],
+   [
+    "thumb",
+    0,
+    "C"
+   ],
+   [
+    "shell",
+    0,
+    "D"
+   ],
+   [
+    "dish",
+    2,
+    "D"
+   ],
+   [
+    "cheese",
+    -1,
+    "D"
+   ],
+   [
+    "teeth",
+    -1,
+    "D"
+   ],
+   [
+    "ship",
+    -1,
+    "D"
+   ],
+   [
+    "fish",
+    -1,
+    "D"
+   ],
+   [
+    "chip",
+    -1,
+    "D"
+   ],
+   [
+    "bath",
+    -1,
+    "D"
+   ]
+  ]
+ }
+}

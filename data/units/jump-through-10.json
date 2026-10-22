@@ -1,19 +1,60 @@
 {
- "id": "jump-through-10",
  "app": {
   "id": "jt10",
   "module": "add10",
   "title": "Jump Through 10",
-  "tag": "Read & Say + 2 games",
-  "art": "frame:9,6",
   "intro": {
-   "title": "Let’s jump through 10!",
-   "say": "Hi! Let’s jump through ten. Tap Start."
+   "title": "Learn it: jump through 10!",
+   "say": "Let’s learn to jump through ten. Fill the ten first, then add the rest. Tap Start."
   },
-  "end": {
-   "title": "You jumped through 10!",
-   "sub": "Now do the maths practice page with a pencil. ✏️",
-   "say": "Great job! You jumped through ten! Now do the practice page with a pencil."
+  "quest": {
+   "learn": [
+    "fill",
+    "trick",
+    "read"
+   ],
+   "game": [
+    "memory",
+    "balloon"
+   ],
+   "help": 5,
+   "own": 8,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "add10",
+   "levels": [
+    {
+     "a": [
+      7,
+      9
+     ],
+     "b": [
+      3,
+      6
+     ]
+    },
+    {
+     "a": [
+      6,
+      9
+     ],
+     "b": [
+      4,
+      8
+     ]
+    },
+    {
+     "a": [
+      5,
+      9
+     ],
+     "b": [
+      5,
+      9
+     ]
+    }
+   ]
   },
   "fill": {
    "rounds": [
@@ -51,62 +92,6 @@
     [
      6,
      7
-    ]
-   ]
-  },
-  "easy": {
-   "questions": [
-    [
-     "3 + 9",
-     "9 + 3",
-     1,
-     9,
-     3
-    ],
-    [
-     "8 + 4",
-     "4 + 8",
-     0,
-     8,
-     4
-    ],
-    [
-     "2 + 7",
-     "7 + 2",
-     1,
-     7,
-     2
-    ]
-   ]
-  },
-  "make": {
-   "questions": [
-    [
-     7,
-     [
-      2,
-      3,
-      4
-     ],
-     3
-    ],
-    [
-     4,
-     [
-      5,
-      6,
-      7
-     ],
-     6
-    ],
-    [
-     9,
-     [
-      1,
-      2,
-      3
-     ],
-     1
     ]
    ]
   },
