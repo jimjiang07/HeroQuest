@@ -50,7 +50,32 @@ unlock new outfits, headgear and gear.
   sharp-looking pointed at the viewer. No blood, no injuries, ever.
 - The six starter heroes are `hero-knight`, `hero-ranger`, `hero-wizard`, `hero-explorer`, `hero-astronaut` and
   `hero-builder` (`src/heroes.ts`). Old saves with animal heroes are renamed in `migrate()` (`src/learn/learner.ts`).
-- In the app: `<HeroAvatar :avatar full/>` shows the whole hero; without `full` it is a head-and-shoulders badge.
+- In the app: `<HeroAvatar :avatar full/>` shows the whole hero; without `full` it is a head-and-shoulders badge. Pass
+  `:kit="profile.kit"` wherever the playing hero is shown: a kit draws the hero from the rig at runtime instead of
+  `hero-<id>.svg`.
+- **The rig lives in `src/art/rig.js`** (plain JS, typed by `rig.d.ts`), shared by `scripts/make-art.mjs` and the app:
+  `SKIN`, `HAIR`, `HAIRS`, `OUTFITS`, `HEADS`, `MAIN`, `OFF`, `BACK`, `heroBody`, the starter `HEROES`/`STARTER` kits,
+  `GEAR` (every wearable piece: slot, spoken name, picture, crop), `dress(avatar, kit)` and `heroSvg(kit)`.
+
+## Gear and the wardrobe
+
+Each boss gives **one piece when first beaten** and **a second when its rematch is won** (the skill is secure).
+`data/quests.json` names them in `reward: [first, rematch]`; `gearWon()` in `src/learn/learner.ts` works out what a hero
+has. In the Wardrobe (`/wardrobe`, the hanger button on the quest picker) the child chooses, per slot, from nothing, their
+starter hero's own piece and every boss piece they have won; pieces not won yet show the boss who gives them. The choice is
+saved in the profile's `kit` (a slot left out = the starter's piece, `null` = nothing; outfits can't be taken off).
+
+| Boss | First win | Rematch win |
+|---|---|---|
+| Crystal Dragon (jt10) | `crystal-crown` (head) | `dragon-wings` (back) |
+| Bag Goblin (groups) | `coin-shield` (off hand) | `treasure-pack` (back) |
+| Grid Robot (arrays) | `robot-helmet` (head) | `spanner` (main hand) |
+| Bridge Troll (blend) | `mossy-club` (main hand) | `river-cape` (back) |
+| Cave Bat (digraph) | `bat-hood` (head) | `glow-lantern` (off hand) |
+| Word Owl (heart) | `quill` (main hand) | `owl-cloak` (outfit) |
+
+Every piece also has a picture on its own (`gear-<id>.svg`, `outfit-<id>.svg`), cropped by `GEAR[id].vb`. The contact
+sheet shows the boss gear on every base hero, to check it sits on each hair style.
 
 ## Bosses: cheeky and a bit fierce, not cute
 
@@ -96,7 +121,8 @@ Each quest has its own map: a scene that belongs to its boss and a road with its
 ## Adding art
 
 1. Draw it in `scripts/make-art.mjs` with the shared helpers (`eye`, `cheek`, `smile`, `tube`, `sparkle`, `star`,
-   `both`, `lidEye`). New hero gear goes in `HEADS`, `MAIN`, `OFF`, `BACK` or `OUTFITS` at the rig's anchor points.
+   `both`, `lidEye`). New hero gear goes in `HEADS`, `MAIN`, `OFF`, `BACK` or `OUTFITS` in `src/art/rig.js`, at the rig's
+   anchor points, with a `GEAR` entry (slot, name, picture, crop) so the wardrobe and the contact sheet pick it up.
 2. `npm run art`, then open `docs/art-kit.html` and check it sits well next to the rest.
 3. Check it at phone size in the app: small art must still read at 48px.
 4. Update `docs/art-kit.png` when the kit changes (screenshot the contact sheet).

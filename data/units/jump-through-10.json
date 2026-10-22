@@ -15,10 +15,11 @@
    ],
    "game": [
     "memory",
-    "balloon"
+    "frog"
    ],
    "help": 5,
    "own": 8,
+   "challenge": 6,
    "boss": 5
   },
   "practice": {
@@ -84,14 +85,6 @@
     [
      8,
      7
-    ],
-    [
-     9,
-     8
-    ],
-    [
-     6,
-     7
     ]
    ]
   },
@@ -109,15 +102,15 @@
     5
    ]
   },
-  "balloon": {
+  "frog": {
    "rounds": [
-    [
-     9,
-     4
-    ],
     [
      8,
      5
+    ],
+    [
+     9,
+     4
     ],
     [
      7,
@@ -125,18 +118,24 @@
     ],
     [
      9,
-     6
-    ],
-    [
-     8,
      7
     ],
     [
-     9,
+     6,
      8
     ]
    ]
-  }
+  },
+  "stories": [
+   "Sam has {a} shells. Sam finds {b} more. How many shells now?",
+   "Ava picks {a} apples. Then Ava picks {b} more. How many apples now?",
+   "Leo has {a} stickers. Mia gives Leo {b} more. How many stickers now?",
+   "{a} koalas sit in a tree. {b} more climb up. How many koalas now?",
+   "Kai has {a} pebbles. Zoe adds {b} more. How many pebbles now?",
+   "Ruby sees {a} kookaburras. {b} more fly in. How many kookaburras now?",
+   "Noah has {a} gumnuts. Ivy finds {b} more. How many gumnuts now?",
+   "Ben bakes {a} lamingtons. Then Ben bakes {b} more. How many lamingtons now?"
+  ]
  },
  "print": {
   "kind": "math-add",

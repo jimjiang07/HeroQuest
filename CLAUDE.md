@@ -4,9 +4,10 @@ Maths and English quests for young children (Kindergarten to Year 2, NSW curricu
 phones, tablets and laptops. Two parts share one set of content files:
 
 1. **The app** (`index.html` + `src/`, Vue 3 + Vite + TypeScript): one quest per skill, each with 5 steps and a boss
-   (Learn it → With help → On your own → Game → Paper quest → Boss). Help fades or comes back as the child answers.
-   Several children can share a device (heroes, no names).
-2. **Printable worksheets** (`print/`): one A4 sheet per quest, the "Paper quest". Writing stays on paper on purpose.
+   (Learn it → With help → On your own → Game → Challenge → Boss). Help fades or comes back as the child answers.
+   Several children can share a device (heroes, no names). Beating a boss wins gear for the hero's wardrobe.
+2. **Printable worksheets** (`print/`): one A4 sheet per quest, an optional download from the quest map (not a step),
+   done together with a grown-up. Writing stays on paper on purpose.
 
 This repo is **public** (GitHub Pages). Never put names, schools, addresses, photos or anything personal in code, data or docs.
 
@@ -21,10 +22,21 @@ This repo is **public** (GitHub Pages). Never put names, schools, addresses, pho
   (for example a bracket labelled "18" and a gold "+6" bag) so he only writes the final answer.
 - **Show a worked example first, then fade the help.** On a practice page the order is: labelled picture → picture only → no picture.
   Cards 1-3 carry the most help. Use the striped background for the helped cards.
-- **Learning in the app = read, say, tick, tap.** Writing = the paper quest. Do not move writing into the app.
-- **Every activity has 1-2 games** after the learning screens (memory, balloon pop, word builder, bridge crossing).
+- **The child plays alone.** Nothing in the app needs a grown-up watching: no "say it out loud", no ticking a card,
+  no "I explained it" buttons, no grown-up press-and-hold to finish a step. Every step checks a real answer. The worksheet
+  is the together time.
+- **Listen first.** Answers stay hidden ("Listen…") and Next stays off until the voice has finished reading
+  (`run.listening`, `talking`). English options never show before the word has been heard.
+- **Answers can't be guessed.** Maths answers are typed on the number pad, never picked from options. English words are
+  picked after listening, or built from letter tiles.
+- **Learning in the app = hear, tap, type a number, build a word.** Writing = the worksheet. Do not move writing into the app.
+- **Every activity has 1-2 games** after the learning screens, chosen to suit the skill (frog jump on a number line,
+  fill the bags, array hunt, sound sort, sentence builder, bridge crossing, memory, balloon pop).
 - **No loot-drop section** and no repeating the boss question in a different costume.
-- **Boss battles are said out loud first**, written second. The bonus star is "Explain one": reward explaining, not speed.
+- **Boss battles**: the voice reads each question, then the child answers on their own (no pictures). The bonus star is one
+  tricky question (missing number, spelling, a sentence gap): reward thinking, not speed.
+- **Boss gear**: each boss gives one gear piece when first beaten and a second when its rematch is won (`reward` in
+  `data/quests.json`). Gear must fit the hero rig (`src/art/rig.js`).
 - Keep a step short and finishable (5–10 minutes). Screen time under 10 minutes a day.
 - **Doodle art, never emoji.** Every hero, boss, quest picture and button icon is a doodle SVG: thick wobbly navy
   outline (`#2b2d42`), flat soft colours from the palette, simple shapes. Rules, palette and how to add art:
@@ -54,10 +66,11 @@ Vue 3 + Vite + TypeScript, Pinia, Vue Router (hash). No CDN scripts; fonts are s
    then `npm run art`.
 1. Create `data/units/<unit>.json` with an `"app"` block (`id` = progress key, never rename; `module`; `title`; `intro`;
    `quest {learn, game, help, own, boss}`; `practice {gen, levels}`; plus the module's own content) and a `"print"` block
-   (kinds: `math-add`, `math-mul`, `math-arr`, `eng-blend`, `eng-heart`). Copy the closest unit.
-2. Add it to `data/quests.json` (`unit`, `subject`, `art`, `boss {name, art}`, `map {scene, path}`, `needs`); `art` names are
+   (kinds: `math-add`, `math-mul`, `math-arr`, `eng-blend`, `eng-heart`). Copy the closest unit. The module's
+   `challenge()` makes step 5 (maths story problems from the unit's `stories`, english spelling).
+2. Add it to `data/quests.json` (`unit`, `subject`, `art`, `boss {name, art}`, `reward`, `map {scene, path}`, `needs`); `art` names are
    files in `public/art/`, and `path` gives this quest's own winding road (six stones, Learn it first).
-3. `npm run dev`, play every step at phone and tablet size; open `print/index.html#<quest id>` and check the sheet.
+3. `npm run dev`, play every step at phone and tablet size; open `print/index.html#<quest id>` and check the optional sheet.
 4. `npm run voice` to record the quest's new lines (needs `uv`; commit `public/voice/`), `npm run pdfs` to write
    `public/worksheets/quests/<id>.pdf`, then `npm test`.
 

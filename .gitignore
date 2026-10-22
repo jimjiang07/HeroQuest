@@ -5,3 +5,4 @@ playwright-report/
 dist/
 node_modules/.tmp/
 .vitest/
+dist-*/

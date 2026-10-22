@@ -230,7 +230,7 @@ main.screen{flex:1;min-height:0;display:flex;flex-direction:column;align-items:c
 .arr .dot{width:var(--ad);height:var(--ad)}
 .mem.m6{grid-template-columns:repeat(6,minmax(0,1fr))}
 @media (max-width:560px){.mem.m6{grid-template-columns:repeat(4,minmax(0,1fr))}}
-img.boss{width:clamp(110px,calc(24*var(--v)),200px);height:auto;transition:transform .4s,filter .4s}
+img.boss{width:clamp(80px,min(calc(24*var(--v)),16vh),200px);height:auto;transition:transform .4s,filter .4s}
 img.boss.hit{animation:shake .4s}
 img.boss.down{transform:rotate(-12deg) scale(.85);filter:grayscale(.8)}
 .bonus{display:flex;flex-direction:column;align-items:center;gap:14px;border:4px solid var(--gold);border-radius:24px;background:var(--card);padding:16px clamp(12px,calc(3*var(--v)),24px);transition:background .25s}
@@ -248,9 +248,9 @@ img.boss.down{transform:rotate(-12deg) scale(.85);filter:grayscale(.8)}
 /* memory grids: cap the width so every row fits above the footer (cards keep their shape) */
 .mem{max-width:min(900px,calc((100vh - 300px)*1.8))}
 .mem.m6{max-width:min(900px,calc((100vh - 300px)*2.2))}
-@media (max-width:560px){.mem.m6{max-width:min(100%,calc(100vh - 300px))}}
+@media (max-width:560px){.mem{max-width:min(100%,calc(100dvh - 330px))}.mem.m6{max-width:min(100%,calc(100vh - 300px))}}
 
-/* ============ screens: heroes, quests, quest map, paper ============ */
+/* ============ screens: heroes, quests, quest map ============ */
 .av{display:inline-grid;place-items:center;width:var(--avs);height:var(--avs);border-radius:50%;border:4px solid var(--ink);background:var(--avbg);flex:none;vertical-align:middle}
 .av{overflow:hidden}
 .av img{width:100%;height:100%;transform:translateY(24%) scale(1.7)}
@@ -340,16 +340,47 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .stone2.lock .sl{color:var(--muted);border-color:var(--muted)}
 @keyframes glow{0%,100%{box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 35%,transparent)}50%{box-shadow:0 0 0 14px color-mix(in srgb,var(--c) 15%,transparent)}}
 .bigicon .ic{width:clamp(80px,15vh,130px);height:auto}
+/* the optional worksheet: a quiet corner button, for grown-ups */
+.sheet{position:absolute;top:10px;right:10px;z-index:3;display:flex;align-items:center;gap:6px;min-height:48px;padding:0 14px 0 10px;border:3px solid var(--ink);border-radius:24px;background:var(--card);color:var(--ink);font-weight:600;font-size:17px;text-decoration:none}
+.sheet .ic{width:28px;height:28px}
 .hold{position:relative;overflow:hidden}
 .hold .fill{position:absolute;inset:0;width:0;background:color-mix(in srgb,var(--ok) 45%,transparent)}
 .hold.holding .fill{width:100%;transition:width var(--hold,1.5s) linear}
 .hold .t{position:relative}
 .no{animation:shake .4s}
 
-/* practice */
+/* practice: the voice reads the question first, then the answers appear */
+.listen{display:flex;align-items:center;gap:10px;min-height:clamp(68px,calc(12*var(--v)),92px);font-size:clamp(22px,calc(3.4*var(--v)),30px);font-weight:600;color:var(--muted)}
+.listen .ic{width:44px;height:44px;animation:pbob 1.2s ease-in-out infinite}
+/* number pad: two rows of five digits, then delete and Check */
+.pad{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(8px,calc(1.6*var(--v)),14px);width:min(100%,560px)}
+.pk{min-height:clamp(56px,min(calc(11*var(--v)),9vh),84px);border:4px solid var(--ink);border-radius:var(--rd-s);background:var(--card);color:var(--ink);font-family:var(--disp);font-size:clamp(30px,calc(5.4*var(--v)),48px);line-height:1;box-shadow:0 5px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.pk:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.pk:disabled{opacity:.35}
+.pk.del .ic{width:34px;height:34px}
+.pk.ok{grid-column:span 4;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#1d2140;font-size:clamp(26px,calc(4.4*var(--v)),40px)}
+.pk.ok .ic{width:34px;height:34px}
+.pk.glow,.lt.glow{animation:glow 1.2s ease-in-out infinite}
+/* a step with the pad (or a boss) shares the height with it: pictures shrink with the screen height so nothing is cut off */
+.listen[data-pad]{min-height:calc(3*clamp(56px,min(calc(11*var(--v)),9vh),84px) + 2*clamp(8px,calc(1.6*var(--v)),14px) + 5px)}  /* holds the pad's place */
+.stage:has(.pad,[data-pad]){gap:clamp(6px,1.4vh,22px);--cs:min(clamp(44px,calc(10.2*var(--v)),108px),5.2vh)}
+.stage:has(.pad,[data-pad]) .scene{gap:clamp(10px,calc(3*var(--v)),48px)}
+.stage:has(.pad,[data-pad]) .extras{gap:4px}
+.stage:has(.pad,[data-pad]) .qpic svg.mini{max-height:20vh}
+/* the bonus question with a pad: the beaten boss steps back and the box tightens */
+.stage:has(.bonus .pad,.bonus [data-pad]) img.boss{width:clamp(56px,10vh,140px)}
+.bonus:has(.pad,[data-pad]){padding:8px 10px;gap:8px;width:100%}
+.stage:has(img.boss) .ch.pc{min-width:clamp(96px,26vw,190px);min-height:clamp(76px,13vh,160px);font-size:clamp(44px,8vh,100px)}
+.eq .q.typed{width:auto;min-width:1.1em;border-bottom-style:solid;color:var(--c)}
+.typedbox .q{min-width:1.6em}
+/* learn it cards, one at a time */
+.lcard{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2vh,18px);border:4px solid var(--ink);border-radius:var(--rd);background:var(--card);padding:clamp(14px,2.4vh,24px) clamp(16px,3vw,32px);max-width:min(100%,720px)}
+.lcard .lpic svg.mini,.lcard .lpic svg.mg{width:min(380px,calc(70*var(--v)));height:auto;max-height:28vh}
+.ltext{font-family:var(--disp);font-size:clamp(34px,calc(7*var(--v)),64px);line-height:1.1}
+.ltext b{color:var(--c);font-weight:400}
 .qpic{display:flex;justify-content:center;max-width:100%}
 .qpic svg.mini{width:min(380px,calc(70*var(--v)));height:auto}
-.qs{gap:6px;width:min(420px,90%)}
+.qs{gap:6px;width:min(420px,90%);min-height:0}
 .qs .qp{height:14px}
 .ch.glow{animation:glow 1.2s ease-in-out infinite}
 .arrl{display:flex;gap:10px;align-items:stretch}
@@ -377,33 +408,73 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .panel label.filebtn{border-bottom:4px solid var(--ink);padding:12px 28px}
 
 /* ---- groups module ---- */
-.grp-read,.grp-mem,.grp-bal{display:contents}
-.grp-read .cards .cpic svg.mg{width:100%;height:auto;max-height:clamp(60px,12vh,120px)}
-.grp-mem .mem{grid-template-columns:repeat(4,minmax(0,1fr));max-width:min(640px,calc((100dvh - 330px)*1.05))}
+.grp-mem{display:contents}
+.grp-mem .mem{grid-template-columns:repeat(4,minmax(0,1fr));max-width:min(640px,calc((100dvh - 330px)*1.05))}   /* 12 cards: 4 × 3 on every screen */
 .grp-mem .mc{aspect-ratio:1}
 .grp-mem .mc .front{padding:6px}
 .grp-mem .mc .front svg.mg{width:86%;height:auto;max-height:62%}
 .grp-mem .mc .front i{font-family:var(--disp);font-size:clamp(14px,calc(2.6*var(--v)),24px);color:var(--ink);letter-spacing:0;word-break:normal}
-.grp-bal .hintbox svg.mg{width:min(320px,calc(70*var(--v)));height:auto;max-height:clamp(80px,14vh,160px);margin:0 auto}
 .arrbox{min-height:clamp(120px,24vh,260px);display:grid;place-items:center}
 /* pictures sized to the screen: big on tablets, still within a phone with no scrolling */
-.qpic .arr,.arrbox .arr{--ad:clamp(22px,calc(4.6*var(--v)),42px)}
-.qpic .gp .bag{--gd:clamp(20px,calc(4.2*var(--v)),38px)}
-.pair2 .arr{--ad:clamp(16px,calc(3.6*var(--v)),32px)}
-.qpic .arrl .rl,.arrbox .arrl .rl{font-size:clamp(22px,calc(4.4*var(--v)),40px)}
-@media (max-width:560px){.grp-mem .mem{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.arrbox .arr{--ad:clamp(22px,calc(4.6*var(--v)),42px)}
+.qpic .arr{--ad:clamp(13px,calc(3.6*var(--v)),42px);gap:clamp(4px,calc(.7*var(--v)),6px)}
+/* help pictures: the bags stay on one row, each as big as the width allows (--g bags of --gc columns) */
+.qpic .gp{flex-wrap:nowrap;gap:10px;padding-bottom:14px}
+.qpic .gp .bag{--gmax:clamp(13px,calc(3.5*var(--v)),38px);--gd:min(var(--gmax),calc((100vw - 40px - (var(--g) - 1)*10px)/var(--g)/var(--gc) - 9px));padding:clamp(5px,calc(1.2*var(--v)),10px);gap:clamp(3px,calc(.6*var(--v)),5px);border-width:3px;border-radius:16px}
+/* running totals hang below the bag, clear of its dots */
+.qpic .gp .bag[data-c]{padding-bottom:clamp(12px,calc(2.4*var(--v)),18px)}
+.qpic .bag[data-c]::after{font-size:clamp(14px,calc(3*var(--v)),26px);min-width:28px;bottom:-14px;right:-8px}
+.pair2 .arr{--ad:clamp(14px,calc(3.6*var(--v)),32px)}
+.qpic .arrl .rl,.arrbox .arrl .rl{font-size:clamp(17px,calc(4.4*var(--v)),40px)}
+.pair2 .cap .q.typed{width:auto;min-width:1.1em;border-bottom-style:solid;color:var(--c)}
+/* fill the bags: each bag shows its empty coin spots, so a full bag is easy to see */
+.fbags{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:clamp(12px,calc(3*var(--v)),32px);max-width:900px}
+.fbag{--gd:clamp(24px,calc(6*var(--v)),54px);cursor:pointer;color:inherit;font:inherit;min-width:64px;min-height:64px;gap:6px}
+.fbags.full .fbag{--gd:clamp(20px,calc(4*var(--v)),36px)}
+.fbag .slot{width:var(--gd);height:var(--gd);border-radius:50%;border:3px dashed color-mix(in srgb,var(--muted) 55%,transparent);display:grid;place-items:center}
+.fbag .slot.on{border-color:transparent}
+.fbag .slot .dot{width:100%;height:100%}
+/* a picture, the question and the pad on one phone screen: tighter gaps */
+.stage:has(.qpic .gp,.qpic .arr){gap:clamp(8px,1.2vh,22px)}
+/* challenge help picture: smaller, so a story, the picture and the pad all fit a phone */
+.stage:has(.chpic) .prompt{font-size:clamp(20px,calc(3.4*var(--v)),34px)}
+.chpic .arr{--ad:clamp(10px,min(calc(2.8*var(--v)),2.2vh),40px);gap:4px;padding:6px;border-width:3px}
+.chpic .arrl .rl{font-size:clamp(14px,min(calc(3.4*var(--v)),2.2vh),34px)}
+.chpic .gp .bag{--gmax:clamp(11px,min(calc(3.5*var(--v)),2.4vh),34px)}
+/* array hunt: four small arrays in a 2 × 2 grid */
+.hunt-t{color:var(--c);font-family:var(--disp);font-weight:400;font-size:1.3em}
+.hunt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,calc(2.6*var(--v)),26px);width:min(100%,720px)}
+.hunt-a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:clamp(120px,calc(26*var(--v)),260px);padding:10px;border:5px solid var(--ink);border-radius:var(--rd);background:var(--card);box-shadow:0 7px 0 var(--ink);color:var(--ink);transition:transform .08s,box-shadow .08s,background .2s}
+.hunt-a:active{transform:translateY(6px);box-shadow:0 1px 0 var(--ink)}
+/* same dot size in every array, so a bigger array looks bigger */
+.hunt-p svg.mg{display:block;width:calc(var(--hc)*clamp(14px,calc(5.4*var(--v)),40px));height:auto;max-width:100%}
+.hunt-a.right{background:color-mix(in srgb,var(--ok) 22%,var(--card));box-shadow:0 0 0 6px color-mix(in srgb,var(--gold) 70%,transparent),0 7px 0 var(--ink)}
+.hunt-f{font-family:var(--disp);font-size:clamp(22px,calc(4*var(--v)),38px);line-height:1;min-height:1em}
 
 /* ---- heart module ---- */
 .hw{font-family:var(--read);font-weight:700;letter-spacing:.5px}
 .hh{color:var(--c);text-decoration:underline wavy color-mix(in srgb,var(--c) 60%,transparent);text-underline-offset:6px}
 .hm{display:inline-block;margin-left:6px;color:#e64980;font-size:.6em;vertical-align:super}
-.hearts .rc .sum{font-size:clamp(40px,calc(8*var(--v)),72px);line-height:1.15}
 .ch.hwc{font-size:clamp(34px,calc(6.4*var(--v)),56px);padding:0 18px}
-.hmem .mc .front b.hw{font-size:clamp(20px,calc(4.4*var(--v)),40px);font-family:var(--read)}
-.hmem .mc .front b.hw.alt{color:var(--lane-e)}
 .bln.hwb{font-family:var(--read);font-weight:700;font-size:clamp(24px,calc(5*var(--v)),44px)}
 .hsent{font-family:var(--read);font-weight:700;font-size:clamp(28px,calc(5.4*var(--v)),48px);line-height:1.3;max-width:min(680px,92vw);padding:8px 18px;border:4px solid var(--ink);border-radius:20px;background:var(--card)}
 .hgap{display:inline-block;width:2.6em;border-bottom:5px dashed var(--muted);margin:0 .15em}
+.lcard.hcard .ltext{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2vh,20px)}
+.lcard.hcard .hwd{white-space:nowrap}
+.lcard.hcard .hwd .hw{font-size:clamp(56px,calc(12*var(--v)),110px);line-height:1}
+.lcard.hcard .hsent{font-size:clamp(24px,calc(4.6*var(--v)),42px)}
+.lcard.hcard .hsent b{color:var(--ink);font-weight:700}
+/* spelling a heart word: its heart slots take the heart colour, like .hh */
+.slots.hrt .slot.bl{border-color:var(--c)}
+.slots.hrt .slot.full.bl{background:color-mix(in srgb,var(--c) 22%,var(--card));color:var(--c)}
+.qpic .hsent{font-size:clamp(24px,calc(4.6*var(--v)),42px)}
+/* sentence builder */
+.hsb{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:clamp(6px,1.6vw,12px);max-width:min(100%,760px)}
+.hslot{min-width:clamp(56px,calc(12*var(--v)),110px);min-height:clamp(54px,calc(10*var(--v)),86px);padding:0 10px;border:4px dashed var(--muted);border-radius:16px;display:grid;place-items:center;font-family:var(--read);font-weight:700;font-size:clamp(26px,calc(5*var(--v)),46px);color:var(--ink);background:var(--card)}
+.hslot.full{border-style:solid;border-color:var(--ink);animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.hstop{font-family:var(--read);font-weight:700;font-size:clamp(34px,calc(6*var(--v)),56px);line-height:1}
+.pool.hpool{max-width:min(100%,640px)}
+.lt.hwt{width:auto;min-width:max(64px,min(calc(14*var(--v)),10vh));padding:0 14px;font-size:clamp(26px,calc(5*var(--v)),44px)}
 
 /* ---- blend module ---- */
 .blpic{font-size:min(calc(16*var(--v)),15vh);line-height:1}
@@ -414,16 +485,66 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .bltiles.slid{gap:6px}
 .blout{min-height:min(calc(14*var(--v)),13vh);display:grid;place-items:center}
 .blout .big-emo{font-size:min(calc(14*var(--v)),13vh)}
-.blfam .cards{grid-template-columns:1fr;max-width:760px}
-.blfam .rc{flex-direction:row;padding:8px 12px}
-.blfam .rc .pic{flex-direction:row;align-items:center;gap:clamp(8px,2vw,18px)}
-.blfam .sum{display:flex;align-items:center;gap:clamp(8px,2vw,16px);font-family:var(--read);font-weight:700;font-size:clamp(24px,calc(4.6*var(--v)),42px)}
 .blfb{border-radius:14px;background:var(--c);color:#fff;padding:4px 12px;min-width:2.4em;text-align:center}
 .blws{display:flex;flex-wrap:wrap;gap:4px clamp(8px,2vw,18px);color:var(--ink)}
 .blbig{font-family:var(--read);font-size:min(calc(11*var(--v)),9vh)}
 .pool:has(.lt){max-width:min(100%,520px)}
 .lt{width:max(58px,min(calc(14*var(--v)),10vh));height:max(58px,min(calc(14*var(--v)),10vh));font-size:min(calc(8*var(--v)),6vh)}
 .slot{width:min(calc(13*var(--v)),9vh);height:min(calc(16*var(--v)),11vh);font-size:min(calc(9*var(--v)),7vh)}
-@media (max-width:640px){.blfam .rc .acts{flex-direction:column;gap:8px}}
-.hearts,.hmem{display:contents}
+.lcard.blfam{flex-direction:column}
+.lcard.blfam .blpic{font-size:min(calc(13*var(--v)),12vh)}
+.lcard.blfam .ltext{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2vh,18px);font-family:var(--read);font-weight:700;font-size:clamp(30px,calc(6*var(--v)),54px)}
+.blws{justify-content:center}
+/* sound sort: a word card, then woven baskets labelled with sounds */
+.sortcard{display:flex;flex-direction:column;align-items:center;gap:6px;border:4px solid var(--ink);border-radius:var(--rd);background:var(--card);padding:clamp(10px,1.8vh,18px) clamp(22px,4vw,40px);animation:pop .3s}
+.sortw{font-family:var(--read);font-weight:700;font-size:min(calc(10*var(--v)),8vh);line-height:1.1}
+.sortcard.drop{animation:sdrop .9s ease-in forwards}
+@keyframes sdrop{30%{transform:translateY(-8px) scale(1.05)}100%{transform:translateY(32vh) scale(.3);opacity:0}}
+.baskets{display:flex;gap:clamp(10px,3vw,28px);justify-content:center;width:100%;max-width:720px}
+.basket{flex:1;max-width:200px;min-height:clamp(110px,min(calc(20*var(--v)),17vh),170px);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;padding:8px 6px 10px;
+  border:5px solid var(--ink);border-radius:14px 14px 34px 34px;color:#1d2140;box-shadow:0 6px 0 var(--ink);transition:transform .08s,box-shadow .08s;
+  background:repeating-linear-gradient(0deg,transparent 0 14px,color-mix(in srgb,var(--ink) 22%,transparent) 14px 17px),var(--bc)}
+.basket:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.basket:disabled{opacity:.75}
+.basket.right{animation:lit .6s;opacity:1}
+.basket.no{animation:shake .4s}
+.bin{display:flex;flex-wrap:wrap;justify-content:center;min-height:1.2em;font-size:clamp(20px,calc(3.6*var(--v)),32px);line-height:1}
+.bin i{font-style:normal;animation:pop .3s}
+.blab{font-family:var(--read);font-weight:700;font-size:clamp(32px,calc(6*var(--v)),54px);line-height:1;background:var(--card);color:var(--ink);border:4px solid var(--ink);border-radius:var(--rd-s);padding:2px 14px}
 .ch.right .hh{color:inherit;text-decoration-color:currentColor}
+
+/* ---- add10 module ---- */
+.frogline{width:min(100%,640px);height:auto;max-height:clamp(120px,22vh,230px);overflow:visible}
+.frogline .frog{transition:transform .7s ease-in-out}
+.frogline .fbody.hop{animation:froghop .7s ease-in-out}
+@keyframes froghop{50%{transform:translateY(-46px)}}
+/* a stuck child's story problem carries the picture too, so it is kept small to fit a phone */
+.qpic .a10ch svg.mini{width:auto;max-width:100%;height:clamp(70px,10vh,150px)}
+@media (prefers-reduced-motion:reduce){.frogline .frog{transition:none}.frogline .fbody.hop{animation:none}}
+
+/* ---- wardrobe ---- */
+.hubtop{display:flex;gap:10px;width:100%;max-width:720px}
+.hubtop .tabs{flex:1;min-width:0}
+.wardb{position:relative;flex:none;min-height:56px;min-width:76px;display:flex;align-items:center;justify-content:center;gap:2px;padding:2px 8px 2px 4px;border:4px solid var(--ink);border-radius:var(--rd-s);background:var(--card)}
+.wardb .av{--avs:44px!important;border-width:3px}
+.wardb .ic{width:26px;height:26px}
+main.screen:has(.ward){justify-content:flex-start}
+.ward{flex:1;min-height:0;width:100%;max-width:720px;padding-bottom:6px;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:clamp(8px,1.6vh,18px)}
+.whero{flex:1 1 0;min-height:0;display:grid;place-items:center}
+.whero .av{--avs:min(480px,42vh,82vw)!important}
+.wpop img{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.wnote{min-height:1.3em;font-size:clamp(20px,calc(3.2*var(--v)),28px);font-weight:600;line-height:1.25}
+.wtabs,.wtiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(6px,1.4vw,14px);width:100%}
+.wtab{min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;border:4px solid var(--ink);border-radius:var(--rd-s);background:var(--card);font-size:clamp(13px,calc(2.2*var(--v)),19px);font-weight:600;line-height:1.05}
+.wtab img{width:clamp(30px,calc(6*var(--v)),52px);height:clamp(30px,calc(6*var(--v)),52px)}
+.wtab[aria-selected="true"]{background:var(--gold);color:#1d2140;box-shadow:0 5px 0 var(--ink)}
+.wtile{aspect-ratio:1;min-height:56px;max-height:min(132px,14vh);justify-self:center;width:100%;display:grid;place-items:center;padding:6px;border:4px solid var(--ink);border-radius:var(--rd);background:var(--card);box-shadow:0 5px 0 var(--ink)}
+.wtile img{width:100%;height:100%;object-fit:contain}
+.wtile[aria-pressed="true"]{background:#fff3c4;outline:5px solid var(--gold);outline-offset:2px}
+.wtile.lock{border-style:dashed;box-shadow:none;background:transparent}
+.wtile.lock .wboss{width:62%;height:62%;opacity:.75}
+.wnone{width:60%;aspect-ratio:1;border:4px dashed var(--muted);border-radius:50%}
+.newgear{display:flex;align-items:center;gap:12px;padding:8px 18px 8px 10px;border:4px solid var(--ink);border-radius:var(--rd);background:#fff3c4;color:#1d2140;font-size:clamp(20px,calc(3.2*var(--v)),28px);font-weight:600}
+.newgear img{width:clamp(64px,11vh,110px);height:clamp(64px,11vh,110px);animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+.stage:has(.newgear) .medalbox{width:min(180px,calc(36*var(--v)),20vh)}
+@media (prefers-reduced-motion:reduce){.wpop img,.newgear img{animation:none}}

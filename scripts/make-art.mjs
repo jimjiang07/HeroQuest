@@ -3,109 +3,14 @@
 import {writeFileSync,mkdirSync} from 'node:fs';
 const OUT=process.argv[2]??'public/art', SHEET=process.argv[3]??'docs/art-kit.html';
 mkdirSync(OUT,{recursive:true});
-
-const INK='#2b2d42',C={coral:'#ff8a6b',coralL:'#ffc4b0',cream:'#fff3dc',butter:'#ffd166',orange:'#ffa04d',teal:'#6cc5c9',tealD:'#4aa9ae',
-  sky:'#9ad4f5',ice:'#a5e3ff',iceL:'#e6f7ff',lav:'#c3b4ff',lavD:'#9d8af0',mint:'#8fe0b9',pink:'#ff9ec4',green:'#9bd77c',greenD:'#7cc05e',
-  sage:'#a8c98f',sageL:'#d6e6c3',brown:'#d9a066',brownL:'#fbe6c8',skin:'#c98b5e',khaki:'#e8c071',purple:'#a996e8',purpleD:'#8f7ad6',white:'#ffffff'};
-
-const eye=(x,y,s=1)=>`<ellipse cx="${x}" cy="${y}" rx="${6.5*s}" ry="${8.5*s}" fill="${INK}" stroke="none"/><circle cx="${x+2.2*s}" cy="${y-3*s}" r="${2.6*s}" fill="#fff" stroke="none"/>`;
-const cheek=(x,y)=>`<ellipse cx="${x}" cy="${y}" rx="9" ry="5.5" fill="#ff8fa8" opacity=".6" stroke="none"/>`;
-const smile=(x,y,w=10)=>`<path d="M${x-w} ${y}Q${x} ${y+w} ${x+w} ${y}" fill="none" stroke-width="4"/>`;
-const face=(x,y,gap=20,s=1,cy=14)=>eye(x-gap,y,s)+eye(x+gap,y,s)+cheek(x-gap-12,y+cy)+cheek(x+gap+12,y+cy)+smile(x,y+cy,8);
-const tube=(d,col,w=10)=>`<path d="${d}" fill="none" stroke-width="${w+10}"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w}"/>`;
-const sparkle=(x,y,s=1,col=C.butter)=>`<path d="M${x} ${y-12*s}Q${x+2*s} ${y-2*s} ${x+12*s} ${y}Q${x+2*s} ${y+2*s} ${x} ${y+12*s}Q${x-2*s} ${y+2*s} ${x-12*s} ${y}Q${x-2*s} ${y-2*s} ${x} ${y-12*s}Z" fill="${col}" stroke-width="3"/>`;
-const star=(cx,cy,R,r,col)=>{let p=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r:R;p.push(`${(cx+q*Math.cos(a)).toFixed(1)} ${(cy+q*Math.sin(a)).toFixed(1)}`);}return `<path d="M${p.join('L')}Z" fill="${col}"/>`;};
-const mirror=d=>d.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g,(_,x,y)=>`${200-+x} ${y}`);
-const both=(d,fill,extra='')=>`<path d="${d}" fill="${fill}" ${extra}/><path d="${mirror(d)}" fill="${fill}" ${extra}/>`;
+import {INK,C,eye,cheek,smile,face,tube,sparkle,star,mirror,both,SILVER,WOOD,SKIN,HAIR,HAIRS,OUTFITS,HEADS,MAIN,OFF,BACK,heroBody,HEROES,GEAR,gearBody,svgDoc,FILTER} from '../src/art/rig.js';
 
 const A=[];
 const add=(group,id,name,bg,body)=>A.push({group,id,name,bg,body});
 
-// ---------- Hero rig: one body, swappable skin, hair, outfit, headgear and gear ----------
-const SKIN={light:'#f6d2b5',tan:'#e6b08a',brown:'#c98b5e',deep:'#8d5a3b'};
-const HAIR={brown:'#6b4226',black:'#2b2d42',gold:'#f0b94a',red:'#d0643a'};
-const SILVER='#d5dde9',WOOD='#b9824f';
-
-const HAIRS={
-  short:{front:c=>`<path d="M60 72C56 40 80 28 102 30C126 31 144 46 140 72C132 60 120 52 106 54C96 46 78 56 60 72Z" fill="${c}"/>`},
-  long:{back:c=>`<path d="M58 70C54 120 62 134 76 132H124C138 134 146 120 142 70Z" fill="${c}"/>`,front:c=>HAIRS.short.front(c)},
-  buns:{back:c=>`<circle cx="62" cy="42" r="15" fill="${c}"/><circle cx="138" cy="42" r="15" fill="${c}"/>`,front:c=>`<path d="M60 72C58 44 78 32 100 32C122 32 142 44 140 72C126 58 112 56 100 50C88 56 74 58 60 72Z" fill="${c}"/>`},
-  curly:{back:c=>[[62,58],[58,82],[72,40],[96,30],[122,36],[140,56],[142,82]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="15" fill="${c}"/>`).join(''),
-    front:c=>`<path d="M62 66C70 46 86 40 100 46C114 40 130 46 138 66C126 58 112 60 100 56C88 60 74 58 62 66Z" fill="${c}"/>`},
-  spiky:{front:c=>`<path d="M60 72L56 46L72 50L74 30L90 40L100 24L112 40L128 30L128 50L144 46L140 72C128 58 114 54 100 56C86 54 72 58 60 72Z" fill="${c}"/>`},
-};
-// outfit: torso, sleeve, legs, boots colours, plus extra detail drawn over the torso
-const OUTFITS={
-  armour:{torso:SILVER,sleeve:SILVER,legs:'#6b7a99',boots:'#6b4226',extra:`<ellipse cx="72" cy="120" rx="13" ry="9" fill="${SILVER}"/><ellipse cx="128" cy="120" rx="13" ry="9" fill="${SILVER}"/>
-    <path d="M71 150H129" fill="none" stroke="#8a5a34" stroke-width="7"/><path d="M71 150H129" fill="none" stroke-width="2.5" opacity=".5"/>${star(100,132,9,4,C.butter)}`},
-  tunic:{torso:'#7cc59a',sleeve:'#7cc59a',legs:'#8a6a4a',boots:'#6b4226',extra:`<path d="M90 114L100 128L110 114" fill="none" stroke-width="4"/><path d="M71 150H129" fill="none" stroke="#8a5a34" stroke-width="7"/><rect x="94" y="145" width="12" height="10" rx="2" fill="${C.butter}" stroke-width="3"/>`},
-  robe:{torso:C.lavD,sleeve:C.lavD,legs:C.lavD,boots:'#5a4a9c',robe:true,extra:`<path d="M100 114V182" fill="none" stroke-width="3"/>${sparkle(84,150,.5,C.butter)}${sparkle(118,168,.45,C.butter)}${sparkle(116,136,.35,'#fff')}<path d="M70 146Q100 154 130 146" fill="none" stroke="${C.butter}" stroke-width="6"/>`},
-  explorer:{torso:'#5cc0c4',sleeve:'#5cc0c4',legs:C.khaki,boots:'#6b4226',extra:`<path d="M70 160C68 132 76 116 88 113L90 160Z" fill="${C.khaki}" stroke-width="4"/><path d="M130 160C132 132 124 116 112 113L110 160Z" fill="${C.khaki}" stroke-width="4"/><rect x="114" y="130" width="10" height="10" rx="2" fill="${C.khaki}" stroke-width="3"/>`},
-  space:{torso:'#f4f6fb',sleeve:'#f4f6fb',legs:'#f4f6fb',boots:'#9aa3bf',extra:`<rect x="86" y="124" width="28" height="22" rx="5" fill="#9aa3bf" stroke-width="3.5"/><circle cx="94" cy="135" r="3.5" fill="${C.coral}" stroke="none"/><circle cx="106" cy="135" r="3.5" fill="${C.mint}" stroke="none"/><path d="M70 150H130" fill="none" stroke="${C.coral}" stroke-width="5"/>`},
-  overalls:{torso:C.coral,sleeve:C.coral,legs:'#5a8fd6',boots:'#6b4226',extra:`<path d="M80 160V130H120V160Z" fill="#5a8fd6" stroke-width="4"/><path d="M80 130L76 114M120 130L124 114" fill="none" stroke="#5a8fd6" stroke-width="6"/><circle cx="84" cy="134" r="3" fill="${C.butter}" stroke-width="2"/><circle cx="116" cy="134" r="3" fill="${C.butter}" stroke-width="2"/><rect x="92" y="138" width="16" height="12" rx="2" fill="#4a7cc0" stroke-width="3"/>`},
-};
-// headgear and back items have a back part (behind the head/body) and a front part
-const HEADS={
-  helmet:{front:`<path d="M58 76C56 40 76 26 100 26C124 26 144 40 142 76L130 76C128 60 116 52 100 52C84 52 72 60 70 76Z" fill="${SILVER}"/>
-    <path d="M100 28C94 12 110 2 122 8C112 10 106 18 104 28Z" fill="${C.coral}"/><path d="M60 64H140" fill="none" stroke-width="3"/><circle cx="100" cy="40" r="3" fill="#fff" stroke-width="2"/>`},
-  hood:{back:`<path d="M52 82C48 38 74 22 100 22C126 22 152 38 148 82C148 102 140 116 128 118H72C60 116 52 102 52 82Z" fill="#5fae7e"/>`,
-    front:`<path d="M60 76C58 44 80 32 100 32C120 32 142 44 140 76C130 60 116 52 100 52C84 52 70 60 60 76Z" fill="#5fae7e"/>`},
-  wizard:{front:`<path d="M70 46C80 32 90 12 126 0C114 16 120 30 132 46Z" fill="#6f5bd6"/>${star(106,30,8,3.5,C.butter)}
-    <ellipse cx="100" cy="48" rx="52" ry="10" fill="#6f5bd6"/><path d="M72 42Q100 50 128 42" fill="none" stroke="${C.butter}" stroke-width="5"/>`},
-  safari:{front:`<path d="M64 60C64 32 80 24 100 24C120 24 136 32 136 60Z" fill="${C.khaki}"/><path d="M65 50H135L136 60H64Z" fill="${C.teal}" stroke-width="4"/><ellipse cx="100" cy="60" rx="60" ry="10" fill="${C.khaki}"/>`},
-  bubble:{front:`<circle cx="100" cy="72" r="50" fill="#dff4ff" opacity=".35"/><circle cx="100" cy="72" r="50" fill="none"/><path d="M70 50Q80 36 96 32" fill="none" stroke="#fff" stroke-width="6"/><path d="M62 112Q100 126 138 112" fill="none" stroke="#9aa3bf" stroke-width="9"/>`},
-  hardhat:{front:`<path d="M60 60C60 34 78 24 100 24C122 24 140 34 140 60Z" fill="${C.butter}"/><path d="M100 24V44" fill="none" stroke-width="4"/><rect x="50" y="56" width="100" height="10" rx="5" fill="${C.butter}"/>`},
-  crown:{front:`<path d="M70 50L66 22L84 36L100 16L116 36L134 22L130 50Z" fill="${C.butter}"/><circle cx="100" cy="38" r="5" fill="${C.coral}" stroke-width="3"/><circle cx="80" cy="44" r="3.5" fill="${C.mint}" stroke-width="2"/><circle cx="120" cy="44" r="3.5" fill="${C.sky}" stroke-width="2"/>`},
-};
-// main hand sits at (50,152); its item is drawn under the hand so the fist grips it
-const MAIN={
-  sword:`<g transform="rotate(-14 50 152)"><path d="M45 140V82L50 70L55 82V140Z" fill="#eef2f8"/><path d="M50 78V136" fill="none" stroke-width="2.5" opacity=".4"/><rect x="34" y="138" width="32" height="8" rx="4" fill="${C.butter}"/><rect x="46" y="146" width="8" height="14" rx="3" fill="${WOOD}"/><circle cx="50" cy="164" r="5" fill="${C.butter}"/></g>`,
-  staff:`<g transform="rotate(-8 50 152)"><rect x="46" y="64" width="8" height="122" rx="4" fill="${WOOD}"/><path d="M42 66Q50 50 58 66" fill="${C.butter}" stroke-width="4"/><circle cx="50" cy="50" r="13" fill="${C.mint}"/><circle cx="46" cy="46" r="4" fill="#fff" stroke="none"/></g>${sparkle(26,40,.5,C.butter)}${sparkle(72,30,.35,C.mint)}`,
-  bow:`<path d="M58 104Q24 152 58 196" fill="none" stroke-width="14"/><path d="M58 104Q24 152 58 196" fill="none" stroke="${WOOD}" stroke-width="6"/><path d="M58 104L58 196" fill="none" stroke-width="2"/>`,
-  glass:`<path d="M50 150L40 122" fill="none" stroke-width="9"/><path d="M50 150L40 122" fill="none" stroke="${WOOD}" stroke-width="3"/><circle cx="36" cy="108" r="16" fill="${C.iceL}"/><path d="M28 104Q30 98 36 96" fill="none" stroke="#fff" stroke-width="4"/>`,
-  hammer:`<g transform="rotate(-20 50 152)"><rect x="46" y="96" width="8" height="70" rx="4" fill="${WOOD}"/><rect x="30" y="84" width="40" height="20" rx="5" fill="#9aa3bf"/></g>`,
-  flag:`<path d="M50 168V64" fill="none" stroke-width="5"/><path d="M50 66L84 76L50 88Z" fill="${C.coral}"/>`,
-};
-// off hand sits at (150,150); shields and books cover the fist
-const OFF={
-  shield:`<path d="M128 132Q150 124 172 132Q174 160 150 176Q126 160 128 132Z" fill="${C.coral}"/>${star(150,150,10,4.5,C.butter)}`,
-  book:`<rect x="136" y="134" width="30" height="34" rx="4" fill="${C.teal}"/><path d="M142 134V168" fill="none" stroke-width="3"/>${sparkle(166,128,.4,C.butter)}`,
-  lantern:`<path d="M150 150V156" fill="none" stroke-width="3"/><rect x="140" y="156" width="20" height="24" rx="5" fill="${C.butter}"/><path d="M140 162H160M140 174H160" fill="none" stroke-width="3"/>`,
-};
-const BACK={
-  cape:{back:`<path d="M74 118C58 150 54 178 60 192H140C146 178 142 150 126 118Z" fill="${C.coral}"/>`},
-  backpack:{back:`<rect x="58" y="112" width="84" height="58" rx="16" fill="#c9965c"/>`,front:`<path d="M80 114L84 158M120 114L116 158" fill="none" stroke="#8a5a34" stroke-width="6"/>`},
-  quiver:{back:`<g transform="rotate(24 140 120)"><rect x="132" y="88" width="20" height="56" rx="6" fill="#8a5a34"/><path d="M137 88V72M147 88V70" fill="none" stroke-width="3"/><path d="M133 74L137 64L141 74ZM143 72L147 62L151 72Z" fill="${C.coral}" stroke-width="3"/></g>`},
-  jetpack:{back:`<rect x="60" y="110" width="22" height="50" rx="8" fill="#9aa3bf"/><rect x="118" y="110" width="22" height="50" rx="8" fill="#9aa3bf"/><path d="M64 160L71 174L78 160ZM122 160L129 174L136 160Z" fill="${C.orange}" stroke-width="3"/>`},
-  wings:{back:both('M78 122C50 96 26 104 28 124C34 120 40 124 40 132C46 128 54 132 54 140C62 134 72 136 78 140Z','#fff')},
-};
-
-const heroBody=({skin,hair,style,outfit,head,main,off,back})=>{
-  const s=SKIN[skin],h=HAIRS[style],o=OUTFITS[outfit],hg=head&&HEADS[head],bk=back&&BACK[back];
-  const legs=o.robe?'':`<rect x="80" y="154" width="17" height="30" rx="6" fill="${o.legs}"/><rect x="103" y="154" width="17" height="30" rx="6" fill="${o.legs}"/>`;
-  const torso=o.robe?`<path d="M64 186C62 140 76 112 100 112C124 112 138 140 136 186Z" fill="${o.torso}"/>`:`<path d="M70 162C68 130 78 112 100 112C122 112 132 130 130 162Z" fill="${o.torso}"/>`;
-  return `${bk?.back??''}${hg?.back??''}${h.back?.(HAIR[hair])??''}
-${legs}<ellipse cx="88" cy="187" rx="14" ry="8" fill="${o.boots}"/><ellipse cx="112" cy="187" rx="14" ry="8" fill="${o.boots}"/>
-${torso}${o.extra}${bk?.front??''}
-${tube('M74 122Q60 132 52 148',o.sleeve,12)}${tube('M126 122Q140 132 148 148',o.sleeve,12)}
-${main?MAIN[main]:''}<circle cx="50" cy="152" r="9.5" fill="${s}"/><circle cx="150" cy="150" r="9.5" fill="${s}"/>${off?OFF[off]:''}
-<circle cx="60" cy="78" r="9" fill="${s}"/><circle cx="140" cy="78" r="9" fill="${s}"/><circle cx="100" cy="74" r="40" fill="${s}"/>
-<path d="M78 66L92 64M108 64L122 66" fill="none" stroke-width="4"/>
-${eye(86,80)}${eye(114,80)}${cheek(74,94)}${cheek(126,94)}<path d="M88 96Q100 108 112 96Z" fill="#8a3b3b" stroke-width="4"/>
-${h.front(HAIR[hair])}${hg?.front??''}`;
-};
-
 // the bare rig in each skin tone, then the starter heroes
 [['light','gold','long'],['tan','red','curly'],['brown','black','buns'],['deep','brown','spiky']].forEach(([skin,hair,style],i)=>
   add('Hero base',`base-${skin}`,`Base ${i+1}`,'#f4f1ff',heroBody({skin,hair,style,outfit:'tunic'})));
-const HEROES=[
-  ['knight','Knight','#e9eef6',{skin:'tan',hair:'brown',style:'short',outfit:'armour',head:'helmet',main:'sword',off:'shield',back:'cape'}],
-  ['ranger','Ranger','#e9f6ec',{skin:'deep',hair:'black',style:'curly',outfit:'tunic',head:'hood',main:'bow',back:'quiver'}],
-  ['wizard','Wizard','#ece9ff',{skin:'light',hair:'red',style:'long',outfit:'robe',head:'wizard',main:'staff',off:'book'}],
-  ['explorer','Explorer','#fdf2dc',{skin:'brown',hair:'black',style:'buns',outfit:'explorer',head:'safari',main:'glass',back:'backpack'}],
-  ['astronaut','Astronaut','#e6f3ff',{skin:'light',hair:'gold',style:'short',outfit:'space',head:'bubble',main:'flag',back:'jetpack'}],
-  ['builder','Builder','#fff3c4',{skin:'deep',hair:'brown',style:'long',outfit:'overalls',head:'hardhat',main:'hammer',off:'lantern'}],
-];
 for(const [id,name,bg,kit] of HEROES) add('Heroes',`hero-${id}`,name,bg,heroBody(kit));
 
 // gear shown on its own, cropped from the rig's coordinates
@@ -122,6 +27,15 @@ gear('shield','Shield','116 116 68 68',OFF.shield);
 gear('cape','Cape','40 108 120 90',BACK.cape.back);
 gear('backpack','Backpack','46 98 108 86',BACK.backpack.back+BACK.backpack.front);
 gear('wings','Wings','20 96 160 50',BACK.wings.back);
+// the rest of the wardrobe (GEAR in src/art/rig.js): the starters' other pieces, the boss rewards and the outfits
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+for(const [id,g] of Object.entries(GEAR))if(!A.some(a=>a.id===g.art))
+  A.push({group:g.slot==='outfit'?'Outfits':'Gear',id:g.art,name:cap(g.name),bg:'#f7f4ee',vb:g.vb,body:gearBody(id)});
+// contact sheet only: the boss gear on every base, to check it sits on each hair style
+const SETS=[{head:'crystal-crown',main:'spanner',off:'coin-shield',back:'dragon-wings'},{head:'robot-helmet',main:'mossy-club',off:'glow-lantern',back:'treasure-pack'},
+  {head:'bat-hood',main:'quill',back:'river-cape',outfit:'owl-cloak'}];
+[['light','gold','long'],['tan','red','curly'],['brown','black','buns'],['deep','brown','spiky']].forEach(([skin,hair,style])=>SETS.forEach((k,i)=>
+  A.push({group:'Boss gear on every base',id:`try-${skin}-${i}`,name:`Set ${i+1}`,bg:'#f4f1ff',sheetOnly:true,body:heroBody({skin,hair,style,outfit:'tunic',...k})})));
 
 // ---------- Bosses: cheeky and a bit fierce, never gory ----------
 const lidEye=(x,y,side,lid,white='#fff',slit=false)=>{
@@ -373,10 +287,8 @@ const mapSvg=(id,W,H)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W
 <rect width="${W}" height="${H}" fill="${SCENES[id].bg}"/><g filter="url(#doodle)" stroke="${INK}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${SCENES[id].draw(W,H)}</g></svg>\n`;
 
 // ---------- write ----------
-const FILTER=`<filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>`;
-const svg=a=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${a.vb??'0 0 200 200'}" width="200" height="200"><title>${a.name}</title><defs>${FILTER}</defs>
-<g filter="url(#doodle)" stroke="${INK}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">${a.body}</g></svg>\n`;
-for(const a of A) writeFileSync(`${OUT}/${a.id}.svg`,svg(a));
+const svg=svgDoc;
+for(const a of A)if(!a.sheetOnly)writeFileSync(`${OUT}/${a.id}.svg`,svg(a));
 // maps come portrait (phones, tablets) and wide (laptops, landscape)
 for(const id of Object.keys(SCENES)){writeFileSync(`${OUT}/map-${id}.svg`,mapSvg(id,400,700));writeFileSync(`${OUT}/map-${id}-wide.svg`,mapSvg(id,800,450));}
 
@@ -388,7 +300,7 @@ h1{font-size:52px;margin:0 0 6px}p.sub{margin:0 0 28px;font-size:20px;color:#6a6
 h2{font-size:28px;margin:30px 0 14px}.row{display:flex;flex-wrap:wrap;gap:22px}
 .t{background:#fff;border:4px solid ${INK};border-radius:28px;padding:14px 14px 10px;text-align:center;box-shadow:5px 6px 0 ${INK}}
 .t svg{display:block;border-radius:20px}.t span{display:block;font-size:20px;margin-top:6px}
-.Heroes svg,.Bosses svg{width:190px;height:190px}.Hero svg{width:150px;height:150px}.Gear svg{width:92px;height:92px}.Quest svg{width:128px;height:128px}.Worlds svg{width:300px;height:300px}.mp svg{width:200px;height:350px;border-radius:20px}
+.Heroes svg,.Bosses svg{width:190px;height:190px}.Hero svg{width:150px;height:150px}.Gear svg,.Outfits svg{width:92px;height:92px}.Boss svg{width:150px;height:150px}.Quest svg{width:128px;height:128px}.Worlds svg{width:300px;height:300px}.mp svg{width:200px;height:350px;border-radius:20px}
 </style><h1>Hero Quest art kit</h1><p class="sub">Doodle-style SVG heroes (layered, dress-up ready), gear, bosses, quest items and worlds · simple colours · no emoji</p>
 ${groups.map(g=>`<h2>${g}</h2><div class="row ${g.split(' ')[0]}">${A.filter(a=>a.group===g).map(a=>`<div class="t"><div style="background:${a.group==="Worlds"?"transparent":a.bg};border-radius:20px">${svg(a).replace(/id="doodle"/,'id="doodle"').replace(/<title>.*?<\/title>/,'')}</div><span>${a.name}</span></div>`).join('')}</div>`).join('')}
 <h2>Quest maps</h2><div class="row">${Object.keys(SCENES).map(id=>`<div class="t"><div class="mp">${mapSvg(id,400,700)}</div><span>${SCENES[id].name}</span></div>`).join('')}</div>`;

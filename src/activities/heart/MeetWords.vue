@@ -1,9 +1,9 @@
 <script setup lang="ts">
-/* Learn it: meet the heart words a few at a time. Hear each one, say it, tick it. */
+/* Learn it: meet the heart words one card at a time, then find each one among its look-alikes. */
 import type {UnitApp} from '@/types';
-import ReadTicks from '@/components/run/ReadTicks.vue';
-import {meetItems} from './speech';
+import LearnCards from '@/components/run/LearnCards.vue';
+import {learnCards} from './speech';
 const props=defineProps<{data:UnitApp}>();
-const items=meetItems(props.data);
+const cards=learnCards(props.data);
 </script>
-<template><div class="hearts"><ReadTicks :items="items" prompt="Hear the word. The heart part is tricky: learn it by heart!" done="You met all the heart words!"/></div></template>
+<template><LearnCards :cards="cards" cls="hcard" done="You met the heart words! Great work!"/></template>

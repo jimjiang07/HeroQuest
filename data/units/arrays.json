@@ -14,10 +14,12 @@
     "same"
    ],
    "game": [
-    "memory"
+    "memory",
+    "hunt"
    ],
    "help": 5,
    "own": 8,
+   "challenge": 6,
    "boss": 5
   },
   "practice": {
@@ -109,6 +111,115 @@
      2,
      4
     ]
+   ]
+  },
+  "hunt": {
+   "rounds": [
+    {
+     "target": 6,
+     "arrays": [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ],
+      [
+       2,
+       4
+      ]
+     ]
+    },
+    {
+     "target": 8,
+     "arrays": [
+      [
+       3,
+       3
+      ],
+      [
+       2,
+       4
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       4,
+       2
+      ]
+     ]
+    },
+    {
+     "target": 10,
+     "arrays": [
+      [
+       2,
+       5
+      ],
+      [
+       3,
+       3
+      ],
+      [
+       5,
+       2
+      ],
+      [
+       2,
+       4
+      ]
+     ]
+    },
+    {
+     "target": 12,
+     "arrays": [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ],
+      [
+       2,
+       5
+      ],
+      [
+       2,
+       6
+      ]
+     ]
+    }
+   ]
+  },
+  "stories": {
+   "names": [
+    "Kai",
+    "Mia",
+    "Leo",
+    "Ava",
+    "Ben",
+    "Zoe",
+    "Noah",
+    "Ivy",
+    "Sam",
+    "Ruby"
+   ],
+   "templates": [
+    "{name} puts chairs in {a} rows. There are {b} chairs in each row. How many chairs?",
+    "{name} plants {a} rows of trees. There are {b} trees in each row. How many trees?",
+    "A tray has {a} rows of cakes. There are {b} cakes in each row. How many cakes?",
+    "{name} sticks stars in {a} rows. There are {b} stars in each row. How many stars?",
+    "A box has {a} rows of eggs. There are {b} eggs in each row. How many eggs?"
    ]
   }
  },

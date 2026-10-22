@@ -1,9 +1,9 @@
 <script setup lang="ts">
-/* Read & say: cards of equal groups with their facts. */
+/* Learn it: cards of equal groups with their facts, each followed by a quick pad check. */
 import type {UnitApp} from '@/types';
-import ReadTicks from '@/components/run/ReadTicks.vue';
-import {readItems} from './speech';
+import LearnCards from '@/components/run/LearnCards.vue';
+import {readCards} from './speech';
 const props=defineProps<{data:UnitApp}>();
-const items=readItems(props.data);
+const cards=readCards(props.data);
 </script>
-<template><div class="grp-read"><ReadTicks :items="items"/></div></template>
+<template><LearnCards :cards="cards" cls="grp-read"/></template>

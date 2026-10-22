@@ -12,11 +12,12 @@
     "meet"
    ],
    "game": [
-    "memory",
+    "sentence",
     "pop"
    ],
    "help": 5,
    "own": 8,
+   "challenge": 6,
    "boss": 5
   },
   "practice": {
@@ -139,14 +140,18 @@
     ]
    }
   ],
-  "memory": {
-   "words": [
-    "the",
-    "said",
-    "was",
-    "you",
-    "they",
-    "she"
+  "sentence": {
+   "names": [
+    "Sam",
+    "Kim",
+    "Mia"
+   ],
+   "sentences": [
+    "They can run fast.",
+    "Sam said hi to Kim.",
+    "It was a big red bus.",
+    "I can see you.",
+    "Mia ran to the shop."
    ]
   },
   "pop": {

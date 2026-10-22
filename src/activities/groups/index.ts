@@ -2,14 +2,15 @@
    data/units/arrays.json ("picture": "array" draws rows instead of bags). */
 import {defineAsyncComponent as lazy} from 'vue';
 import type {ActivityModule} from '@/types';
-import {ask} from './ask';
+import {ask,challenge} from './ask';
 import {lines} from './speech';
 
 // each step loads when it is first played, so the app starts without every activity's code
-export default {ask,lines,steps:{
+export default {ask,challenge,lines,steps:{
   read:lazy(()=>import('./ReadFacts.vue')),
   memory:lazy(()=>import('./MatchMemory.vue')),
-  balloon:lazy(()=>import('./GroupsBalloon.vue')),
+  bags:lazy(()=>import('./FillBags.vue')),
   build:lazy(()=>import('./BuildArray.vue')),
-  same:lazy(()=>import('./TurnAround.vue'))
+  same:lazy(()=>import('./TurnAround.vue')),
+  hunt:lazy(()=>import('./ArrayHunt.vue'))
 }} satisfies ActivityModule;

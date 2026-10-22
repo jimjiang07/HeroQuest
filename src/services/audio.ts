@@ -42,15 +42,15 @@ function loadVoices(){if(synth)voices.value=synth.getVoices().filter(v=>/^en/i.t
 if(synth){loadVoices();synth.onvoiceschanged=loadVoices}
 
 /* the device's own voice: used when a grown-up picks one, and for any sentence not recorded */
-function speak(text:string,done?:()=>void){
+function speak(text:string,done:()=>void){
   const cfg=useProgress().cfg;
-  if(!synth){if(done)setTimeout(done,300);return}
+  if(!synth){setTimeout(done,300);return}
   try{
     synth.cancel();const u=new SpeechSynthesisUtterance(text);
     const v=voices.value.find(x=>x.name===cfg.voiceName)||voices.value[0];
     if(v){u.voice=v;u.lang=v.lang}else u.lang='en-AU';
-    u.rate=cfg.rate;u.pitch=1;if(done)u.onend=()=>done();synth.speak(u);
-  }catch{/* speech can fail silently on some browsers */}
+    u.rate=cfg.rate;u.pitch=1;u.onend=()=>done();u.onerror=()=>done();synth.speak(u);
+  }catch{done()}   // speech can fail silently on some browsers
 }
 
 /* ---- recorded voice: one clip per sentence in public/voice/ (npm run voice) ---- */
@@ -78,30 +78,42 @@ function unlockPlayer(){
   player.src=URL.createObjectURL(new Blob([wav.buffer],{type:'audio/wav'}));player.play().catch(()=>{unlocked=false});
 }
 let turn=0;   // each line takes a turn; a line still playing stops once a newer one starts
+let cutOff:(()=>void)|null=null;
+/* true while a line is being read: screens wait for it before showing answers or moving on */
+export const talking=ref(false);
+// if a device never reports the end of a line, it still counts as finished after about this long
+const longest=(text:string,rate:number)=>3000+text.split(/\s+/).length*650/Math.max(rate,.3);
 
+/* done is called exactly once: when the line ends, fails, or is cut off by a newer line */
 export function say(text:string,done?:()=>void){
   const cfg=useProgress().cfg,my=++turn;
+  const prev=cutOff;cutOff=null;prev?.();
   player?.pause();synth?.cancel();
-  if(!cfg.voice||!text){if(done)setTimeout(done,300);return}
-  if(cfg.voiceName||!player){speak(text,done);return}
+  let over=false,guard=0;
+  const end=()=>{if(over)return;over=true;clearTimeout(guard);if(cutOff===end)cutOff=null;if(my===turn)talking.value=false;done?.()};
+  if(!cfg.voice||!text){talking.value=false;setTimeout(end,300);return}
+  talking.value=true;cutOff=end;guard=window.setTimeout(end,longest(text,cfg.rate));
+  if(cfg.voiceName||!player){speak(text,end);return}
   const parts=sentences(text);
   void ready.then(async()=>{
     if(my!==turn)return;
     const ids=parts.map(clipId),missing=parts.filter((_,i)=>!recorded!.has(ids[i]));
-    if(missing.length){if(recorded!.size)console.warn('[voice] not recorded, run npm run voice:',missing.join(' | '));speak(text,done);return}
+    if(missing.length){if(recorded!.size)console.warn('[voice] not recorded, run npm run voice:',missing.join(' | '));speak(text,end);return}
     let srcs:string[];
-    try{srcs=await Promise.all(ids.map(load))}catch{if(my===turn)speak(text,done);return}   // offline: the device voice still works
+    try{srcs=await Promise.all(ids.map(load))}catch{if(my===turn)speak(text,end);return}   // offline: the device voice still works
     for(const src of srcs){
       if(my!==turn)return;
       player.src=src;player.defaultPlaybackRate=player.playbackRate=cfg.rate/RECORDED_RATE;
       const ended=new Promise<void>(res=>{player.onended=()=>res();player.onerror=()=>res()});
-      try{await player.play()}catch{return}   // autoplay blocked before the first tap, or a newer line took over
+      try{await player.play()}catch{if(my===turn)end();return}   // autoplay blocked before the first tap, or a newer line took over
       await ended;await sleep(120);
     }
-    if(my===turn)done?.();
+    if(my===turn)end();
   });
 }
-export const hush=()=>{turn++;player?.pause();synth?.cancel()};
+/* say, as a promise that settles when the line is over */
+export const sayDone=(text:string)=>new Promise<void>(res=>say(text,res));
+export const hush=()=>{turn++;const c=cutOff;cutOff=null;c?.();talking.value=false;player?.pause();synth?.cancel()};
 
 export const sleep=(ms:number)=>new Promise<void>(r=>setTimeout(r,ms));
 

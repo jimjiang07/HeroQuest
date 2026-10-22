@@ -9,6 +9,8 @@ import * as L from '@/learn/learner';
 import type {QuestDef,Subject} from '@/types';
 import {audio,say,sfx,shake} from '@/services/audio';
 import {art} from '@/heroes';
+import HeroAvatar from '@/components/HeroAvatar.vue';
+import Icon from '@/components/Icon.vue';
 import {SAY} from '@/voice/say';
 
 const P=useProgress(),router=useRouter();
@@ -43,8 +45,11 @@ function open(q:QuestDef,e:Event){
   <button v-if="rematch" class="rematch" @click="audio();sfx.pop();router.push(`/play/${rematch.id}/boss?rematch=1`)">
     <img class="rmboss" :src="art(rematch.boss.art)" alt=""><span>{{ rematch.boss.name }} is back!</span><b>Rematch</b>
   </button>
-  <div class="tabs" role="tablist">
-    <button v-for="s in (['maths','english'] as Subject[])" :key="s" role="tab" class="tab" :class="s" :aria-selected="s===subj" @click="setSubj(s)">{{ s==='maths'?'Maths':'English' }}</button>
+  <div class="hubtop">
+    <div class="tabs" role="tablist">
+      <button v-for="s in (['maths','english'] as Subject[])" :key="s" role="tab" class="tab" :class="s" :aria-selected="s===subj" @click="setSubj(s)">{{ s==='maths'?'Maths':'English' }}</button>
+    </div>
+    <button class="wardb" aria-label="Wardrobe" @click="audio();sfx.pop();router.push('/wardrobe')"><HeroAvatar :avatar="p.avatar" :kit="p.kit" :size="52"/><Icon name="hanger"/></button>
   </div>
   <div class="quests">
     <button v-for="q in mine" :key="q.id" class="qcard" :class="stateOf(q)" :data-q="q.id" @click="open(q,$event)">

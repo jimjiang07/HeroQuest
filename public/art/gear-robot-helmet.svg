@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="42 0 116 96" width="200" height="200"><title>Robot helmet</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M100 28V12" fill="none" stroke-width="4"/><circle cx="100" cy="10" r="7" fill="#ff8a6b"/>
+    <path d="M58 76C56 42 76 28 100 28C124 28 144 42 142 76L130 76C128 60 116 54 100 54C84 54 72 60 70 76Z" fill="#9ad4f5"/>
+    <path d="M62 60H138" fill="none" stroke-width="3"/><circle cx="86" cy="42" r="3.2" fill="#2b2d42" stroke="none"/><circle cx="100" cy="42" r="3.2" fill="#2b2d42" stroke="none"/><circle cx="114" cy="42" r="3.2" fill="#2b2d42" stroke="none"/>
+    <rect x="48" y="64" width="14" height="26" rx="5" fill="#9aa3bf"/><rect x="138" y="64" width="14" height="26" rx="5" fill="#9aa3bf"/></g></svg>

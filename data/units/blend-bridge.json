@@ -13,11 +13,12 @@
     "blends"
    ],
    "game": [
-    "build",
-    "bridge"
+    "bridge",
+    "sort"
    ],
    "help": 5,
    "own": 8,
+   "challenge": 6,
    "boss": 5
   },
   "practice": {
@@ -108,13 +109,19 @@
     ]
    ]
   },
-  "build": {
+  "sort": {
+   "sounds": [
+    "tr",
+    "pl",
+    "st"
+   ],
    "words": [
-    "frog",
-    "drum",
-    "flag",
-    "sled",
-    "crab"
+    "tree",
+    "plug",
+    "star",
+    "nest",
+    "truck",
+    "plant"
    ]
   },
   "bridge": {

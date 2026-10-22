@@ -3,9 +3,9 @@
 import type {QuestStep} from '@/types';
 
 export const KEY='hq-v1';
-export const SCHEMA=2;
-export const QUEST_STEPS:QuestStep[]=['learn','help','own','game','paper','boss'];
-export const STEP_NAME:Record<QuestStep,string>={learn:'Learn it',help:'With help',own:'On your own',game:'Game',paper:'Paper quest',boss:'Boss'};
+export const SCHEMA=3;
+export const QUEST_STEPS:QuestStep[]=['learn','help','own','game','challenge','boss'];
+export const STEP_NAME:Record<QuestStep,string>={learn:'Learn it',help:'With help',own:'On your own',game:'Game',challenge:'Challenge',boss:'Boss'};
 const RECENT=10;
 
 export type Status='notyet'|'growing'|'secure';
@@ -13,7 +13,9 @@ export type Status='notyet'|'growing'|'secure';
 export type Attempt=[number,number,number,string];
 export interface Skill{status:Status;help:number;diff:number;recent:Attempt[];bossDay:string|null;secureDay:string|null;last:string|null;override:Status|null}
 export interface Feedback{quest:string;level:string|null;fun:string|null;tags:string[];note:string;day:string}
-export interface Profile{avatar:string;world:string;created:string;quests:Record<string,{done:QuestStep[]}>;skills:Record<string,Skill>;feedback:Feedback[];noPrinter:boolean}
+/** what the hero is wearing, by rig slot (head, main, off, back, outfit); a slot left out keeps the starter hero's gear, null = nothing */
+export type Kit=Partial<Record<'head'|'main'|'off'|'back'|'outfit',string|null>>;
+export interface Profile{avatar:string;world:string;created:string;quests:Record<string,{done:QuestStep[]}>;skills:Record<string,Skill>;feedback:Feedback[];kit?:Kit}
 export interface State{
   schema:number;profiles:Record<string,Profile>;active:string|null;unlockAll?:boolean;
   voice?:boolean;voiceName?:string;rate?:number;sfx?:boolean;
@@ -25,10 +27,17 @@ export const today=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).
 const LEGACY_ACTS=['jt10','blend','groups'];
 // the animal heroes became dress-up kids; an old save gets the closest look-alike
 const OLD_AVATAR:Record<string,string>={dragon:'knight',owl:'wizard',robot:'astronaut',fox:'ranger',unicorn:'builder'};
-const renamed=(st:State)=>{for(const p of Object.values(st.profiles))p.avatar=OLD_AVATAR[p.avatar]??p.avatar;return st};
+/* schema 3: the paper quest stopped being a step (the worksheet is optional), so its mark and the no-printer switch go */
+const tidy=(st:State)=>{
+  for(const p of Object.values(st.profiles)){
+    p.avatar=OLD_AVATAR[p.avatar]??p.avatar;delete (p as {noPrinter?:boolean}).noPrinter;
+    for(const q of Object.values(p.quests??{}))q.done=q.done.filter(s=>QUEST_STEPS.includes(s));
+  }
+  return st;
+};
 export function migrate(raw:unknown):State{
   const st={...(raw&&typeof raw==='object'?raw:{})} as Record<string,any>;
-  if(st.schema===SCHEMA)return renamed({...st,profiles:st.profiles||{},active:st.active??null} as State);
+  if(st.schema===SCHEMA||st.schema===2)return tidy({...st,schema:SCHEMA,profiles:st.profiles||{},active:st.active??null} as State);
   const acts=(st.acts||{}) as Record<string,{plays?:number}>;delete st.acts;
   const out={...st,schema:SCHEMA,profiles:{},active:null} as State;
   const played=Object.keys(acts).filter(id=>LEGACY_ACTS.includes(id)&&(acts[id].plays||0)>0);
@@ -37,13 +46,13 @@ export function migrate(raw:unknown):State{
     // an old full play covered the learning, practice and game parts of a quest
     for(const a of played)p.quests[a]={done:['learn','help','own','game']};
   }
-  return renamed(out);
+  return tidy(out);
 }
 
 export function addProfile(st:State,{avatar,world}:{avatar:string;world:string}):string{
   let n=1;while(st.profiles['p'+n])n++;
   const id='p'+n;
-  st.profiles[id]={avatar,world,created:today(),quests:{},skills:{},feedback:[],noPrinter:false};
+  st.profiles[id]={avatar,world,created:today(),quests:{},skills:{},feedback:[]};
   st.active=id;
   return id;
 }
@@ -55,11 +64,9 @@ export const quest=(p:Profile,id:string)=>(p.quests[id]??=({done:[]}));
 export const stepDone=(p:Profile,id:string,step:QuestStep)=>!!p.quests[id]?.done.includes(step);
 export const stepsDone=(p:Profile,id:string)=>p.quests[id]?.done.length??0;
 export function markStep(p:Profile,id:string,step:QuestStep){const q=quest(p,id);if(!q.done.includes(step))q.done.push(step)}
-/* steps open in order; the boss needs every step before it (paper can be waived by a grown-up) */
-export function stepOpen(p:Profile,id:string,step:QuestStep){
-  return QUEST_STEPS.slice(0,QUEST_STEPS.indexOf(step)).every(s=>stepDone(p,id,s)||(s==='paper'&&p.noPrinter));
-}
-export const nextStep=(p:Profile,id:string):QuestStep|null=>QUEST_STEPS.find(s=>!stepDone(p,id,s)&&!(s==='paper'&&p.noPrinter))??null;
+/* steps open in order; the boss needs every step before it */
+export const stepOpen=(p:Profile,id:string,step:QuestStep)=>QUEST_STEPS.slice(0,QUEST_STEPS.indexOf(step)).every(s=>stepDone(p,id,s));
+export const nextStep=(p:Profile,id:string):QuestStep|null=>QUEST_STEPS.find(s=>!stepDone(p,id,s))??null;
 
 export const skill=(p:Profile,id:string):Skill=>(p.skills[id]??=({status:'notyet',help:2,diff:0,recent:[],bossDay:null,secureDay:null,last:null,override:null}));
 
@@ -82,5 +89,16 @@ export function practiseAgain(p:Profile,id:string){const s=skill(p,id);s.overrid
 
 /* a quest opens once the quests it needs have their boss beaten */
 export const questOpen=(p:Profile,needs:string[],unlockAll=false)=>unlockAll||needs.every(n=>stepDone(p,n,'boss')||statusOf(p,n)==='secure');
+
+/* Gear from bosses: the first piece once the boss is beaten, the second once the rematch makes the skill secure */
+export const gearWon=(p:Profile,quests:{id:string;reward:readonly string[]}[])=>quests.flatMap(q=>{
+  const secure=statusOf(p,q.id)==='secure';
+  return [stepDone(p,q.id,'boss')||secure?q.reward[0]:null,secure?q.reward[1]:null].filter((g):g is string=>!!g);
+});
+/* the pieces that a change of progress just won (for the boss end screen) */
+export function newGear(p:Profile,quests:{id:string;reward:readonly string[]}[],change:()=>void){
+  const had=new Set(gearWon(p,quests));change();
+  return gearWon(p,quests).filter(g=>!had.has(g));
+}
 
 export function addFeedback(p:Profile,entry:Omit<Feedback,'day'>,day=today()){p.feedback=[...(p.feedback||[]),{...entry,day}].slice(-100)}

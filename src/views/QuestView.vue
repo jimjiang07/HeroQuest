@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /* One quest: 5 steps and the boss along a winding road through the quest's own scene (data/quests.json map).
-   Only the next stone glows; later ones stay locked. Portrait maps climb upwards; wide screens run left to right. */
+   Only the next stone glows; later ones stay locked. Portrait maps climb upwards; wide screens run left to right.
+   The worksheet is optional, for a grown-up and child to do together: a button in the corner downloads it. */
 import {computed,onBeforeUnmount,onMounted,ref,watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {useProgress} from '@/stores/progress';
@@ -19,7 +20,9 @@ const P=useProgress(),router=useRouter(),Q=questById(props.id);
 if(!Q)router.replace('/hub');
 const p=computed(()=>P.hero!);
 const STEP=L.STEP_NAME;
-const SUB:Record<QuestStep,string>={learn:'Watch and tap along',help:'Pictures help you',own:'Pictures fade away',game:'Play a game',paper:'Print it, write with a pen',boss:''};
+const SUB:Record<QuestStep,string>={learn:'Watch and tap along',help:'Pictures help you',own:'Pictures fade away',game:'Play a game',
+  challenge:Q?.subject==='english'?'Spell the words':'Story problems',boss:''};
+const sheet=`worksheets/quests/${props.id}.pdf`;
 setHeader({title:Q?.name??'',subject:Q?.subject,back:()=>router.push('/hub'),backLabel:'Quests'});
 const cur=computed(()=>Q?L.nextStep(p.value,Q.id):null);
 const wide=ref(false);
@@ -27,8 +30,7 @@ const wide=ref(false);
 const spot=(i:number)=>{const [x,y]=Q!.map.path[i];return wide.value?{x:100-y,y:x}:{x,y}};
 const stones=computed(()=>L.QUEST_STEPS.map((s,i)=>{
   const done=L.stepDone(p.value,Q!.id,s),open=L.stepOpen(p.value,Q!.id,s)||!!P.st.unlockAll,{x,y}=spot(i);
-  return {s,i,done,x,y,side:wide.value?(y<55?'d':'u'):(x<55?'r':'l'),state:done?'done':s===cur.value?'cur':open?'open':'lock',
-    skipped:s==='paper'&&p.value.noPrinter&&!done,num:String(i+1)};
+  return {s,i,done,x,y,side:wide.value?(y<55?'d':'u'):(x<55?'r':'l'),state:done?'done':s===cur.value?'cur':open?'open':'lock',num:String(i+1)};
 }));
 const here=computed(()=>stones.value[cur.value?L.QUEST_STEPS.indexOf(cur.value):stones.value.length-1]);
 // set inline: a relative url() inside a CSS variable would resolve against the stylesheet's folder
@@ -62,7 +64,7 @@ watch(cur,()=>requestAnimationFrame(measure));
 function go(st:{s:QuestStep;state:string},e:Event){
   audio();
   if(st.state==='lock'){shake(e.currentTarget as Element);say('Finish the stone before it first!');return}
-  sfx.pop();router.push(st.s==='paper'?`/quest/${Q!.id}/paper`:`/play/${Q!.id}/${st.s}`);
+  sfx.pop();router.push(`/play/${Q!.id}/${st.s}`);
 }
 </script>
 
@@ -73,10 +75,11 @@ function go(st:{s:QuestStep;state:string},e:Event){
     </svg>
     <button v-for="st in stones" :key="st.s" class="stone2" :class="[st.state,{boss:st.s==='boss'},st.side]" :data-s="st.s" :style="{'--x':st.x,'--y':st.y}"
       :aria-label="`${STEP[st.s]}: ${st.state}`" @click="go(st,$event)">
-      <span class="sf"><Icon v-if="st.done" name="star"/><img v-else-if="st.s==='boss'" :src="art(Q.boss.art)" alt=""><Icon v-else-if="st.s==='paper'" name="pencil"/><template v-else>{{ st.num }}</template></span>
+      <span class="sf"><Icon v-if="st.done" name="star"/><img v-else-if="st.s==='boss'" :src="art(Q.boss.art)" alt=""><template v-else>{{ st.num }}</template></span>
       <!-- only the stone to play next and the boss carry a label: few things on screen -->
-      <span v-if="st.state==='cur'||st.s==='boss'" class="sl"><b>{{ st.s==='boss'?`Boss: ${Q.boss.name}`:`${st.i+1} · ${STEP[st.s]}` }}</b><small>{{ st.skipped?'Skipped: no printer':SUB[st.s] }}</small></span>
+      <span v-if="st.state==='cur'||st.s==='boss'" class="sl"><b>{{ st.s==='boss'?`Boss: ${Q.boss.name}`:`${st.i+1} · ${STEP[st.s]}` }}</b><small>{{ SUB[st.s] }}</small></span>
     </button>
-    <div v-if="here" class="qhere" :class="here.side" :style="{'--x':here.x,'--y':here.y}" aria-hidden="true"><HeroAvatar :avatar="p.avatar" :size="56" full/></div>
+    <a class="sheet" :href="sheet" :download="`${Q.name}.pdf`" @click="audio();sfx.pop()"><Icon name="printer"/><span>Worksheet</span></a>
+    <div v-if="here" class="qhere" :class="here.side" :style="{'--x':here.x,'--y':here.y}" aria-hidden="true"><HeroAvatar :avatar="p.avatar" :kit="p.kit" :size="56" full/></div>
   </div>
 </template>

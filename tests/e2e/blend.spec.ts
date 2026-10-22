@@ -1,6 +1,8 @@
 import {test,expect} from '@playwright/test';
 import {readFileSync} from 'node:fs';
-import {finishRun,fits,hero,moreOrDone,next,playBoss,playPractice,saved,seed,startStep,tickAll,watchErrors} from './helpers';
+import {answer,finishRun,playBoss,fits,hero,learnCards,next,playPractice,saved,seed,startStep,watchErrors} from './helpers';
+import type {Page} from '@playwright/test';
+
 
 /* Blend Bridge and sh ch th Cave (blend module): every step plays to the end, tapping only right answers, and every screen fits. */
 const QUESTS={blend:'blend-bridge',digraph:'sh-ch-th'} as const;
@@ -9,7 +11,7 @@ test.beforeEach(async({page})=>{await seed(page,hero())});
 for(const [id,unit] of Object.entries(QUESTS)){
   const A=JSON.parse(readFileSync(`data/units/${unit}.json`,'utf8')).app;
 
-  test(`${id}: Learn it: slide the letters, read the families`,async({page})=>{
+  test(`${id}: Learn it: slide the letters, hear the families and find a word`,async({page})=>{
     const errors=watchErrors(page);
     await startStep(page,id,'learn');await fits(page,'trick');
     await page.getByRole('button',{name:'Slide!'}).click();
@@ -17,7 +19,7 @@ for(const [id,unit] of Object.entries(QUESTS)){
     await page.getByRole('button',{name:'Add the rest'}).click();
     await expect(page.locator('#next')).toBeEnabled({timeout:10000});
     await next(page);
-    await tickAll(page,A.blends.families.length,'families');
+    await learnCards(page,A.blends.families.length,'families');
     await finishRun(page);
     expect((await saved(page)).profiles.p1.quests[id].done).toContain('learn');
     expect(errors).toEqual([]);
@@ -33,18 +35,20 @@ for(const [id,unit] of Object.entries(QUESTS)){
     expect(errors).toEqual([]);
   });
 
-  test(`${id}: Game: build the words, cross the bridge`,async({page})=>{
+  test(`${id}: Game: cross the bridge, sort the sounds`,async({page})=>{
     const errors=watchErrors(page);
     await startStep(page,id,'game');
-    for(const w of A.build.words as string[]){
-      await fits(page,`build ${w}`);
-      for(const ch of w)await page.locator(`.lt:not(.used)[data-c="${ch}"]`).first().click();
-      await moreOrDone(page);
-    }
-    await next(page);
     for(const [,right] of A.bridge.questions as [string,string,string][]){
       await fits(page,`bridge ${right}`);
       await page.locator(`.ch[data-w="${right}"]`).click();await page.waitForTimeout(1300);
+    }
+    await expect(page.locator('#next')).toBeEnabled({timeout:6000});
+    await next(page);
+    for(const w of A.sort.words as string[]){
+      const card=page.locator('.sortcard:not(.drop)');
+      await expect(card.locator('.sortw')).toHaveText(w);
+      await fits(page,`sort ${w}`);
+      await page.locator(`.basket[data-s="${await card.getAttribute('data-a')}"]`).click();
     }
     await expect(page.locator('#next')).toBeEnabled({timeout:6000});
     await finishRun(page);
@@ -52,7 +56,14 @@ for(const [id,unit] of Object.entries(QUESTS)){
     expect(errors).toEqual([]);
   });
 
-  test(`${id}: Boss: read it out loud, then beat the boss`,async({page})=>{
+  test(`${id}: Challenge: spell the words`,async({page})=>{
+    const errors=watchErrors(page);
+    await startStep(page,id,'challenge');await playPractice(page,`${id} challenge`);await finishRun(page);
+    expect((await saved(page)).profiles.p1.quests[id].done).toContain('challenge');
+    expect(errors).toEqual([]);
+  });
+
+  test(`${id}: Boss: beat the boss, then spell the bonus word`,async({page})=>{
     const errors=watchErrors(page);
     await startStep(page,id,'boss');await playBoss(page,id);
     await finishRun(page);

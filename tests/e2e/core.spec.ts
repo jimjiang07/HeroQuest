@@ -1,5 +1,5 @@
 import {test,expect} from '@playwright/test';
-import {fits,hero,next,quiet,saved,seed,watchErrors} from './helpers';
+import {fits,playBoss,hero,next,quiet,saved,seed,watchErrors} from './helpers';
 
 test('a first-time player makes a hero and reaches the quest picker',async({page})=>{
   const errors=watchErrors(page);
@@ -51,33 +51,40 @@ test('a quest map opens one stone at a time',async({page})=>{
   await expect(page).toHaveURL(/#\/play\/jt10\/learn$/);
 });
 
-test('the paper quest needs a grown-up to press and hold',async({page})=>{
+test('the worksheet is an optional download on the quest map, not a step',async({page})=>{
   await seed(page,hero());
-  await page.goto('./#/quest/jt10/paper');await fits(page,'paper');
-  await expect(page.getByRole('link',{name:/Print the sheet/})).toHaveAttribute('href','print/index.html#jt10');
-  const hold=page.locator('#paperdone');
-  await hold.click();                                             // a quick tap does not count
-  expect((await saved(page)).profiles.p1.quests.jt10?.done??[]).not.toContain('paper');
-  await hold.dispatchEvent('pointerdown');await page.waitForTimeout(1700);
-  await expect(page).toHaveURL(/#\/quest\/jt10$/,{timeout:4000});
-  expect((await saved(page)).profiles.p1.quests.jt10.done).toContain('paper');
+  await page.goto('./#/quest/jt10');await fits(page,'quest map');
+  await expect(page.locator('a.sheet')).toHaveAttribute('href','worksheets/quests/jt10.pdf');
+  await expect(page.locator('.stone2[data-s="challenge"]')).toHaveCount(1);
+  await page.goto('./#/quest/jt10/paper');                         // an old link to the paper step lands on the map
+  await expect(page).toHaveURL(/#\/quest\/jt10$/);
+});
+
+test('answers wait for the voice: no options or Next until the question has been read',async({page})=>{
+  // a slow stub voice: each line takes 1.5 s to "finish"
+  await page.addInitScript(()=>{
+    Object.defineProperty(window,'speechSynthesis',{value:{speak(u:SpeechSynthesisUtterance){setTimeout(()=>u.onend?.(new Event('end') as SpeechSynthesisEvent),1500)},cancel(){},getVoices:()=>[],onvoiceschanged:null},configurable:true});
+    (window as any).AudioContext=undefined;
+  });
+  await page.addInitScript(s=>localStorage.setItem('hq-v1',JSON.stringify(s)),{...hero(),voiceName:'stub'});
+  await page.goto('./#/play/heart/help');
+  await page.click('#next');
+  await expect(page.locator('.qwrap .listen')).toBeVisible();
+  await expect(page.locator('.qwrap .ch')).toHaveCount(0);
+  await expect(page.locator('#next')).toBeDisabled();
+  await expect(page.locator('.qwrap .ch').first()).toBeVisible({timeout:5000});
 });
 
 test('beating the boss, then a rematch on a later day, makes a skill secure',async({page})=>{
   const st=hero();
-  (st.profiles as any).p1.quests.jt10={done:['learn','help','own','game','paper','boss']};
+  (st.profiles as any).p1.quests.jt10={done:['learn','help','own','game','challenge','boss']};
   (st.profiles as any).p1.skills.jt10={status:'growing',help:3,diff:2,recent:[],bossDay:'2026-01-01',secureDay:null,last:'2026-01-01',override:null};
   await seed(page,st);
   await page.goto('./#/hub');
   await expect(page.locator('.rematch')).toContainText('is back');
   await page.locator('.rematch').click();
   await next(page);
-  for(let i=0;i<3;i++){
-    await page.getByRole('button',{name:'I said it!'}).click();
-    const a=await page.locator('.qwrap').getAttribute('data-a');
-    await page.locator(`.qwrap .ch[data-v="${a}"]`).click();await page.waitForTimeout(1500);
-  }
-  await expect(page.locator('.bonus')).toBeVisible();
+  await playBoss(page,'rematch');
   expect((await saved(page)).profiles.p1.skills.jt10.status).toBe('secure');
 });
 
@@ -98,8 +105,6 @@ test('grown-ups: press and hold opens the dialog; skills, feedback and heroes wo
   expect(fb).toHaveLength(1);expect(fb[0]).toMatchObject({level:'too hard',tags:['wanted more']});
   expect(fb[0]).not.toHaveProperty('time');
   await page.getByRole('tab',{name:'Heroes'}).click();
-  await page.getByLabel(/No printer/).check();
-  expect((await saved(page)).profiles.p1.noPrinter).toBe(true);
   await page.getByRole('button',{name:'Done'}).click();
   await expect(page.getByRole('dialog')).toBeHidden();
 });
@@ -109,7 +114,7 @@ test('an old save keeps its stars as the first hero',async({page})=>{
   await page.goto('./');
   await expect(page).toHaveURL(/#\/hub$/);
   const st=await saved(page);
-  expect(st.schema).toBe(2);
+  expect(st.schema).toBe(3);
   expect(st.profiles[st.active].quests.jt10.done).toEqual(['learn','help','own','game']);
   await expect(page.locator('.qcard[data-q="jt10"] .qp.ok')).toHaveCount(4);
 });

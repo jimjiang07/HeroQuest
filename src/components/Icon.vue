@@ -15,6 +15,7 @@ const I:Record<string,string>={
   check:'<path d="M10 25l9 9 19-20" fill="none" stroke-width="6"/>',
   talk:'<path d="M7 9h34v22H23l-9 8v-8H7z" fill="#fff"/><circle cx="16" cy="20" r="2.4" fill="var(--ink)" stroke="none"/><circle cx="24" cy="20" r="2.4" fill="var(--ink)" stroke="none"/><circle cx="32" cy="20" r="2.4" fill="var(--ink)" stroke="none"/>',
   castle:'<path d="M8 42V18h7v5h5v-9h8v9h5v-5h7v24z" fill="var(--lav)"/><path d="M20 42v-9a4 4 0 0 1 8 0v9" fill="var(--brown)"/><path d="M24 14V5l7 3-7 3" fill="var(--coral)"/>',
+  hanger:'<path d="M20 12a4.5 4.5 0 1 1 6 4.2c-1.4.6-2 1.6-2 3V22" fill="none"/><path d="M24 22L6 34c-2.4 1.8-1.6 4 1.4 4h33.2c3 0 3.8-2.2 1.4-4z" fill="var(--sky)"/>',
   back:'<path d="M29 9L14 24l15 15" fill="none" stroke-width="6"/>',
 };
 defineProps<{name:string}>();

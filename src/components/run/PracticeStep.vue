@@ -12,7 +12,7 @@ import {SAY} from '@/voice/say';
 
 const props=defineProps<{quest:QuestDef;level:{help:number;diff:number};count:number;minHelp:number;maxHelp:number;seed:string}>();
 const emit=defineEmits<{record:[{help:number;diff:number;tries:number}];finish:[{help:number;diff:number}]}>();
-const run=useRun();
+const run=useRun(),listening=run.listening;
 const P=props.quest.data.practice,r=rng(props.seed);
 
 let s=A.start({help:props.level.help,diff:props.level.diff,maxDiff:P.levels.length-1,minHelp:props.minHelp,maxHelp:props.maxHelp});
@@ -50,6 +50,6 @@ async function pick(v:string,el:HTMLElement){
     <span v-for="i in list.length" :key="i" class="qp" :class="{ok:i<=n||(i===n+1&&picked)}"></span>
   </div>
   <!-- data-a lets tests tap the right answer; children never see it -->
-  <div v-if="n<list.length" class="qwrap" :data-a="q.answer"><QuestionCard :q="q" :glow="worked" :picked="picked" @pick="pick"/></div>
+  <div v-if="n<list.length" class="qwrap" :data-a="q.answer"><QuestionCard :q="q" :glow="worked" :picked="picked" :wait="listening" @pick="pick"/></div>
   <div class="msg">{{ msg }}</div>
 </template>

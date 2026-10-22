@@ -13,11 +13,12 @@
     "blends"
    ],
    "game": [
-    "build",
-    "bridge"
+    "bridge",
+    "sort"
    ],
    "help": 5,
    "own": 8,
+   "challenge": 6,
    "boss": 5
   },
   "practice": {
@@ -95,13 +96,19 @@
     ]
    ]
   },
-  "build": {
+  "sort": {
+   "sounds": [
+    "sh",
+    "ch",
+    "th"
+   ],
    "words": [
     "ship",
     "chip",
-    "fish",
     "bath",
-    "dish"
+    "fish",
+    "cheese",
+    "thumb"
    ]
   },
   "bridge": {

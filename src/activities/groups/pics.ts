@@ -4,9 +4,9 @@ import {dot} from '../common/pics';
 // dots per bag laid out so 6 and 9 read as neat rectangles
 const colsOf=(n:number)=>n<=4?2:n<=6?3:n===9?3:n<=8?4:5;
 export const bag=(n:number,c='red',attrs='')=>`<div class="bag" ${attrs} style="--gc:${colsOf(n)}">${Array.from({length:n},()=>dot(c)).join('')}</div>`;
-export const groups=(g:number,n:number,c='red')=>`<div class="gp">${Array.from({length:g},()=>bag(n,c)).join('')}</div>`;
+export const groups=(g:number,n:number,c='red')=>`<div class="gp" style="--g:${g}">${Array.from({length:g},()=>bag(n,c)).join('')}</div>`;
 /* labelled: each bag shows its running total (skip counting) */
-export const groupsL=(g:number,n:number)=>`<div class="gp">${Array.from({length:g},(_,i)=>bag(n,'red',`data-c="${(i+1)*n}"`)).join('')}</div>`;
+export const groupsL=(g:number,n:number)=>`<div class="gp" style="--g:${g}">${Array.from({length:g},(_,i)=>bag(n,'red',`data-c="${(i+1)*n}"`)).join('')}</div>`;
 /* rows of dots; labelled = a running total beside each row */
 export function arr(r:number,c:number,col='red',lab=false){
   const dots=`<div class="arr" style="--ac:${c}">${Array.from({length:r*c},()=>dot(col)).join('')}</div>`;

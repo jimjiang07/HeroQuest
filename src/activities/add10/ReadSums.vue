@@ -1,9 +1,9 @@
 <script setup lang="ts">
-/* Read & say: ten-frame cards with their sums. */
+/* Learn it cards: a labelled ten-frame and its sum, then the child types that sum. */
 import type {UnitApp} from '@/types';
-import ReadTicks from '@/components/run/ReadTicks.vue';
-import {readItems} from './speech';
+import LearnCards from '@/components/run/LearnCards.vue';
+import {readCards} from './speech';
 const props=defineProps<{data:UnitApp}>();
-const items=readItems(props.data);
+const cards=readCards(props.data);
 </script>
-<template><ReadTicks :items="items"/></template>
+<template><LearnCards :cards="cards"/></template>

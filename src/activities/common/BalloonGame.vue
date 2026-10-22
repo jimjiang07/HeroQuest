@@ -1,5 +1,6 @@
 <script setup lang="ts">
-/* Game: pop the balloon with the right answer. A hint shows the picture; a wrong pop just wobbles. */
+/* Game: pop the balloon with the right answer. Balloons float up once the voice has read the round, so a word to listen for
+   isn't shown before it's heard. A hint shows the picture; a wrong pop just wobbles. */
 import {computed,onMounted,ref} from 'vue';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,sleep,tryAgain} from '@/services/audio';
@@ -10,7 +11,7 @@ import {SAY} from '@/voice/say';
 /* q: the sum shown as "Pop the balloon. q = ?"; a game with its own prompt (e.g. "pop the word you hear") leaves it out */
 export interface BalloonRound{q?:string;say:string;answer:string;options:string[];hint?:string;hintSay?:string;after:string}
 const props=defineProps<{rounds:BalloonRound[];prompt?:string;cls?:string}>();
-const run=useRun();
+const run=useRun(),listening=run.listening;
 const COLS=['#d6402b','#e8890c','#2f9e44','#5b4bc4','#0c8599','#c2255c'];
 const r=ref(0),popped=ref<string|null>(null),hint=ref(false),msg=ref('');
 const R=computed(()=>props.rounds[r.value]),opts=computed(()=>shuffle(R.value.options));
@@ -31,7 +32,8 @@ async function pop(v:string,e:Event){
   <template v-if="r<rounds.length">
     <div v-if="R.q" class="prompt">Pop the balloon. <b v-html="R.q"></b> = ?</div>
     <div v-else class="prompt">{{ prompt }}</div>
-    <div class="balloons" :data-a="R.answer">
+    <div v-if="listening" class="listen balloons-wait"><Icon name="speaker"/><span>Listen…</span></div>
+    <div v-else class="balloons" :data-a="R.answer">
       <button v-for="(o,k) in opts" :key="o+r" class="bln" :class="[cls,{pop:popped===o}]" :disabled="!!popped" :data-v="o" :style="{'--col':COLS[(k+r)%6],animationDelay:k*.45+'s'}" @click="pop(o,$event)">{{ o }}</button>
     </div>
     <div class="msg">{{ msg }}</div>

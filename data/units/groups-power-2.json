@@ -13,10 +13,11 @@
    ],
    "game": [
     "memory",
-    "balloon"
+    "bags"
    ],
    "help": 5,
    "own": 8,
+   "challenge": 6,
    "boss": 5
   },
   "practice": {
@@ -71,14 +72,6 @@
     [
      3,
      4
-    ],
-    [
-     4,
-     2
-    ],
-    [
-     5,
-     2
     ]
    ]
   },
@@ -110,32 +103,45 @@
     ]
    ]
   },
-  "balloon": {
+  "bags": {
    "rounds": [
     [
-     2,
-     3
-    ],
-    [
      3,
-     2
-    ],
-    [
-     2,
      4
     ],
     [
-     3,
-     3
+     2,
+     5
     ],
     [
      4,
      2
     ],
     [
-     2,
-     5
+     3,
+     3
     ]
+   ]
+  },
+  "stories": {
+   "names": [
+    "Sam",
+    "Ava",
+    "Leo",
+    "Mia",
+    "Kai",
+    "Zoe",
+    "Ben",
+    "Ivy",
+    "Noah",
+    "Ruby"
+   ],
+   "templates": [
+    "There are {a} bags. Each bag has {b} coins. How many coins?",
+    "{name} has {a} boxes. Each box has {b} shells. How many shells?",
+    "There are {a} nests. Each nest has {b} eggs. How many eggs?",
+    "{name} makes {a} plates. Each plate has {b} grapes. How many grapes?",
+    "There are {a} cars. Each car has {b} wheels. How many wheels?"
    ]
   }
  },

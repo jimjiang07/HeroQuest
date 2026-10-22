@@ -90,7 +90,6 @@ function close(){emit('close');if(!P.hero)router.push('/who')}
             <button class="mini" @click="del(String(id))">{{ sure===id?'Tap again to delete':'Delete' }}</button>
           </div>
         </div>
-        <label v-if="hero">No printer: skip paper quests for this hero <input v-model="hero.noPrinter" type="checkbox"></label>
         <div class="row"><button class="btn alt" @click="backup">Back up progress</button><label class="btn alt filebtn">Restore backup<input type="file" accept="application/json" hidden @change="restore"></label></div>
         <p class="tip">{{ imsg }}</p>
       </div>

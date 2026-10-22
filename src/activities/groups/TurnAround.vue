@@ -1,24 +1,24 @@
 <script setup lang="ts">
-/* Turn it around: an array and the same array turned round. Same dots, so the same total. */
+/* Turn it around: an array and the same array turned round. Same dots, so the same total, typed on the pad. */
 import {computed,onMounted,ref} from 'vue';
 import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,tryAgain} from '@/services/audio';
-import {nearNumbers} from '@/shared';
+import Icon from '@/components/Icon.vue';
+import NumPad from '@/components/run/NumPad.vue';
 import {sameAsk,sameDone} from './speech';
 import {arr} from './pics';
 
 const props=defineProps<{data:UnitApp}>();
-const run=useRun(),Q=(props.data.same as {questions:[number,number][]}).questions;
-const q=ref(0),picked=ref<string|null>(null),msg=ref('');
+const run=useRun(),listening=run.listening,Q=(props.data.same as {questions:[number,number][]}).questions;
+const q=ref(0),done=ref(false),typed=ref(''),msg=ref('');
 const a=computed(()=>Q[q.value][0]),b=computed(()=>Q[q.value][1]),p=computed(()=>a.value*b.value);
-const opts=computed(()=>nearNumbers(p.value,b.value));
-const ask=()=>{picked.value=null;msg.value='';run.setPrompt(sameAsk(a.value,b.value))};
+const ask=()=>{done.value=false;typed.value='';msg.value='';run.setPrompt(sameAsk(a.value,b.value))};
 onMounted(ask);
-function pick(v:string,e:Event){
+function check(el:HTMLElement){
   audio();
-  if(v!==String(p.value))return tryAgain(e.currentTarget,msg);
-  picked.value=v;sfx.ding();msg.value=`Same dots, turned around! ${a.value} × ${b.value} = ${b.value} × ${a.value}`;
+  if(typed.value!==String(p.value)){const v=typed.value;tryAgain(el,msg);setTimeout(()=>{if(!done.value&&typed.value===v)typed.value=''},700);return}
+  done.value=true;sfx.ding();msg.value=`Same dots, turned around! ${a.value} × ${b.value} = ${b.value} × ${a.value}`;
   say(sameDone(a.value,b.value));
   if(q.value<Q.length-1)run.onNext(()=>{q.value++;ask()});else run.setOK();
 }
@@ -28,10 +28,11 @@ function pick(v:string,e:Event){
   <div class="prompt">Turn it around. How many now?</div>
   <div class="pair2">
     <div class="side"><div v-html="arr(a,b,'red')"></div><div class="cap">{{ a }} × {{ b }} = {{ p }}</div></div>
-    <div class="side"><div v-html="arr(b,a,'or')"></div><div class="cap">{{ b }} × {{ a }} = <span v-if="!picked" class="q"></span><template v-else>{{ p }}</template></div></div>
+    <div class="side"><div v-html="arr(b,a,'or')"></div><div class="cap">{{ b }} × {{ a }} = <span class="q" :class="{typed:typed||done}">{{ typed }}</span></div></div>
   </div>
-  <div class="choices">
-    <button v-for="o in opts" :key="o+q" class="ch" :class="{right:picked===o}" :data-v="o" :disabled="!!picked" @click="pick(o,$event)">{{ o }}</button>
+  <div class="qwrap" :data-a="p">
+    <div v-if="listening" class="listen" aria-label="Listen"><Icon name="speaker"/><span>Listen…</span></div>
+    <NumPad v-else v-model="typed" :disabled="done" @check="check"/>
   </div>
   <div class="msg">{{ msg }}</div>
 </template>
