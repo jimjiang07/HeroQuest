@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* Plays one quest step: the activity's own steps (Learn it, Game) or the shared practice and boss steps. */
-import {computed,ref} from 'vue';
+import {computed,onBeforeUnmount,ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useProgress} from '@/stores/progress';
 import {setHeader} from '@/stores/ui';
@@ -14,13 +14,24 @@ import PracticeStep from '@/components/run/PracticeStep.vue';
 import BossStep from '@/components/run/BossStep.vue';
 import ChallengeStep from '@/components/run/ChallengeStep.vue';
 import {SAY} from '@/voice/say';
+import {say} from '@/services/audio';
 
 const props=defineProps<{id:string;step:string;rematch?:boolean}>();
 const P=useProgress(),router=useRouter(),Q=questById(props.id),step=props.step as QuestStep;
 const p=P.hero!;
 const exit=()=>router.push(props.rematch?'/hub':`/quest/${props.id}`);
 if(!Q||!L.QUEST_STEPS.includes(step))router.replace('/hub');
-setHeader({title:`${Q?.name} · ${props.rematch?'Rematch':L.STEP_NAME[step]}`,subject:Q?.subject,back:exit,backLabel:'Map',backIcon:'map'});
+// mid-step, Map needs a second tap: one stray tap must not throw the step away
+let busy:boolean=false,armed=0;
+const head=(label:string)=>setHeader({title:`${Q?.name} · ${props.rematch?'Rematch':L.STEP_NAME[step]}`,subject:Q?.subject,back:leave,backLabel:label,backIcon:'map'});
+function leave(){
+  if(!busy||armed){clearTimeout(armed);exit();return}
+  head('Leave?');say('Tap again to leave. Your step will start again next time.');
+  armed=window.setTimeout(()=>{armed=0;head('Map')},4000);
+}
+const setBusy=(v:boolean)=>{busy=v};
+head('Map');
+onBeforeUnmount(()=>clearTimeout(armed));
 
 const seed=`${P.st.active}-${props.id}-${step}-${Date.now()}`;
 const record=({help,diff,tries}:{help:number;diff:number;tries:number})=>L.record(p,props.id,{help,diff,firstTry:tries===1});
@@ -60,5 +71,5 @@ const done=()=>{if(Q&&step!=='boss')L.markStep(p,Q.id,step)};
 </script>
 
 <template>
-  <StepRunner v-if="Q" :steps="steps" :intro="intro" :end="end" @done="done" @exit="exit"/>
+  <StepRunner v-if="Q" :steps="steps" :intro="intro" :end="end" @done="done" @exit="exit" @busy="setBusy"/>
 </template>

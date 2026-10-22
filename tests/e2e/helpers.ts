@@ -58,11 +58,23 @@ export async function answer(page:Page,where='.qwrap'){
   }else await box.locator(`.ch[data-v="${a}"]`).click();
   return a;
 }
-/* shared practice: answer every question right until the step is complete */
+/* a wrong answer: a wrong number, a wrong choice, or a wrong letter tile */
+export async function wrong(page:Page,where='.qwrap'){
+  const box=page.locator(where).last(),a=(await box.getAttribute('data-a'))!;
+  await expect(box.locator('.listen')).toHaveCount(0,{timeout:15000});
+  if(await box.locator('.pad').count()){
+    for(const k of String(Number(a)+1))await box.locator(`.pk[data-k="${k}"]`).click();
+    await box.locator('.pk.ok').click();
+  }else if(await box.locator('.pool').count())await box.locator(`.lt:not([data-c="${a[0]}"]):not(.used)`).first().click();
+  else await box.locator(`.ch:not([data-v="${a}"])`).first().click();
+  await page.waitForTimeout(800);
+}
+/* shared practice: the first question is got wrong three times (so the worked example plays), then every one right */
 export async function playPractice(page:Page,where:string){
   for(let i=0;i<20;i++){
     await expect(page.locator('.qwrap')).toBeVisible();
     await fits(page,`${where} q${i+1}`);
+    if(!i){for(let k=0;k<3;k++)await wrong(page);await fits(page,`${where} worked`)}
     await answer(page);
     await expect(page.locator('#next:enabled')).toBeVisible({timeout:15000});
     if(!(await page.locator('#next[data-more]').count()))return;
@@ -75,6 +87,7 @@ export async function playBoss(page:Page,where:string){
   for(let i=0;i<10;i++){
     if(await page.locator('.bonus').count())break;
     await fits(page,`${where} boss q${i+1}`);
+    if(!i)await wrong(page);
     await answer(page);
     // the boss is hit, then either asks the next question or is beaten and leaves the bonus question
     await expect(page.locator('img.boss.hit')).toBeVisible();

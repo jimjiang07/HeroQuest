@@ -56,7 +56,8 @@ function speak(text:string,done:()=>void){
 /* ---- recorded voice: one clip per sentence in public/voice/ (npm run voice) ---- */
 export const RECORDED_RATE=0.9;   // the speed slider's default plays clips as recorded
 let recorded:Set<string>|null=null;
-const ready=typeof window==='undefined'?Promise.resolve():fetch('voice/index.json').then(r=>r.ok?r.json():{clips:[]})
+// no-cache: right after a deploy a cached old list would miss the new sentences and the device voice would read them
+const ready=typeof window==='undefined'?Promise.resolve():fetch('voice/index.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{clips:[]})
   .then(j=>{recorded=new Set(j.clips)}).catch(()=>{recorded=new Set()});
 const player=typeof Audio==='undefined'?null:new Audio();
 const urls=new Map<string,Promise<string>>();
@@ -82,7 +83,7 @@ let cutOff:(()=>void)|null=null;
 /* true while a line is being read: screens wait for it before showing answers or moving on */
 export const talking=ref(false);
 // if a device never reports the end of a line, it still counts as finished after about this long
-const longest=(text:string,rate:number)=>3000+text.split(/\s+/).length*650/Math.max(rate,.3);
+const longest=(text:string,rate:number)=>2000+text.split(/\s+/).length*500/Math.max(rate,.3);
 
 /* done is called exactly once: when the line ends, fails, or is cut off by a newer line */
 export function say(text:string,done?:()=>void){
@@ -98,7 +99,8 @@ export function say(text:string,done?:()=>void){
   void ready.then(async()=>{
     if(my!==turn)return;
     const ids=parts.map(clipId),missing=parts.filter((_,i)=>!recorded!.has(ids[i]));
-    if(missing.length){if(recorded!.size)console.warn('[voice] not recorded, run npm run voice:',missing.join(' | '));speak(text,end);return}
+    // a sentence missing from the list may still have a clip (an old list): only a clip that won't load falls back to the device voice
+    if(missing.length&&recorded!.size)console.warn('[voice] not recorded, run npm run voice:',missing.join(' | '));
     let srcs:string[];
     try{srcs=await Promise.all(ids.map(load))}catch{if(my===turn)speak(text,end);return}   // offline: the device voice still works
     for(const src of srcs){
@@ -106,7 +108,9 @@ export function say(text:string,done?:()=>void){
       player.src=src;player.defaultPlaybackRate=player.playbackRate=cfg.rate/RECORDED_RATE;
       const ended=new Promise<void>(res=>{player.onended=()=>res();player.onerror=()=>res()});
       try{await player.play()}catch{if(my===turn)end();return}   // autoplay blocked before the first tap, or a newer line took over
-      await ended;await sleep(120);
+      // iPad sometimes never fires "ended" (e.g. after an interruption): a clip is over once its own length has passed
+      const len=player.duration;
+      await Promise.race([ended,sleep(Number.isFinite(len)?len*1000/player.playbackRate+700:6000)]);await sleep(120);
     }
     if(my===turn)end();
   });

@@ -21,7 +21,8 @@ await vite.close();
 // fixed sentences written in the source: any quoted text that starts with a capital and ends like a sentence
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):[path.join(d,e.name)]);
 for(const f of walk(path.join(root,'src')).filter(f=>/\.(vue|ts)$/.test(f)))
-  for(const m of fs.readFileSync(f,'utf8').matchAll(/'([^'\\\n]+)'|"([^"\\\n]+)"|`([^`$\\\n]+)`/g)){
+  // empty strings ('') must match too, or the scan pairs the wrong quotes and skips the sentence after them
+  for(const m of fs.readFileSync(f,'utf8').matchAll(/'([^'\\\n]*)'|"([^"\\\n]*)"|`([^`$\\\n]*)`/g)){
     const t=m[1]??m[2]??m[3];
     if(/^[A-Z][^<>{}=;]*[.!?]$/.test(t))lines.push(t);
   }
