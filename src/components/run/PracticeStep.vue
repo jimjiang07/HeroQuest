@@ -8,6 +8,7 @@ import {items,rng} from '@/learn/gen';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,sleep,tryAgain} from '@/services/audio';
 import QuestionCard from './QuestionCard.vue';
+import {SAY} from '@/voice/say';
 
 const props=defineProps<{quest:QuestDef;level:{help:number;diff:number};count:number;minHelp:number;maxHelp:number;seed:string}>();
 const emit=defineEmits<{record:[{help:number;diff:number;tries:number}];finish:[{help:number;diff:number}]}>();
@@ -30,7 +31,7 @@ async function pick(v:string,el:HTMLElement){
     if(!worked.value&&tries.value>=A.RULES.workedAfter){worked.value=true;msg.value='Watch: tap the glowing one.';run.setPrompt(q.value.explain??q.value.say)}
     return;
   }
-  picked.value=v;sfx.ding();msg.value=q.value.after??'Yes!';say(`Yes! ${q.value.after??''}`);
+  picked.value=v;sfx.ding();msg.value=q.value.after??'Yes!';say(SAY.yes(q.value.after??''));
   const t=worked.value?Math.max(tries.value,A.RULES.workedAfter):tries.value;
   emit('record',{help:s.help,diff:s.diff,tries:t});
   const res=A.next(s,t);s=res.s;

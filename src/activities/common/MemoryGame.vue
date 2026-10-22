@@ -4,13 +4,14 @@ import {onMounted,ref} from 'vue';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,sleep} from '@/services/audio';
 import {shuffle} from '@/shared';
+import {SAY} from '@/voice/say';
 
 export interface MemCard{pair:string;face:string;speak:string}
 const props=defineProps<{cards:MemCard[];prompt:string;matched:(a:MemCard)=>string}>();
 const run=useRun();
 const deck=ref(shuffle(props.cards)),up=ref<number[]>([]),done=ref(new Set<number>()),msg=ref('Tap a card to flip it.');
 let lock=false;
-onMounted(()=>run.setPrompt(`${props.prompt} Tap a card to flip it.`));
+onMounted(()=>run.setPrompt(SAY.flip(props.prompt)));
 async function flip(i:number){
   if(lock||up.value.includes(i)||done.value.has(i))return;
   audio();sfx.pop();say(deck.value[i].speak);up.value=[...up.value,i];

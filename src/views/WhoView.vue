@@ -17,7 +17,7 @@ function pick(id:string){audio();sfx.pop();P.st.active=id;router.push('/hub')}
   <div class="prompt">Who’s playing?</div>
   <div class="heroes">
     <button v-for="id in ids" :key="id" class="herob" :data-id="id" :style="{'--wc':WORLDS[P.st.profiles[id].world]?.c}" @click="pick(id)">
-      <HeroAvatar :avatar="P.st.profiles[id].avatar" :size="88"/><span>{{ AVATARS[P.st.profiles[id].avatar]?.name??'Hero' }}</span>
+      <HeroAvatar :avatar="P.st.profiles[id].avatar" :size="110" full/><span>{{ AVATARS[P.st.profiles[id].avatar]?.name??'Hero' }}</span>
     </button>
     <button class="herob new" @click="audio();sfx.pop();router.push('/new')">{{ ids.length?'+ New hero':'+ Make your hero' }}</button>
   </div>

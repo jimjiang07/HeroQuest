@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Grid Robot</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M74 40L64 14M126 40L136 14" fill="none"/><circle cx="64" cy="12" r="7" fill="#ff5d5d"/><circle cx="136" cy="12" r="7" fill="#ff5d5d"/>
+<path d="M52 140Q28 146 26 124" fill="none" stroke-width="20"/><path d="M52 140Q28 146 26 124" fill="none" stroke="#7d6ee0" stroke-width="10"/><path d="M18 112l8 12 10-10" fill="none" stroke-width="6"/>
+<path d="M148 140Q172 146 174 124" fill="none" stroke-width="20"/><path d="M148 140Q172 146 174 124" fill="none" stroke="#7d6ee0" stroke-width="10"/><path d="M166 114l8 10 10-12" fill="none" stroke-width="6"/>
+<rect x="86" y="108" width="28" height="14" fill="#9aa3bf"/>
+<rect x="48" y="118" width="104" height="60" rx="12" fill="#7d6ee0"/>
+<path d="M48 126L36 116L50 120ZM152 126L164 116L150 120Z" fill="#5f52c4" stroke-width="3.5"/>
+<rect x="70" y="124" width="60" height="48" rx="8" fill="#2b2d42"/>
+<circle cx="82" cy="136" r="5" fill="#ff8a6b" stroke="none"/><circle cx="82" cy="148" r="5" fill="#ff8a6b" stroke="none"/><circle cx="82" cy="160" r="5" fill="#ff8a6b" stroke="none"/><circle cx="100" cy="136" r="5" fill="#ffd166" stroke="none"/><circle cx="100" cy="148" r="5" fill="#ffd166" stroke="none"/><circle cx="100" cy="160" r="5" fill="#ffd166" stroke="none"/><circle cx="118" cy="136" r="5" fill="#8fe0b9" stroke="none"/><circle cx="118" cy="148" r="5" fill="#8fe0b9" stroke="none"/><circle cx="118" cy="160" r="5" fill="#8fe0b9" stroke="none"/>
+<rect x="50" y="176" width="100" height="18" rx="9" fill="#55597a"/>
+<circle cx="66" cy="185" r="5" fill="#9aa3bf" stroke-width="3"/><circle cx="88" cy="185" r="5" fill="#9aa3bf" stroke-width="3"/><circle cx="112" cy="185" r="5" fill="#9aa3bf" stroke-width="3"/><circle cx="134" cy="185" r="5" fill="#9aa3bf" stroke-width="3"/>
+<rect x="40" y="36" width="120" height="76" rx="14" fill="#5f52c4"/>
+<circle cx="50" cy="46" r="3" fill="#9aa3bf" stroke-width="2"/><circle cx="150" cy="46" r="3" fill="#9aa3bf" stroke-width="2"/>
+<rect x="54" y="48" width="92" height="52" rx="8" fill="#2b2d42"/>
+<path d="M66 62L94 72V80L66 74Z" fill="#ff5d5d" stroke="none"/><path d="M134 62L106 72V80L134 74Z" fill="#ff5d5d" stroke="none"/>
+<path d="M76 90l6-5 6 5 6-5 6 5 6-5 6 5 6-5 6 5" fill="none" stroke="#ff5d5d" stroke-width="3.5"/></g></svg>

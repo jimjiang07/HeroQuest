@@ -1,13 +1,14 @@
 <script setup lang="ts">
-/* Learning cards: tap 🔊 (or the card) to hear it, say it too, then tick it. A tick opens only after the card was heard,
+/* Learning cards: tap the speaker (or the card) to hear it, say it too, then tick it. A tick opens only after the card was heard,
    so tapping through can't skip the reading. Only a few cards show at once (fewer on phones); Next brings the next few. */
 import {computed,onMounted,ref} from 'vue';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx} from '@/services/audio';
+import Icon from '@/components/Icon.vue';
 
 export interface ReadItem{pic?:string;text:string;speak:string}
 const props=withDefaults(defineProps<{items:ReadItem[];prompt?:string;done?:string;wide?:boolean}>(),
-  {prompt:'Tap 🔊 to hear a card. Say it too, then tick it!',done:'You read them all! Great reading!'});
+  {prompt:'Tap the speaker to hear a card. Say it too, then tick it!',done:'You read them all! Great reading!'});
 const run=useRun();
 // phones get 2 cards a page, larger screens 4 (wide rows: 3); the rule is "never scroll"
 const per=computed(()=>{const small=Math.min(innerWidth,innerHeight*0.75)<520;return props.wide?(small?2:3):(small?2:4)});
@@ -32,8 +33,8 @@ function tick(i:number){
     <div v-for="c in shown" :key="c.i" class="rc" :class="{said:ticked.has(c.i)}">
       <button class="pic" :aria-label="`Hear ${c.speak}`" @click="hear(c.i)"><span v-if="c.pic" class="cpic" v-html="c.pic"></span><span class="sum" v-html="c.text"></span></button>
       <div class="acts">
-        <button class="hr" :data-i="c.i" :aria-label="`Hear ${c.speak}`" @click="hear(c.i)">🔊</button>
-        <button class="tick" :class="{open:heard.has(c.i)}" :data-i="c.i" :disabled="!heard.has(c.i)" :aria-label="`Tick ${c.speak}`" @click="tick(c.i)">✓</button>
+        <button class="hr" :data-i="c.i" :aria-label="`Hear ${c.speak}`" @click="hear(c.i)"><Icon name="speaker"/></button>
+        <button class="tick" :class="{open:heard.has(c.i)}" :data-i="c.i" :disabled="!heard.has(c.i)" :aria-label="`Tick ${c.speak}`" @click="tick(c.i)"><Icon name="check"/></button>
       </div>
     </div>
   </div>

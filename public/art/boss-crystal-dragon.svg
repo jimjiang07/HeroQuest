@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Crystal Dragon</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M130 168C165 176 184 160 178 134" fill="none" stroke-width="22"/><path d="M130 168C165 176 184 160 178 134" fill="none" stroke="#4f9be8" stroke-width="12"/><path d="M178 138L166 120L178 100L190 120Z" fill="#7b5ce0"/>
+<path d="M60 124C30 120 6 96 8 62C20 74 28 72 34 64C38 80 46 84 54 78C54 94 58 104 68 110Z" fill="#7b5ce0" /><path d="M140 124C170 120 194 96 192 62C180 74 172 72 166 64C162 80 154 84 146 78C146 94 142 104 132 110Z" fill="#7b5ce0" />
+<path d="M134 108L150 96L146 116ZM140 126L158 120L148 136Z" fill="#c3b4ff" stroke-width="3.5"/>
+<ellipse cx="100" cy="160" rx="42" ry="30" fill="#4f9be8"/><ellipse cx="100" cy="166" rx="25" ry="18" fill="#bfe3ff"/><path d="M82 158H118M84 168H116M88 177H112" fill="none" stroke-width="3"/>
+<ellipse cx="76" cy="188" rx="15" ry="8" fill="#4f9be8"/><ellipse cx="124" cy="188" rx="15" ry="8" fill="#4f9be8"/><path d="M66 192l3-6 3 6M76 193l3-6 3 6M118 193l3-6 3 6M128 192l3-6 3 6" fill="#fff" stroke-width="2.5"/>
+<path d="M100 54L86 28L100 2L114 28Z" fill="#7b5ce0"/><path d="M74 60L62 40L70 18L86 40Z" fill="#c3b4ff" /><path d="M126 60L138 40L130 18L114 40Z" fill="#c3b4ff" /><path d="M56 74L42 62L46 44L62 60Z" fill="#7b5ce0" /><path d="M144 74L158 62L154 44L138 60Z" fill="#7b5ce0" />
+<ellipse cx="100" cy="90" rx="58" ry="44" fill="#4f9be8"/>
+<path d="M62 70L94 82M138 70L106 82" fill="none" stroke-width="8"/>
+<ellipse cx="80" cy="90" rx="10" ry="10" fill="#fff3b0"/><circle cx="82" cy="93" r="4.6" fill="#2b2d42" stroke="none"/><path d="M66 74H94V89L66 81Z" fill="#4f9be8" stroke="none"/><path d="M68 81L92 89" fill="none" stroke-width="5"/><ellipse cx="120" cy="90" rx="10" ry="10" fill="#fff3b0"/><circle cx="118" cy="93" r="4.6" fill="#2b2d42" stroke="none"/><path d="M106 74H134V81L106 89Z" fill="#4f9be8" stroke="none"/><path d="M108 89L132 81" fill="none" stroke-width="5"/>
+<circle cx="93" cy="104" r="2.6" fill="#2b2d42" stroke="none"/><circle cx="107" cy="104" r="2.6" fill="#2b2d42" stroke="none"/>
+<path d="M74 112Q100 134 126 112Q100 120 74 112Z" fill="#6b2737"/><path d="M82 114l4 10 4-9ZM110 115l4 9 4-10Z" fill="#fff" stroke-width="2.5"/>
+</g></svg>

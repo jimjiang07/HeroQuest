@@ -26,27 +26,40 @@ This repo is **public** (GitHub Pages). Never put names, schools, addresses, pho
 - **No loot-drop section** and no repeating the boss question in a different costume.
 - **Boss battles are said out loud first**, written second. The bonus star is "Explain one": reward explaining, not speed.
 - Keep a step short and finishable (5–10 minutes). Screen time under 10 minutes a day.
+- **Doodle art, never emoji.** Every hero, boss, quest picture and button icon is a doodle SVG: thick wobbly navy
+  outline (`#2b2d42`), flat soft colours from the palette, simple shapes. Rules, palette and how to add art:
+  `docs/art-style.md`; the art is drawn by `scripts/make-art.mjs` (`npm run art` → `public/art/`); icons are
+  `src/components/Icon.vue`. Do not hand-edit the SVGs and do not put emoji in buttons, labels or spoken prompts.
+- **Heroes are kids in gear** built on one layered rig (skin, hair, outfit, headgear, main hand, off hand, back), so
+  outfits and gear can be unlocked by finishing quests. New gear must fit the rig's anchor points.
+- **Bosses are cheeky and a bit fierce, not cute:** angry brows, heavy-lidded eyes, teeth and spikes, no blush. Never
+  scary, gory or realistic.
 - Interesting for every child: a range of heroes and worlds, none labelled for boys or girls; balanced names and pronouns in
   stories and sentences; no stereotyped roles.
 - Fingers are welcome. Teach faster strategies next to them (jump through 10, count on from the big number, start from a fact you know).
-- Voice is Australian English (`en-AU`, falling back to any English voice). Australian spelling and metric units. Money is AUD.
+- Voice is Natasha (`en-AU`), recorded as clips by `npm run voice`; the device's English voice covers anything not recorded.
+  Bosses have no voice of their own, only sound effects. Australian spelling and metric units. Money is AUD.
 - Calm, specific, encouraging copy. Sentence case. Use ’ in readable text.
 - Must work well on phones, tablets and laptops, in portrait and landscape: big tap targets (56px or more on phones, 64px on tablets), no scrolling inside a question, respects reduced motion, works in dark mode.
 
 ## Layout and how it works
 
-See `docs/architecture.md` (flow, where things live, the activity module contract, screen rules).
+See `docs/architecture.md` (flow, where things live, the activity module contract, screen rules) and `docs/art-style.md` (the look).
 Vue 3 + Vite + TypeScript, Pinia, Vue Router (hash). No CDN scripts; fonts are self-hosted (@fontsource).
 `src/learn/` (help ladder, generators, learner model) is pure and unit-tested; keep it free of DOM and Vue.
 
 ## Add a quest (most common job)
 
+0. Art: pick a quest item, draw the boss and the quest's map scene in `scripts/make-art.mjs` (see `docs/art-style.md`),
+   then `npm run art`.
 1. Create `data/units/<unit>.json` with an `"app"` block (`id` = progress key, never rename; `module`; `title`; `intro`;
    `quest {learn, game, help, own, boss}`; `practice {gen, levels}`; plus the module's own content) and a `"print"` block
    (kinds: `math-add`, `math-mul`, `math-arr`, `eng-blend`, `eng-heart`). Copy the closest unit.
-2. Add it to `data/quests.json` (`unit`, `subject`, `art`, `boss {name, emoji}`, `needs`).
+2. Add it to `data/quests.json` (`unit`, `subject`, `art`, `boss {name, art}`, `map {scene, path}`, `needs`); `art` names are
+   files in `public/art/`, and `path` gives this quest's own winding road (six stones, Learn it first).
 3. `npm run dev`, play every step at phone and tablet size; open `print/index.html#<quest id>` and check the sheet.
-4. `npm run pdfs` to write `public/worksheets/quests/<id>.pdf`, then `npm test`.
+4. `npm run voice` to record the quest's new lines (needs `uv`; commit `public/voice/`), `npm run pdfs` to write
+   `public/worksheets/quests/<id>.pdf`, then `npm test`.
 
 A new kind of interaction needs a module in `src/activities/<name>/` (copy `add10`), registered in `src/activities/index.ts`,
 and a play-through test in `tests/e2e/`.

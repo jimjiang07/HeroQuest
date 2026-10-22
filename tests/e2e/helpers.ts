@@ -2,7 +2,7 @@ import {expect,type Page} from '@playwright/test';
 
 /* A hero with nothing done; unlockAll opens every quest and step so a test can jump straight in. */
 export const hero=(over:Record<string,unknown>={})=>({schema:2,active:'p1',unlockAll:true,
-  profiles:{p1:{avatar:'owl',world:'ocean',created:'2026-10-20',quests:{},skills:{},feedback:[],noPrinter:false}},...over});
+  profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',quests:{},skills:{},feedback:[],noPrinter:false}},...over});
 /* tests run silently: the Mac's speech voice would otherwise read every prompt out loud */
 export async function quiet(page:Page){
   await page.addInitScript(()=>{
@@ -20,7 +20,8 @@ export async function fits(page:Page,where=''){
   expect(o.main,`screen scrolls ${where}`).toBeLessThanOrEqual(1);
   expect(o.wide,`page scrolls sideways ${where}`).toBeLessThanOrEqual(1);
 }
-export function watchErrors(page:Page){const errors:string[]=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});return errors}
+/* page errors, plus any spoken sentence that has no recorded clip (npm run voice records it) */
+export function watchErrors(page:Page){const errors:string[]=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error'||m.text().startsWith('[voice]'))errors.push(m.text())});return errors}
 
 /* Next, then wait until the screen has drawn (a quest's steps load on first use) */
 export async function next(page:Page){
@@ -100,7 +101,7 @@ export async function playBalloons(page:Page){
   for(let r=0;r<20&&await page.locator('.balloons').count();r++){
     const box=page.locator('.balloons'),a=await box.getAttribute('data-a');
     await page.locator(`.bln[data-v="${a}"]`).click({force:true});
-    await expect(page.locator('.stars span').nth(r)).toHaveText('⭐',{timeout:5000});
+    await expect(page.locator('.stars .ic').nth(r)).toHaveAttribute('data-on','1',{timeout:5000});
   }
   await expect(page.locator('#next')).toBeEnabled();
 }

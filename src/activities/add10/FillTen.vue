@@ -4,6 +4,7 @@ import {computed,onMounted,ref} from 'vue';
 import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx} from '@/services/audio';
+import {filled} from './speech';
 
 const props=defineProps<{data:UnitApp}>();
 const run=useRun(),rounds=(props.data.fill as {rounds:number[]}).rounds;
@@ -13,7 +14,7 @@ onMounted(()=>run.setPrompt('How many more make ten? Tap the empty spaces.'));
 function tap(i:number){
   if(i<n.value+added.value||full.value)return;audio();added.value++;sfx.pop();
   if(!full.value)return;
-  sfx.ding();msg.value=`${n.value} and ${10-n.value} make 10!`;say(msg.value);
+  sfx.ding();msg.value=filled(n.value);say(msg.value);
   if(r.value<rounds.length-1)run.onNext(()=>{r.value++;added.value=0;msg.value=''});else run.setOK();
 }
 </script>

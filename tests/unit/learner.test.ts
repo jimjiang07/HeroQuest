@@ -1,7 +1,7 @@
 import {describe,expect,it} from 'vitest';
 import * as L from '@/learn/learner';
 
-const fresh=()=>{const st=L.migrate(null);L.addProfile(st,{avatar:'owl',world:'ocean'});return {st,p:L.active(st)!}};
+const fresh=()=>{const st=L.migrate(null);L.addProfile(st,{avatar:'wizard',world:'ocean'});return {st,p:L.active(st)!}};
 
 describe('saved data',()=>{
   it('turns an old save into a first hero, keeping its stars',()=>{
@@ -21,6 +21,12 @@ describe('saved data',()=>{
   it('a current save is left as it is',()=>{
     const {st}=fresh();
     expect(L.migrate(JSON.parse(JSON.stringify(st)))).toEqual(st);
+  });
+  it('an old animal hero becomes the matching kid hero, keeping progress',()=>{
+    const {st}=fresh();st.profiles.p1.avatar='owl';st.profiles.p1.quests={jt10:{done:['learn']}};
+    const out=L.migrate(JSON.parse(JSON.stringify(st)));
+    expect(out.profiles.p1.avatar).toBe('wizard');
+    expect(out.profiles.p1.quests.jt10.done).toEqual(['learn']);
   });
 });
 

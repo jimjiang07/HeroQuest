@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Cave Bat</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M150 26a15 15 0 1 0 14 22a12 12 0 1 1-14-22Z" fill="#ffd166" stroke-width="4"/>
+<path d="M82 108C60 76 28 70 4 84C16 92 18 104 16 116C28 110 38 114 40 126C50 118 60 120 66 132C72 122 80 118 84 122Z" fill="#43358a" /><path d="M118 108C140 76 172 70 196 84C184 92 182 104 184 116C172 110 162 114 160 126C150 118 140 120 134 132C128 122 120 118 116 122Z" fill="#43358a" />
+<path d="M4 84L0 74L12 80Z" fill="#43358a" stroke-width="3"/><path d="M196 84L200 74L188 80Z" fill="#43358a" stroke-width="3"/>
+<ellipse cx="100" cy="134" rx="30" ry="34" fill="#5b48b0"/><ellipse cx="100" cy="142" rx="17" ry="21" fill="#9d8ae0"/>
+<path d="M90 166l-4 10M90 166v11M110 166v11M110 166l4 10" fill="none" stroke-width="4"/>
+<path d="M68 70L56 22L94 56Z" fill="#5b48b0" /><path d="M132 70L144 22L106 56Z" fill="#5b48b0" /><path d="M70 62L63 36L84 54Z" fill="#ff8fa8" stroke-width="3"/><path d="M130 62L137 36L116 54Z" fill="#ff8fa8" stroke-width="3"/>
+<ellipse cx="100" cy="88" rx="40" ry="34" fill="#5b48b0"/>
+<path d="M68 70L94 82M132 70L106 82" fill="none" stroke-width="7"/>
+<ellipse cx="84" cy="88" rx="10" ry="10" fill="#ffd166"/><ellipse cx="86" cy="90" rx="2.4" ry="6" fill="#2b2d42" stroke="none"/><path d="M70 72H98V87L70 79Z" fill="#5b48b0" stroke="none"/><path d="M72 79L96 87" fill="none" stroke-width="5"/><ellipse cx="116" cy="88" rx="10" ry="10" fill="#ffd166"/><ellipse cx="114" cy="90" rx="2.4" ry="6" fill="#2b2d42" stroke="none"/><path d="M102 72H130V79L102 87Z" fill="#5b48b0" stroke="none"/><path d="M104 87L128 79" fill="none" stroke-width="5"/>
+<path d="M80 104Q100 120 120 104Q100 110 80 104Z" fill="#6b2737"/><path d="M86 106l4 12 4-11ZM106 107l4 11 4-12Z" fill="#fff" stroke-width="2.5"/></g></svg>

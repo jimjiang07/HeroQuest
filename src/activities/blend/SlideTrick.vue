@@ -6,22 +6,23 @@ import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,sleep} from '@/services/audio';
 import {EMO} from '@/shared';
+import {slid,trickAsk,wholeWord} from './speech';
 
 const props=defineProps<{data:UnitApp}>();
 const T=props.data.trick as {blend:[string,string];rest:string[];word:string;digraph?:boolean;sound?:string};
-const run=useRun(),[x,y]=T.blend,sound=T.sound??`${x}${y}`;
+const run=useRun(),[x,y]=T.blend;
 const phase=ref<'start'|'slid'|'done'>('start'),rest=ref<string[]>([]);
 const msg=ref(T.digraph?'Two letters. One sound.':'Two letters. Two sounds.');
-onMounted(()=>run.setPrompt(T.digraph?`${x} and ${y} are a team. Two letters, one sound. Tap Slide.`:`Two letters, two sounds. Tap Slide, and ${x} and ${y} slide together.`));
+onMounted(()=>run.setPrompt(trickAsk(T)));
 async function slide(){
   if(phase.value!=='start')return;audio();phase.value='slid';sfx.hop();
-  say(T.digraph?`Together they say ${sound}!`:`${x} ... ${y} ... ${sound}!`);
+  say(slid(T));
   await sleep(700);sfx.ding();msg.value=T.digraph?`${x} + ${y} = one sound: ${x}${y}!`:`${x} and ${y} slide together: ${x}${y}!`;
 }
 async function addRest(){
   if(phase.value!=='slid')return;audio();phase.value='done';
   for(const ch of T.rest){rest.value=[...rest.value,ch];sfx.pop();await sleep(450)}
-  sfx.ding();msg.value=`${T.word}!`;say(`${sound}, ${T.rest.join('')}. ${T.word}!`);await sleep(900);run.finish();
+  sfx.ding();msg.value=`${T.word}!`;say(wholeWord(T));await sleep(900);run.finish();
 }
 </script>
 

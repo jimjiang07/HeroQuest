@@ -4,6 +4,7 @@ import {defineAsyncComponent,ref,watchEffect} from 'vue';
 import {header} from '@/stores/ui';
 import {audio,say,sfx} from '@/services/audio';
 import HoldButton from '@/components/HoldButton.vue';
+import Icon from '@/components/Icon.vue';
 // loaded on first open: it lists every quest, which would otherwise pull all of them into the first screen
 const GrownUps=defineAsyncComponent(()=>import('@/components/GrownUps.vue'));
 
@@ -14,9 +15,9 @@ const back=()=>{audio();sfx.pop();header.back?.()};
 
 <template>
   <header class="top">
-    <button v-if="header.back" class="rbtn home" aria-label="Back" @click="back">{{ header.backLabel }}</button>
+    <button v-if="header.back" class="rbtn home" aria-label="Back" @click="back"><Icon :name="header.backIcon"/><span v-if="header.backLabel">{{ header.backLabel }}</span></button>
     <div class="ttl">{{ header.title }}</div>
-    <HoldButton class="rbtn" aria-label="For grown-ups: press and hold" :ms="1000" @done="grown=true" @tap="say('Grown-ups: press and hold.')">⚙</HoldButton>
+    <HoldButton class="rbtn" aria-label="For grown-ups: press and hold" :ms="1000" @done="grown=true" @tap="say('Grown-ups: press and hold.')"><Icon name="gear"/></HoldButton>
   </header>
   <!-- keyed so moving between steps of the same quest starts a fresh screen -->
   <main class="screen"><RouterView :key="$route.fullPath"/></main>

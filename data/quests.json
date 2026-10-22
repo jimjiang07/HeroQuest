@@ -1,11 +1,11 @@
 {
-  "note": "One quest per skill, in the order they appear on the quest picker. id comes from the unit's app.id (the progress key: never rename). needs: quests whose boss must be beaten first.",
+  "note": "art and boss.art name SVGs in public/art (npm run art). One quest per skill, in the order they appear on the quest picker. id comes from the unit's app.id (the progress key: never rename). needs: quests whose boss must be beaten first. map: the quest map's scene (art/map-<scene>.svg) and where its 6 stones sit, Learn it first, boss last, as [x%,y%] of a portrait map.",
   "quests": [
-    {"unit": "jump-through-10", "subject": "maths", "art": "➕", "boss": {"name": "the Crystal Dragon", "emoji": "🐉"}, "needs": []},
-    {"unit": "groups-power-2", "subject": "maths", "art": "👜", "boss": {"name": "the Bag Goblin", "emoji": "👺"}, "needs": []},
-    {"unit": "arrays", "subject": "maths", "art": "🔴", "boss": {"name": "the Grid Robot", "emoji": "🤖"}, "needs": ["groups"]},
-    {"unit": "blend-bridge", "subject": "english", "art": "🌉", "boss": {"name": "the Bridge Troll", "emoji": "🧌"}, "needs": []},
-    {"unit": "sh-ch-th", "subject": "english", "art": "🚢", "boss": {"name": "the Cave Bat", "emoji": "🦇"}, "needs": ["blend"]},
-    {"unit": "heart-words", "subject": "english", "art": "💖", "boss": {"name": "the Word Owl", "emoji": "🦉"}, "needs": []}
+    {"unit": "jump-through-10", "subject": "maths", "art": "star", "boss": {"name": "the Crystal Dragon", "art": "boss-crystal-dragon"}, "map": {"scene": "crystal-peaks", "path": [[24,90],[64,83],[80,63],[38,57],[22,36],[64,15]]}, "needs": []},
+    {"unit": "groups-power-2", "subject": "maths", "art": "gold-bag", "boss": {"name": "the Bag Goblin", "art": "boss-bag-goblin"}, "map": {"scene": "goblin-market", "path": [[50,91],[20,76],[54,67],[80,48],[46,33],[24,14]]}, "needs": []},
+    {"unit": "arrays", "subject": "maths", "art": "chest", "boss": {"name": "the Grid Robot", "art": "boss-grid-robot"}, "map": {"scene": "robot-factory", "path": [[18,89],[50,82],[80,70],[68,47],[28,40],[58,15]]}, "needs": ["groups"]},
+    {"unit": "blend-bridge", "subject": "english", "art": "bridge", "boss": {"name": "the Bridge Troll", "art": "boss-bridge-troll"}, "map": {"scene": "troll-river", "path": [[80,90],[40,85],[20,64],[58,54],[80,32],[38,14]]}, "needs": []},
+    {"unit": "sh-ch-th", "subject": "english", "art": "ship", "boss": {"name": "the Cave Bat", "art": "boss-cave-bat"}, "map": {"scene": "bat-caves", "path": [[28,91],[74,84],[80,58],[42,50],[22,29],[62,17]]}, "needs": ["blend"]},
+    {"unit": "heart-words", "subject": "english", "art": "heart", "boss": {"name": "the Word Owl", "art": "boss-word-owl"}, "map": {"scene": "owl-woods", "path": [[60,91],[24,80],[46,62],[78,46],[50,30],[26,13]]}, "needs": []}
   ]
 }

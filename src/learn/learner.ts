@@ -23,18 +23,21 @@ export const today=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).
 
 /* Old saves (schema 1) kept stars per activity at the top level; they become the first hero so no stars are lost. */
 const LEGACY_ACTS=['jt10','blend','groups'];
+// the animal heroes became dress-up kids; an old save gets the closest look-alike
+const OLD_AVATAR:Record<string,string>={dragon:'knight',owl:'wizard',robot:'astronaut',fox:'ranger',unicorn:'builder'};
+const renamed=(st:State)=>{for(const p of Object.values(st.profiles))p.avatar=OLD_AVATAR[p.avatar]??p.avatar;return st};
 export function migrate(raw:unknown):State{
   const st={...(raw&&typeof raw==='object'?raw:{})} as Record<string,any>;
-  if(st.schema===SCHEMA)return {...st,profiles:st.profiles||{},active:st.active??null} as State;
+  if(st.schema===SCHEMA)return renamed({...st,profiles:st.profiles||{},active:st.active??null} as State);
   const acts=(st.acts||{}) as Record<string,{plays?:number}>;delete st.acts;
   const out={...st,schema:SCHEMA,profiles:{},active:null} as State;
   const played=Object.keys(acts).filter(id=>LEGACY_ACTS.includes(id)&&(acts[id].plays||0)>0);
   if(played.length){
-    const p=out.profiles[addProfile(out,{avatar:'dragon',world:'castle'})];
+    const p=out.profiles[addProfile(out,{avatar:'knight',world:'castle'})];
     // an old full play covered the learning, practice and game parts of a quest
     for(const a of played)p.quests[a]={done:['learn','help','own','game']};
   }
-  return out;
+  return renamed(out);
 }
 
 export function addProfile(st:State,{avatar,world}:{avatar:string;world:string}):string{

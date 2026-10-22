@@ -5,6 +5,7 @@ import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,tryAgain} from '@/services/audio';
 import {EMO,hlw,joinedPart,shuffle} from '@/shared';
+import {buildAsk} from './speech';
 
 const props=defineProps<{data:UnitApp}>();
 const run=useRun(),W=(props.data.build as {words:string[]}).words;
@@ -14,7 +15,7 @@ const j=computed(()=>joinedPart(word.value));
 const isJoined=(i:number)=>!!j.value&&i>=j.value.at&&i<j.value.at+2;
 // the word's letters plus two others; at most 7 tiles so the pool fits a phone in two rows
 const pool=computed(()=>{const extra=shuffle('abeghimoptuw'.split('').filter(c=>!letters.value.includes(c))).slice(0,2);return shuffle([...letters.value,...extra])});
-const ask=()=>run.setPrompt(`Build the word ${word.value}. Start with the ${j.value&&j.value.at===0?'team of letters':'first sound'}!`);
+const ask=()=>run.setPrompt(buildAsk(word.value));
 onMounted(ask);
 function tap(i:number,c:string,e:Event){
   if(done.value||used.value.has(i))return;audio();

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Open book</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M22 64Q60 48 100 66Q140 48 178 64L178 160Q140 146 100 166Q60 146 22 160Z" fill="#6cc5c9"/>
+<path d="M30 58Q64 44 100 62Q136 44 170 58L170 150Q136 138 100 156Q64 138 30 150Z" fill="#fff"/>
+<path d="M100 62V156M46 76L84 82M46 92L84 98M46 108L76 112M116 82L154 76M116 98L154 92M116 114L144 110" fill="none" stroke-width="3"/>
+<path d="M100 19.2Q101.8 28.2 110.8 30Q101.8 31.8 100 40.8Q98.2 31.8 89.2 30Q98.2 28.2 100 19.2Z" fill="#ffd166" stroke-width="3"/><path d="M150 20Q151 25 156 26Q151 27 150 32Q149 27 144 26Q149 25 150 20Z" fill="#ff9ec4" stroke-width="3"/></g></svg>

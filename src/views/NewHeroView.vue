@@ -4,7 +4,7 @@ import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useProgress} from '@/stores/progress';
 import {setHeader} from '@/stores/ui';
-import {AVATARS,WORLDS} from '@/heroes';
+import {AVATARS,WORLDS,art} from '@/heroes';
 import {addProfile} from '@/learn/learner';
 import {audio,say,sfx} from '@/services/audio';
 import HeroAvatar from '@/components/HeroAvatar.vue';
@@ -20,13 +20,13 @@ function pickWorld(w:string){audio();sfx.ding();addProfile(P.st,{avatar:avatar.v
   <template v-if="!avatar">
     <div class="prompt">Pick your hero</div>
     <div class="heroes six">
-      <button v-for="(a,k) in AVATARS" :key="k" class="herob" :data-a="k" @click="pickHero(k)"><HeroAvatar :avatar="k" :size="80"/><span>{{ a.name }}</span></button>
+      <button v-for="(a,k) in AVATARS" :key="k" class="herob" :data-a="k" @click="pickHero(k)"><HeroAvatar :avatar="k" :size="96" full/><span>{{ a.name }}</span></button>
     </div>
   </template>
   <template v-else>
     <div class="prompt">Pick your world</div>
     <div class="worlds">
-      <button v-for="(w,k) in WORLDS" :key="k" class="worldb" :data-w="k" :style="{'--wc':w.c}" @click="pickWorld(k)">{{ w.name }}</button>
+      <button v-for="(w,k) in WORLDS" :key="k" class="worldb" :data-w="k" :style="{'--wc':w.c}" @click="pickWorld(k)"><img :src="art('world-'+k)" alt=""><span>{{ w.name }}</span></button>
     </div>
   </template>
 </template>

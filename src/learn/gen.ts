@@ -23,6 +23,15 @@ export const GEN:Record<string,(p:any,r:Rng)=>Item>={
   words(p:{words:string[]},r){return {w:p.words[Math.floor(r()*p.words.length)]}}
 };
 
+/* every item a generator can make at one difficulty (for recording the voice lines) */
+const span=([lo,hi]:Range)=>Array.from({length:hi-lo+1},(_,i)=>lo+i);
+export const EVERY:Record<string,(p:any)=>Item[]>={
+  add10:(p:{a:Range;b:Range;max?:number})=>span(p.a).flatMap(a=>span(p.b).map(b=>({a,b}))).filter(({a,b})=>a+b>10&&a+b<=(p.max??20)&&a<10&&b<10),
+  groups:(p:{g:Range;n:Range})=>span(p.g).flatMap(g=>span(p.n).map(n=>({g,n}))),
+  arrays:(p:{r:Range;c:Range})=>span(p.r).flatMap(r=>span(p.c).map(c=>({r,c}))),
+  words:(p:{words:string[]})=>p.words.map(w=>({w}))
+};
+
 /* count items at one difficulty, with no repeats while unique ones are left */
 export function items(kind:string,params:unknown,count:number,r:Rng):Item[]{
   const gen=GEN[kind];if(!gen)throw new Error('Unknown generator: '+kind);

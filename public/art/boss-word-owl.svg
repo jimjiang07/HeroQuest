@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Word Owl</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M58 60L44 20L84 44Z" fill="#8b5a35" /><path d="M142 60L156 20L116 44Z" fill="#8b5a35" />
+<path d="M100 32C152 32 166 82 160 132C155 176 130 192 100 192C70 192 45 176 40 132C34 82 48 32 100 32Z" fill="#8b5a35"/>
+<ellipse cx="100" cy="148" rx="36" ry="34" fill="#e8cfa8"/>
+<circle cx="76" cy="88" r="21" fill="#fff"/><circle cx="124" cy="88" r="21" fill="#fff"/>
+<ellipse cx="76" cy="92" rx="10" ry="10" fill="#ffd166"/><circle cx="78" cy="95" r="4.6" fill="#2b2d42" stroke="none"/><path d="M62 76H90V91L62 83Z" fill="#fff" stroke="none"/><path d="M64 83L88 91" fill="none" stroke-width="5"/><ellipse cx="124" cy="92" rx="10" ry="10" fill="#ffd166"/><circle cx="122" cy="95" r="4.6" fill="#2b2d42" stroke="none"/><path d="M110 76H138V83L110 91Z" fill="#fff" stroke="none"/><path d="M112 91L136 83" fill="none" stroke-width="5"/>
+<path d="M48 62L98 82L94 70ZM152 62L102 82L106 70Z" fill="#5e3a20"/>
+<circle cx="76" cy="88" r="22" fill="none" stroke-width="4.5"/><circle cx="124" cy="88" r="22" fill="none" stroke-width="4.5"/><path d="M96 86Q100 81 104 86" fill="none" stroke-width="4.5"/>
+<path d="M90 108H110L100 126L96 118Z" fill="#ffa04d"/>
+<path d="M80 44V54Q100 62 120 54V44" fill="#3d3f5c"/><path d="M56 42L100 24L144 42L100 58Z" fill="#3d3f5c"/>
+<path d="M144 42L150 66" fill="none" stroke="#ffd166" stroke-width="4"/><circle cx="150" cy="68" r="5" fill="#ffd166" stroke-width="3"/>
+<rect x="62" y="140" width="76" height="46" rx="6" fill="#8f2f3a"/><rect x="70" y="140" width="62" height="8" fill="#f6eee2" stroke-width="3"/>
+<path d="M66 140V186" fill="none" stroke-width="3"/><path d="M102.0 156.0L104.6 162.4L111.5 162.9L106.3 167.4L107.9 174.1L102.0 170.5L96.1 174.1L97.7 167.4L92.5 162.9L99.4 162.4Z" fill="#ffd166"/>
+<ellipse cx="56" cy="160" rx="13" ry="20" fill="#5e3a20"/><ellipse cx="144" cy="160" rx="13" ry="20" fill="#5e3a20"/></g></svg>

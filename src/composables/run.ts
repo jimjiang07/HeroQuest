@@ -2,7 +2,7 @@
 import {inject,type InjectionKey} from 'vue';
 
 export interface RunApi{
-  setPrompt(text:string):void;   // shows nothing; the voice reads it and 🔊 repeats it
+  setPrompt(text:string):void;   // shows nothing; the voice reads it and the speaker button repeats it
   setOK(v?:boolean):void;        // the step is complete: Next moves on
   onNext(fn:()=>void):void;      // Next runs fn (e.g. the next question) instead of leaving the step
   finish(say?:string):void;      // cheer, confetti, optional words, then setOK

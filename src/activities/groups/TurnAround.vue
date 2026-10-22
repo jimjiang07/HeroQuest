@@ -4,7 +4,8 @@ import {computed,onMounted,ref} from 'vue';
 import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,tryAgain} from '@/services/audio';
-import {nearNumbers,nw} from '@/shared';
+import {nearNumbers} from '@/shared';
+import {sameAsk,sameDone} from './speech';
 import {arr} from './pics';
 
 const props=defineProps<{data:UnitApp}>();
@@ -12,13 +13,13 @@ const run=useRun(),Q=(props.data.same as {questions:[number,number][]}).question
 const q=ref(0),picked=ref<string|null>(null),msg=ref('');
 const a=computed(()=>Q[q.value][0]),b=computed(()=>Q[q.value][1]),p=computed(()=>a.value*b.value);
 const opts=computed(()=>nearNumbers(p.value,b.value));
-const ask=()=>{picked.value=null;msg.value='';run.setPrompt(`${nw(a.value)} rows of ${nw(b.value)} is ${p.value}. Turn it around. How many now?`)};
+const ask=()=>{picked.value=null;msg.value='';run.setPrompt(sameAsk(a.value,b.value))};
 onMounted(ask);
 function pick(v:string,e:Event){
   audio();
   if(v!==String(p.value))return tryAgain(e.currentTarget,msg);
   picked.value=v;sfx.ding();msg.value=`Same dots, turned around! ${a.value} × ${b.value} = ${b.value} × ${a.value}`;
-  say(`Yes! Same dots, turned around. ${nw(b.value)} rows of ${nw(a.value)} is ${p.value} too!`);
+  say(sameDone(a.value,b.value));
   if(q.value<Q.length-1)run.onNext(()=>{q.value++;ask()});else run.setOK();
 }
 </script>

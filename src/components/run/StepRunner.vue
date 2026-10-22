@@ -4,6 +4,10 @@
 import {computed,provide,ref,shallowRef,onMounted,onBeforeUnmount,type Component} from 'vue';
 import {RUN} from '@/composables/run';
 import {audio,confetti,hush,say,sfx} from '@/services/audio';
+import {useProgress} from '@/stores/progress';
+import HeroAvatar from '@/components/HeroAvatar.vue';
+import Icon from '@/components/Icon.vue';
+const P=useProgress();
 
 export interface RunStep{key:string;component:Component;props?:Record<string,unknown>;game?:boolean}
 const props=defineProps<{steps:RunStep[];intro:{title:string;say:string};end:{title:string;sub?:string;say:string}}>();
@@ -48,9 +52,9 @@ const nextLabel=computed(()=>cur.value===0?'Start ›':cur.value===last.value?'M
     </div>
     <div class="stage">
       <template v-if="cur===0">
-        <svg class="introhero" viewBox="0 0 100 120" aria-hidden="true"><use href="#hero"/></svg>
+        <HeroAvatar class="introhero" :avatar="P.hero?.avatar??'knight'" :size="150" full/>
         <div class="prompt">{{ intro.title }}</div>
-        <div class="sub">Tap Start. Turn the sound up. 🔊</div>
+        <div class="sub">Tap Start. Turn the sound up.</div>
       </template>
       <component v-else-if="step" :is="step.component" :key="cur" v-bind="step.props"/>
       <template v-else>
@@ -60,8 +64,8 @@ const nextLabel=computed(()=>cur.value===0?'Start ›':cur.value===last.value?'M
       </template>
     </div>
     <footer class="foot">
-      <button class="btn alt" :style="{visibility:cur===0||cur===last?'hidden':'visible'}" @click="back">‹ Back</button>
-      <button class="btn hear" aria-label="Hear it again" @click="hear">🔊</button>
+      <button class="btn alt" :style="{visibility:cur===0||cur===last?'hidden':'visible'}" @click="back"><Icon name="back"/>Back</button>
+      <button class="btn hear" aria-label="Hear it again" @click="hear"><Icon name="speaker"/></button>
       <button class="btn" id="next" :disabled="!ok&&!pending" :data-more="pending?'1':undefined" @click="next">{{ nextLabel }}</button>
     </footer>
   </div>

@@ -14,7 +14,7 @@ const P=useProgress(),router=useRouter();
 const tab=ref<'skills'|'feedback'|'heroes'|'settings'>('skills');
 const TABS={skills:'Skills',feedback:'How did it go?',heroes:'Heroes',settings:'Settings'} as const;
 const hero=computed(()=>P.hero);
-const CHIP:Record<L.Status,string>={secure:'✓ Secure',growing:'Growing',notyet:'Not yet'};
+const CHIP:Record<L.Status,string>={secure:'Secure',growing:'Growing',notyet:'Not yet'};
 
 // feedback form: rating rows pick one, tags toggle
 const fb=ref({quest:QUESTS[0]?.id??'',level:null as string|null,fun:null as string|null,tags:[] as string[],note:''});
@@ -97,8 +97,8 @@ function close(){emit('close');if(!P.hero)router.push('/who')}
 
       <div v-else>
         <label>Voice reads aloud <input v-model="P.cfg.voice" type="checkbox"></label>
-        <label>Voice <select v-model="P.cfg.voiceName" @change="say('Hello! This is my voice.')"><option value="">Best available</option><option v-for="v in voices" :key="v.name" :value="v.name">{{ vRank(v)>=4?'⭐ ':'' }}{{ v.name }} ({{ v.lang }})</option></select></label>
-        <p class="tip">For a more natural voice on iPad or iPhone: Settings → Accessibility → Spoken Content → Voices → English → Australia, and download an “Enhanced” or “Premium” voice. Voices marked ⭐ are the natural ones.</p>
+        <label>Voice <select v-model="P.cfg.voiceName" @change="say('Hello! This is my voice.')"><option value="">Natasha (recorded)</option><option v-for="v in voices" :key="v.name" :value="v.name">{{ vRank(v)>=4?'⭐ ':'' }}{{ v.name }} ({{ v.lang }})</option></select></label>
+        <p class="tip">Natasha is recorded, so she sounds the same on every device. The other voices come from this device; ⭐ marks the natural ones.</p>
         <label>Speed <input v-model.number="P.cfg.rate" type="range" min="0.6" max="1.2" step="0.05"></label>
         <label>Sound effects <input v-model="P.cfg.sfx" type="checkbox"></label>
         <label>Unlock every quest and step <input v-model="P.st.unlockAll" type="checkbox"></label>

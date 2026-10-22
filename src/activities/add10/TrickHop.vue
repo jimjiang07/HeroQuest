@@ -4,21 +4,21 @@ import {onMounted,ref} from 'vue';
 import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,sleep} from '@/services/audio';
-import {NUMW} from '@/shared';
+import {counted,hopped,trickAsk} from './speech';
 
 const props=defineProps<{data:UnitApp}>();
 const run=useRun(),{a,b}=props.data.trick as {a:number;b:number},gap=10-a,left=b-gap;
 const moved=ref(0),phase=ref<'start'|'hopped'|'done'>('start'),lit=ref(false),eq=ref(`${a} + ${b}`),msg=ref(`We have ${a} and ${b}.`);
-onMounted(()=>run.setPrompt(`${NUMW[a]} plus ${NUMW[b]}. Tap Hop, and the counters jump in to fill the ten.`));
+onMounted(()=>run.setPrompt(trickAsk(a,b)));
 async function hop(){
   if(phase.value!=='start')return;audio();phase.value='hopped';
   for(let k=0;k<gap;k++){moved.value++;sfx.hop();await sleep(450)}
   eq.value=`10 + ${left}`;msg.value=`Now it’s ten and ${left}!`;
-  say(`${NUMW[gap]} ${gap===1?'hops':'hop'} in. Now we have ten, and ${NUMW[left]} more. Tap Count.`);
+  say(hopped(a,b));
 }
 async function count(){
   if(phase.value!=='hopped')return;audio();phase.value='done';lit.value=true;
-  say(NUMW.slice(10,a+b+1).join(', ')+'!');sfx.pop();await sleep(900);
+  say(counted(a,b));sfx.pop();await sleep(900);
   eq.value=`${a} + ${b} = ${a+b}`;msg.value=`${a} + ${b} = ${a+b}!`;run.finish();
 }
 </script>

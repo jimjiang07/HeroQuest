@@ -4,16 +4,20 @@ import {computed,onMounted,ref} from 'vue';
 import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,sleep,tryAgain} from '@/services/audio';
-import {joinedPart,shuffle} from '@/shared';
-import {spoken} from './ask';
+import {shuffle} from '@/shared';
+import {bridgeAsk,where as whereOf} from './speech';
+import {useProgress} from '@/stores/progress';
+import HeroAvatar from '@/components/HeroAvatar.vue';
+import Icon from '@/components/Icon.vue';
+const P=useProgress();
 
 const props=defineProps<{data:UnitApp}>();
 const run=useRun(),Q=(props.data.bridge as {questions:[string,string,string][]}).questions,N=Q.length+2;
 const q=ref(0),steps=ref(0),picked=ref<string|null>(null),msg=ref(''),crossed=ref(false);
 const cur=computed(()=>Q[q.value]);
-const where=computed(()=>(joinedPart(cur.value[1])?.at??0)>0?'ends':'starts');
+const where=computed(()=>whereOf(cur.value[1]));
 const opts=computed(()=>shuffle([cur.value[1],cur.value[2]]));
-const ask=()=>{picked.value=null;msg.value='';const b=cur.value[0];run.setPrompt(`Which word ${where.value} with ${spoken(b,props.data)}?`)};
+const ask=()=>{picked.value=null;msg.value='';run.setPrompt(bridgeAsk(props.data,cur.value))};
 onMounted(ask);
 async function pick(w:string,e:Event){
   audio();
@@ -27,8 +31,8 @@ async function pick(w:string,e:Event){
 
 <template>
   <div class="bridge" :style="{'--n':N}">
-    <div class="hz" :style="{'--i':crossed?N-1:steps}"><svg viewBox="0 0 100 120" aria-hidden="true"><use href="#hero"/></svg></div>
-    <div class="planks"><div v-for="i in N" :key="i" class="pl" :class="{st:i===1,end:i===N,ok:i>1&&i<=steps+1}">{{ i===N?'🏰':'' }}</div></div>
+    <div class="hz" :style="{'--i':crossed?N-1:steps}"><HeroAvatar :avatar="P.hero?.avatar??'knight'" :size="56" full/></div>
+    <div class="planks"><div v-for="i in N" :key="i" class="pl" :class="{st:i===1,end:i===N,ok:i>1&&i<=steps+1}"><Icon v-if="i===N" name="castle"/></div></div>
     <div class="water"></div>
   </div>
   <template v-if="!crossed">

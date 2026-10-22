@@ -10,13 +10,14 @@ import type {QuestStep} from '@/types';
 import StepRunner,{type RunStep} from '@/components/run/StepRunner.vue';
 import PracticeStep from '@/components/run/PracticeStep.vue';
 import BossStep from '@/components/run/BossStep.vue';
+import {SAY} from '@/voice/say';
 
 const props=defineProps<{id:string;step:string;rematch?:boolean}>();
 const P=useProgress(),router=useRouter(),Q=questById(props.id),step=props.step as QuestStep;
 const p=P.hero!;
 const exit=()=>router.push(props.rematch?'/hub':`/quest/${props.id}`);
 if(!Q||!L.QUEST_STEPS.includes(step)||step==='paper')router.replace('/hub');
-setHeader({title:`${Q?.name} · ${props.rematch?'Rematch':L.STEP_NAME[step]}`,subject:Q?.subject,back:exit,backLabel:'🗺 Map'});
+setHeader({title:`${Q?.name} · ${props.rematch?'Rematch':L.STEP_NAME[step]}`,subject:Q?.subject,back:exit,backLabel:'Map',backIcon:'map'});
 
 const seed=`${P.st.active}-${props.id}-${step}-${Date.now()}`;
 const record=({help,diff,tries}:{help:number;diff:number;tries:number})=>L.record(p,props.id,{help,diff,firstTry:tries===1});
@@ -41,11 +42,11 @@ const intro=computed(()=>({
   help:{title:'Step 2: try it with help!',say:'Step two. Try it with help. Tap Start.'},
   own:{title:'Step 3: on your own!',say:'Step three. Now try it on your own. Tap Start.'},
   game:{title:'Step 4: game time!',say:'Step four. Game time! Tap Start.'},
-  boss:props.rematch?{title:`${Q?.boss.name} is back!`,say:`${Q?.boss.name} is back for a rematch! Tap Start.`}:{title:`Boss battle: ${Q?.boss.name}!`,say:`Boss battle! Beat ${Q?.boss.name}. Tap Start.`}
+  boss:props.rematch?{title:`${Q?.boss.name} is back!`,say:SAY.rematchIntro(Q?.boss.name??'')}:{title:`Boss battle: ${Q?.boss.name}!`,say:SAY.bossIntro(Q?.boss.name??'')}
 } as Record<string,{title:string;say:string}|undefined>)[step]??{title:'',say:''});
 const end=computed(()=>step==='boss'
   ?{title:props.rematch?'Rematch won!':'Boss beaten!',sub:props.rematch?'You really know this now.':'Ask a grown-up how it went.',say:props.rematch?'You won the rematch! You really know this now.':'You beat the boss! Amazing!'}
-  :{title:'Step done! ⭐',sub:'Back to the map for the next stone.',say:'Step done! Great work.'});
+  :{title:'Step done!',sub:'Back to the map for the next stone.',say:'Step done! Great work.'});
 const done=()=>{if(Q&&step!=='boss')L.markStep(p,Q.id,step)};
 </script>
 

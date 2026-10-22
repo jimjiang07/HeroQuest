@@ -41,11 +41,13 @@ export interface UnitApp{
 export interface ActivityModule{
   steps:Record<string,Component>;   // the activity's own steps, by key; each gets prop data: UnitApp
   ask(item:Item,help:number,data:UnitApp):Question;
+  lines(data:UnitApp):string[];      // every line its own steps can say, for recording the voice
 }
 
 export interface QuestDef{
   id:string;name:string;subject:Subject;art:string;
-  boss:{name:string;emoji:string};
+  boss:{name:string;art:string};
+  map:{scene:string;path:number[][]};   // path: the 6 stones, Learn it first, as [x%,y%] of a portrait map
   needs:string[];
   data:UnitApp;
   mod:ActivityModule;

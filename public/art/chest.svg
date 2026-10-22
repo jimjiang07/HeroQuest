@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Treasure chest</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="78" cy="74" r="10" fill="#ffd166" stroke-width="4"/><circle cx="100" cy="68" r="10" fill="#ffd166" stroke-width="4"/><circle cx="122" cy="74" r="10" fill="#ffd166" stroke-width="4"/>
+<path d="M36 92Q36 52 100 52Q164 52 164 92Z" fill="#c07a45" transform="rotate(-12 36 92)"/>
+<rect x="36" y="92" width="128" height="80" rx="10" fill="#d9a066"/><path d="M36 118H164" fill="none" stroke-width="4"/>
+<rect x="88" y="108" width="24" height="26" rx="5" fill="#ffd166"/><circle cx="100" cy="120" r="3.5" fill="#2b2d42" stroke="none"/>
+<path d="M160 31.6Q161.4 38.6 168.4 40Q161.4 41.4 160 48.4Q158.6 41.4 151.6 40Q158.6 38.6 160 31.6Z" fill="#ffd166" stroke-width="3"/><path d="M44 34Q45 39 50 40Q45 41 44 46Q43 41 38 40Q43 39 44 34Z" fill="#ffd166" stroke-width="3"/></g></svg>

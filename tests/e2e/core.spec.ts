@@ -7,12 +7,21 @@ test('a first-time player makes a hero and reaches the quest picker',async({page
   await page.goto('./');
   await expect(page.getByText('Who’s playing?')).toBeVisible();await fits(page,'who');
   await page.getByText('Make your hero').click();await fits(page,'pick hero');
-  await page.locator('[data-a="fox"]').click();await fits(page,'pick world');
+  await page.locator('[data-a="ranger"]').click();await fits(page,'pick world');
   await page.locator('[data-w="jungle"]').click();
   await expect(page.locator('.keep')).toBeVisible();await fits(page,'hub');
   const st=await saved(page);
   expect(Object.values(st.profiles)).toHaveLength(1);
-  expect(st.profiles[st.active].avatar).toBe('fox');
+  expect(st.profiles[st.active].avatar).toBe('ranger');
+  expect(errors).toEqual([]);
+});
+
+test('the voice plays recorded clips, not the device voice',async({page})=>{
+  const errors=watchErrors(page);
+  await seed(page,hero());
+  const clip=page.waitForRequest(/voice\/[0-9a-f]{8}\.mp3$/);
+  await page.goto('./#/hub');
+  await clip;
   expect(errors).toEqual([]);
 });
 
@@ -32,9 +41,10 @@ test('a quest map opens one stone at a time',async({page})=>{
   await seed(page,hero({unlockAll:false}));
   await page.goto('./#/quest/jt10');await fits(page,'quest map');
   await expect(page.locator('.stone2')).toHaveCount(6);
-  await expect(page.locator('.qroad .lane')).toHaveAttribute('d',/^M[\d.]+ [\d.]+( C[\d. ]+){5}$/);   // a road through all six stones
+  await expect(page.locator('.qroad .lane')).toHaveAttribute('d',/^M[\d.]+ [\d.]+( C[-\d. ]+){10}$/);   // a road through all six stones, bending between each pair
   await expect(page.locator('.stone2[data-s="learn"]')).toHaveClass(/cur/);
   await expect(page.locator('.stone2[data-s="help"]')).toHaveClass(/lock/);
+  await expect(page.locator('.qpath')).toHaveAttribute('data-scene','crystal-peaks');   // each quest has its own scene
   await page.locator('.stone2[data-s="boss"]').click();
   await expect(page).toHaveURL(/#\/quest\/jt10$/);
   await page.locator('.stone2[data-s="learn"]').click();
