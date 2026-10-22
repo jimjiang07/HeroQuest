@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="2 60 100 110" width="200" height="200"><title>Block hammer</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><g transform="rotate(-20 50 152)"><rect x="46" y="96" width="8" height="74" rx="4" fill="#b9824f"/><rect x="22" y="78" width="56" height="20" rx="5" fill="#ffa04d"/>
+    <path d="M36 78V98M50 78V98M64 78V98" fill="none" stroke-width="3"/></g></g></svg>

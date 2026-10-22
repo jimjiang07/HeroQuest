@@ -129,6 +129,50 @@ Object.assign(BACK,{
     <path d="M60 178Q66 172 72 178T84 178M116 178Q122 172 128 178T140 178M64 162Q70 156 76 162M124 162Q130 156 136 162" fill="none" stroke="#fff" stroke-width="4"/>`},
 });
 
+// six more bosses' gear (Tide Crab, Clock Gremlin, Block Golem, Swamp Snake, Book Worm, Jumble Monkey)
+const NAVY='#3d3f5c',STONE='#b3b0c2',SWAMP='#6f9a5a',BRASS='#e0b25c';
+const cogAt=(x,y,r,col)=>[0,45,90,135].map(a=>`<rect x="${x-r*.3}" y="${y-r*1.3}" width="${r*.6}" height="${r*2.6}" rx="3" fill="${col}" transform="rotate(${a} ${x} ${y})"/>`).join('')
+  +`<circle cx="${x}" cy="${y}" r="${r}" fill="${col}"/><circle cx="${x}" cy="${y}" r="${r*.38}" fill="#fff8e8" stroke-width="3"/>`;
+Object.assign(OUTFITS,{
+  'swamp-cloak':{torso:SWAMP,sleeve:SWAMP,legs:SWAMP,boots:'#4f6e3e',robe:true,extra:`<path d="M100 114V182" fill="none" stroke-width="3"/>
+    <circle cx="84" cy="138" r="5" fill="${C.greenD}" stroke-width="2.5"/><circle cx="116" cy="160" r="6" fill="${C.greenD}" stroke-width="2.5"/><circle cx="86" cy="170" r="4" fill="${C.greenD}" stroke-width="2.5"/>
+    <path d="M72 120Q86 110 100 118Q114 110 128 120Q114 132 100 124Q86 132 72 120Z" fill="${C.mint}" stroke-width="4"/><circle cx="100" cy="121" r="4.5" fill="${C.pink}" stroke-width="2.5"/>`},
+});
+Object.assign(HEADS,{
+  'pirate-hat':{front:`<path d="M128 40C134 26 142 16 150 12C154 22 146 34 134 44Z" fill="${C.coral}" stroke-width="4"/>
+    <path d="M50 66C46 50 56 40 70 42C74 20 126 20 130 42C144 40 154 50 150 66C134 56 118 52 100 52C82 52 66 56 50 66Z" fill="${NAVY}"/>
+    <path d="M56 58Q100 44 144 58" fill="none" stroke="${C.butter}" stroke-width="5"/>${star(100,40,8,3.6,C.butter)}`},
+  'stone-helmet':{front:`<rect x="92" y="6" width="16" height="26" rx="4" fill="${C.orange}"/><path d="M92 14.6H108M92 23.3H108" fill="none" stroke-width="3"/>
+    <path d="M58 76C56 40 76 28 100 28C124 28 144 40 142 76L130 76C128 60 116 52 100 52C84 52 72 60 70 76Z" fill="${STONE}"/>
+    <path d="M62 58H138M82 32L84 56M118 32L116 56M100 52V58" fill="none" stroke-width="3"/><path d="M66 46q6-8 12-2" fill="none" stroke="${C.greenD}" stroke-width="4"/>`},
+  'bookworm-cap':{front:`<path d="M100 30C96 20 98 10 108 6C118 4 124 12 120 18" fill="none" stroke-width="13"/><path d="M100 30C96 20 98 10 108 6C118 4 124 12 120 18" fill="none" stroke="${C.mint}" stroke-width="7"/>
+    <circle cx="122" cy="16" r="8" fill="${C.mint}" stroke-width="3.5"/><circle cx="125" cy="14" r="2" fill="${INK}" stroke="none"/>
+    <path d="M60 62C60 36 78 26 100 26C122 26 140 36 140 62Z" fill="${C.lavD}"/><path d="M80 32Q76 46 78 60M120 32Q124 46 122 60" fill="none" stroke-width="3"/>
+    <rect x="54" y="56" width="92" height="12" rx="6" fill="#fff8e8"/><path d="M66 62H90M110 62H134" fill="none" stroke="${C.lavD}" stroke-width="2.5"/>`},
+});
+Object.assign(MAIN,{
+  'cog-wand':`<g transform="rotate(-10 50 152)"><rect x="46" y="76" width="8" height="98" rx="4" fill="${WOOD}"/>${cogAt(50,68,13,BRASS)}</g>${sparkle(80,52,.4,C.butter)}`,
+  'block-hammer':`<g transform="rotate(-20 50 152)"><rect x="46" y="96" width="8" height="74" rx="4" fill="${WOOD}"/><rect x="22" y="78" width="56" height="20" rx="5" fill="${C.orange}"/>
+    <path d="M36 78V98M50 78V98M64 78V98" fill="none" stroke-width="3"/></g>`,
+  'star-wand':`<g transform="rotate(-10 50 152)"><rect x="46" y="80" width="8" height="92" rx="4" fill="${C.lavD}"/>${star(50,68,20,9,C.butter)}</g>${sparkle(84,52,.4,C.mint)}${sparkle(20,58,.35,'#fff')}`,
+});
+Object.assign(OFF,{
+  'shell-shield':`<path d="M150 178L126 152C122 132 136 120 150 120C164 120 178 132 174 152Z" fill="${C.coralL}"/>
+    <path d="M150 174L134 130M150 174L142 123M150 174V121M150 174L158 123M150 174L166 130" fill="none" stroke-width="3"/><rect x="141" y="172" width="18" height="9" rx="4" fill="${C.coral}" stroke-width="3"/>`,
+  'leaf-shield':`<path d="M150 120C176 132 182 160 162 176Q150 184 138 176C118 160 124 132 150 120Z" fill="${C.green}"/>
+    <path d="M150 124V178M150 140L138 132M150 140L162 132M150 156L136 148M150 156L164 148" fill="none" stroke-width="3"/>`,
+});
+Object.assign(BACK,{
+  'clockwork-wings':{back:both('M80 124C60 96 34 82 14 88C20 96 22 104 18 112C28 110 34 116 34 124C42 120 50 124 52 132C60 128 70 130 80 138Z',BRASS)
+    +both('M76 128Q56 110 26 100M66 124Q50 116 40 120',"none",'stroke-width="3"')+cogAt(46,104,8,C.butter)+cogAt(154,104,8,C.butter)},
+  'page-cape':{back:`<path d="M74 118C58 150 54 178 60 192H140C146 178 142 150 126 118Z" fill="#fff8e8"/>
+    <path d="M66 150H80M64 162H80M62 174H80M120 150H134M120 162H136M120 174H138" fill="none" stroke="${C.lavD}" stroke-width="3"/><path d="M140 192L146 178L132 184Z" fill="${C.khaki}" stroke-width="3"/>`},
+  'vine-pack':{back:`<path d="M60 112C52 98 64 90 72 100M140 112C148 96 136 90 128 100" fill="none" stroke="${C.greenD}" stroke-width="5"/>
+    <ellipse cx="60" cy="100" rx="9" ry="6" fill="${C.green}" stroke-width="3" transform="rotate(-30 60 100)"/><ellipse cx="142" cy="98" rx="9" ry="6" fill="${C.green}" stroke-width="3" transform="rotate(30 142 98)"/>
+    <rect x="58" y="112" width="84" height="58" rx="16" fill="${C.greenD}"/>`,
+    front:`<path d="M80 114L84 158M120 114L116 158" fill="none" stroke="${C.green}" stroke-width="6"/><ellipse cx="82" cy="138" rx="7" ry="4.5" fill="${C.green}" stroke-width="2.5" transform="rotate(-40 82 138)"/><ellipse cx="118" cy="130" rx="7" ry="4.5" fill="${C.green}" stroke-width="2.5" transform="rotate(40 118 130)"/>`},
+});
+
 // ---------- the six starter heroes; a kit names one piece per slot ----------
 export const HEROES=[
   ['knight','Knight','#e9eef6',{skin:'tan',hair:'brown',style:'short',outfit:'armour',head:'helmet',main:'sword',off:'shield',back:'cape'}],
@@ -153,6 +197,9 @@ export const GEAR={
   'crystal-crown':{slot:'head',name:'crystal crown',art:'gear-crystal-crown',vb:'52 0 96 76'},
   'robot-helmet':{slot:'head',name:'robot helmet',art:'gear-robot-helmet',vb:'42 0 116 96'},
   'bat-hood':{slot:'head',name:'bat hood',art:'gear-bat-hood',vb:'42 4 116 116'},
+  'pirate-hat':{slot:'head',name:'pirate hat',art:'gear-pirate-hat',vb:'42 4 116 76'},
+  'stone-helmet':{slot:'head',name:'stone helmet',art:'gear-stone-helmet',vb:'46 0 108 84'},
+  'bookworm-cap':{slot:'head',name:'bookworm cap',art:'gear-bookworm-cap',vb:'46 -2 108 76'},
   sword:{slot:'main',name:'sword',art:'gear-sword',vb:'8 60 88 116'},
   staff:{slot:'main',name:'magic staff',art:'gear-staff',vb:'-2 24 104 104'},
   bow:{slot:'main',name:'bow',art:'gear-bow',vb:'-6 90 120 120'},
@@ -162,11 +209,16 @@ export const GEAR={
   spanner:{slot:'main',name:'big spanner',art:'gear-spanner',vb:'8 52 92 128'},
   'mossy-club':{slot:'main',name:'mossy club',art:'gear-mossy-club',vb:'8 52 92 128'},
   quill:{slot:'main',name:'feather quill',art:'gear-quill',vb:'4 50 96 128'},
+  'cog-wand':{slot:'main',name:'cog wand',art:'gear-cog-wand',vb:'8 40 92 136'},
+  'block-hammer':{slot:'main',name:'block hammer',art:'gear-block-hammer',vb:'2 60 100 110'},
+  'star-wand':{slot:'main',name:'star wand',art:'gear-star-wand',vb:'4 36 96 140'},
   shield:{slot:'off',name:'shield',art:'gear-shield',vb:'116 116 68 68'},
   book:{slot:'off',name:'spell book',art:'gear-book',vb:'124 116 56 60'},
   lantern:{slot:'off',name:'lantern',art:'gear-lantern',vb:'126 144 48 44'},
   'coin-shield':{slot:'off',name:'gold coin shield',art:'gear-coin-shield',vb:'118 116 68 68'},
   'glow-lantern':{slot:'off',name:'glow lantern',art:'gear-glow-lantern',vb:'122 144 60 60'},
+  'shell-shield':{slot:'off',name:'shell shield',art:'gear-shell-shield',vb:'116 114 68 72'},
+  'leaf-shield':{slot:'off',name:'leaf shield',art:'gear-leaf-shield',vb:'116 114 68 72'},
   cape:{slot:'back',name:'cape',art:'gear-cape',vb:'40 108 120 90'},
   backpack:{slot:'back',name:'backpack',art:'gear-backpack',vb:'46 98 108 86'},
   quiver:{slot:'back',name:'quiver',art:'gear-quiver',vb:'110 56 80 100'},
@@ -174,6 +226,9 @@ export const GEAR={
   'dragon-wings':{slot:'back',name:'dragon wings',art:'gear-dragon-wings',vb:'0 66 200 80'},
   'treasure-pack':{slot:'back',name:'treasure backpack',art:'gear-treasure-pack',vb:'44 88 112 90'},
   'river-cape':{slot:'back',name:'river cape',art:'gear-river-cape',vb:'40 108 120 90'},
+  'clockwork-wings':{slot:'back',name:'clockwork wings',art:'gear-clockwork-wings',vb:'0 72 200 76'},
+  'page-cape':{slot:'back',name:'page cape',art:'gear-page-cape',vb:'40 108 120 90'},
+  'vine-pack':{slot:'back',name:'vine backpack',art:'gear-vine-pack',vb:'44 86 112 90'},
   armour:{slot:'outfit',name:'knight armour',art:'outfit-armour',vb:'40 104 120 96'},
   tunic:{slot:'outfit',name:'ranger tunic',art:'outfit-tunic',vb:'40 104 120 96'},
   robe:{slot:'outfit',name:'wizard robe',art:'outfit-robe',vb:'40 104 120 96'},
@@ -181,6 +236,7 @@ export const GEAR={
   space:{slot:'outfit',name:'space suit',art:'outfit-space',vb:'40 104 120 96'},
   overalls:{slot:'outfit',name:'overalls',art:'outfit-overalls',vb:'40 104 120 96'},
   'owl-cloak':{slot:'outfit',name:'owl cloak',art:'outfit-owl-cloak',vb:'40 104 120 96'},
+  'swamp-cloak':{slot:'outfit',name:'swamp cloak',art:'outfit-swamp-cloak',vb:'40 104 120 96'},
 };
 /* one piece on its own, in the rig's coordinates (crop it with GEAR[id].vb) */
 export const gearBody=id=>{

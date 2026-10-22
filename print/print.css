@@ -324,3 +324,49 @@ h1{font-family:var(--disp);font-weight:400;font-size:11.5mm;margin:.6mm 0 0;line
 .page.has-x .hword{font-size:7.4mm;width:30mm}
 .page.has-x .train.dense .pic{height:9.6mm}
 .page.has-x .train.dense .pic .emo{font-size:8.4mm}
+
+/* 3 × 3 card grid (tens and ones, magic e) */
+.train.t9{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,1fr);gap:3mm}
+.train.t9 .card{min-width:0;min-height:0;gap:2mm;padding:2mm 1.6mm}
+.train.t9 .card:nth-child(n+4){background:#fff}
+.train.t9 .card.ex{background:var(--gold-soft)}
+.train.t9 .gv{height:26mm;margin-top:3mm}
+.train.t9 .eq.q{font-size:6.4mm}
+.dn{font-size:8mm;color:var(--c)}
+.drawsp{align-self:stretch;flex:1;min-height:0;border:2px dashed #9aa0b8;border-radius:2.4mm;
+  background-image:radial-gradient(circle,#c4c7d6 .45mm,transparent .55mm);background-size:5mm 5mm}
+.sec.adds{flex:none}
+.addrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.4mm 4mm}
+.ai{justify-content:center;background:var(--c-soft);border-radius:3mm;padding:1.6mm 1mm;font-size:6.4mm}
+
+/* magic e */
+.mcard .pic{height:14mm}.mcard .pic .emo{font-size:12mm}
+.mpair{display:flex;align-items:center;gap:2mm;font-family:var(--read);font-weight:700;font-size:6.6mm;line-height:1.3;padding:1mm 0}
+.mpair b{color:var(--c)}
+.mpair svg{width:7mm;height:3.6mm;fill:none;stroke:var(--c);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.mcard .tiles{--tw:8.4mm}
+.tile.in.me{border-color:var(--c);background:var(--gold-soft)}
+.mcard .hw.one{flex:none;align-self:stretch;margin:0 2mm}
+
+/* short sentences */
+.sec.fixs{display:flex;flex-direction:column}
+.srows{flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:2mm}
+.srow{position:relative;display:flex;flex-direction:column;gap:1mm;padding-left:8mm}
+.srow .no{position:absolute;top:.6mm;left:0;width:5.5mm;height:5.5mm;border-radius:50%;background:var(--c-mid);
+  font-size:3.2mm;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sbad{position:relative;align-self:flex-start;font-family:var(--read);font-weight:700;font-size:6.6mm;background:var(--c-soft);border-radius:2.4mm;padding:.8mm 3mm}
+.srow.ex .sbad{background:var(--gold-soft);border:2px solid var(--c)}
+.sbad .exl{position:static;margin-left:3mm}
+.srow .hw{flex:none}
+.cap1{color:var(--c);text-decoration:underline;text-decoration-thickness:.5mm;text-underline-offset:1mm}
+.fs{display:inline-block;width:4.4mm;height:4.4mm;margin-left:1.4mm;border:2.2px dashed var(--c);border-radius:50%;background:#fff;vertical-align:-.4mm}
+.sec.draws{flex:none;height:78mm;display:flex;flex-direction:column}
+.dbxs{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.dbx{display:flex;flex-direction:column;gap:2mm;min-height:0}
+.dbt{font-family:var(--read);font-weight:700;font-size:6.2mm}
+
+/* heart words: more than six words, tighter rows */
+.hrows.many .hw{height:12.4mm}
+.hrows.many .hw .tr{height:12.4mm;font-size:10mm;line-height:11.2mm}
+.hrows.many .hw .l1{top:1.6mm}.hrows.many .hw .l2{top:5.4mm}.hrows.many .hw .l3{top:9.2mm}
+.hrows.many .hword{font-size:7mm;width:30mm;padding:.4mm 0}

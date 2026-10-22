@@ -111,8 +111,8 @@ describe('boss gear',()=>{
     const {GEAR}=await import('@/art/rig');
     const quests=(await import('../../data/quests.json')).default.quests;
     const all=quests.flatMap(q=>q.reward);
-    expect(all).toHaveLength(12);
-    expect(new Set(all).size).toBe(12);
+    expect(all).toHaveLength(24);
+    expect(new Set(all).size).toBe(24);
     for(const g of all)expect(GEAR[g],g).toBeTruthy();
   });
 });

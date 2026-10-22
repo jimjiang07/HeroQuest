@@ -4,5 +4,9 @@ import add10 from './add10';
 import groups from './groups';
 import blend from './blend';
 import heart from './heart';
+import sentence from './sentence';
+import sub10 from './sub10';
+import magice from './magice';
+import tens from './tens';
 
-export const MODULES:Record<string,ActivityModule>={add10,groups,blend,heart};
+export const MODULES:Record<string,ActivityModule>={add10,groups,blend,heart,sentence,sub10,magice,tens};

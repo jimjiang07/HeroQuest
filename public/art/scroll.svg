@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Scroll</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<rect x="40" y="46" width="120" height="112" fill="#fff3dc"/>
+<path d="M58 74H142M58 92H142M58 110H126M58 128H134" fill="none" stroke="#e8c071" stroke-width="5"/>
+<rect x="28" y="30" width="144" height="24" rx="12" fill="#e8c071"/><rect x="28" y="150" width="144" height="24" rx="12" fill="#e8c071"/>
+<circle cx="28" cy="42" r="8" fill="#d9a066" stroke-width="4"/><circle cx="172" cy="42" r="8" fill="#d9a066" stroke-width="4"/><circle cx="28" cy="162" r="8" fill="#d9a066" stroke-width="4"/><circle cx="172" cy="162" r="8" fill="#d9a066" stroke-width="4"/>
+<path d="M100 174V194L110 186L120 194V174" fill="#ff8a6b" stroke-width="4"/><path d="M164 90Q165 95 170 96Q165 97 164 102Q163 97 158 96Q163 95 164 90Z" fill="#ffd166" stroke-width="3"/></g></svg>

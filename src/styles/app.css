@@ -286,7 +286,6 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .tab[aria-selected="true"]{background:var(--lane-m);color:#fff}
 .tab.english[aria-selected="true"]{background:var(--lane-e)}
 .quests{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:100%;max-width:720px}
-@media (max-width:560px){.quests{grid-template-columns:1fr}}
 .qcard{border:4px solid var(--ink);border-radius:var(--rd);background:var(--card);box-shadow:0 6px 0 var(--ink);padding:12px;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"art qn" "art qs" "pips pips";gap:4px 10px;text-align:left;align-items:center;min-height:64px}
 .qcard .qart{grid-area:art;width:clamp(48px,calc(8*var(--v)),68px);height:auto}
 .rmboss{width:52px;height:52px;flex:none}
@@ -295,7 +294,8 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .qcard .pips{grid-area:pips}
 .qcard.beaten,.qcard.secure{background:#fff3c4;color:#1d2140}
 .qcard.lock{border-style:dashed;box-shadow:none;opacity:.7}
-@media (max-width:560px){.qcard{grid-template-columns:auto 1fr 90px;grid-template-areas:"art qn pips" "art qs pips";padding:8px 12px}}
+/* phones: six quests a subject sit two to a row, each card art beside its name, the steps below */
+@media (max-width:560px){.quests{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.qcard{padding:8px 10px;gap:2px 8px}.qcard .qart{width:clamp(36px,6vh,52px)}.qcard .qn{font-size:clamp(17px,2.6vh,22px)}.qcard .qs{font-size:13px}}
 
 /* quest map: 5 steps and the boss, climbing from the bottom, zig-zag */
 .qpath{position:relative;flex:1;min-height:0;width:100%;border:4px solid var(--ink);border-radius:var(--rd);background:var(--card) center/cover no-repeat;overflow:hidden;
@@ -308,6 +308,12 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .qpath[data-scene="troll-river"]{--lane:#e3c08f;--dash:#a87a4a}
 .qpath[data-scene="bat-caves"]{--lane:#cbc3e3;--dash:#7d6fb3}
 .qpath[data-scene="owl-woods"]{--lane:#ead9b0;--dash:#b48a55}
+.qpath[data-scene="pirate-cove"]{--lane:#f3d59c;--dash:#c08a4a}
+.qpath[data-scene="clock-tower"]{--lane:#ddd3f0;--dash:#8f7ad6}
+.qpath[data-scene="stone-quarry"]{--lane:#dcd5c6;--dash:#9a8f78}
+.qpath[data-scene="swamp"]{--lane:#c5d9a5;--dash:#7f9e5a}
+.qpath[data-scene="library-tower"]{--lane:#f0b9aa;--dash:#c9604f}
+.qpath[data-scene="jungle-temple"]{--lane:#e0d6b4;--dash:#a89a6a}
 /* the road behind the stones: dark edge, sandy lane, gold where the child has walked, dashed centre line */
 .qroad{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 .qroad path{fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -450,12 +456,24 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .hunt-p svg.mg{display:block;width:calc(var(--hc)*clamp(14px,calc(5.4*var(--v)),40px));height:auto;max-width:100%}
 .hunt-a.right{background:color-mix(in srgb,var(--ok) 22%,var(--card));box-shadow:0 0 0 6px color-mix(in srgb,var(--gold) 70%,transparent),0 7px 0 var(--ink)}
 .hunt-f{font-family:var(--disp);font-size:clamp(22px,calc(4*var(--v)),38px);line-height:1;min-height:1em}
+/* skip-counting stones (help pictures and the count-by hop game): gold = a running total, teal = "+n" to count on */
+.hops{display:grid;grid-template-columns:repeat(var(--h),auto);gap:clamp(6px,calc(1.4*var(--v)),14px);justify-content:center}
+.hop{--hs:clamp(50px,calc(10*var(--v)),88px);width:min(var(--hs),calc((100vw - 48px)/var(--h) - 8px));height:calc(var(--hs)*.78);display:grid;place-items:center;border:4px solid var(--ink);border-radius:50% 46% 52% 44%/58% 54% 46% 50%;background:var(--teal);color:#1d2140;font-family:var(--disp);font-size:calc(var(--hs)*.36);line-height:1}
+.hop.lab{background:var(--gold)}
+.hop.gap{background:var(--card);border-style:dashed;color:var(--c)}
+.hop .q{display:inline-block;min-width:1em;border-bottom:4px dashed var(--muted)}
+.hop .q.typed{border-bottom-style:solid}
+.qpic .hop{--hs:clamp(46px,min(calc(9*var(--v)),7vh),80px)}
+.chpic .hop{--hs:clamp(40px,min(calc(7*var(--v)),5vh),64px)}
+.hopg .hop{--hs:clamp(52px,min(calc(13*var(--v)),10vh),104px)}
 
 /* ---- heart module ---- */
 .hw{font-family:var(--read);font-weight:700;letter-spacing:.5px}
 .hh{color:var(--c);text-decoration:underline wavy color-mix(in srgb,var(--c) 60%,transparent);text-underline-offset:6px}
 .hm{display:inline-block;margin-left:6px;color:#e64980;font-size:.6em;vertical-align:super}
 .ch.hwc{font-size:clamp(34px,calc(6.4*var(--v)),56px);padding:0 18px}
+/* phones: three five-letter words (where, there) still sit on one row */
+@media (max-width:480px){.ch.hwc{min-width:0;font-size:28px;padding:0 10px}}
 .bln.hwb{font-family:var(--read);font-weight:700;font-size:clamp(24px,calc(5*var(--v)),44px)}
 .hsent{font-family:var(--read);font-weight:700;font-size:clamp(28px,calc(5.4*var(--v)),48px);line-height:1.3;max-width:min(680px,92vw);padding:8px 18px;border:4px solid var(--ink);border-radius:20px;background:var(--card)}
 .hgap{display:inline-block;width:2.6em;border-bottom:5px dashed var(--muted);margin:0 .15em}
@@ -548,3 +566,123 @@ main.screen:has(.ward){justify-content:flex-start}
 .newgear img{width:clamp(64px,11vh,110px);height:clamp(64px,11vh,110px);animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
 .stage:has(.newgear) .medalbox{width:min(180px,calc(36*var(--v)),20vh)}
 @media (prefers-reduced-motion:reduce){.wpop img,.newgear img{animation:none}}
+
+/* ---- sub10 module ---- */
+/* a counter taken away: an empty dashed ring, so what is left is easy to count */
+.dot.gone{background:transparent;border-style:dashed;border-color:var(--muted);opacity:.55;animation:s10out .4s ease}
+@keyframes s10out{from{transform:translateY(0);opacity:1}50%{transform:translateY(-14px) scale(.8)}}
+/* memory: a take-away card holds two lines, so it fits a phone card */
+.mc .front b.s10m{font-size:clamp(22px,calc(5*var(--v)),50px);line-height:1.05;white-space:nowrap}
+/* a stuck child's story problem carries the picture too, so it is kept small to fit a phone */
+.qpic .s10ch svg.mini{width:auto;max-width:100%;height:clamp(70px,10vh,150px)}
+@media (prefers-reduced-motion:reduce){.dot.gone{animation:none}}
+
+/* ---- magice module ---- */
+.mev{color:var(--c)}
+.mee{color:#7b5cf0;text-shadow:0 0 10px color-mix(in srgb,var(--lav) 80%,transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mee{color:var(--lav)}}
+:root[data-theme="dark"] .mee{color:var(--lav)}
+.megap{display:inline-block;min-width:.9em;color:#7b5cf0;border-bottom:5px dashed var(--lav);line-height:.9}
+.mewand{width:1.4em;height:1.4em;flex:none;stroke:var(--ink)}
+.mebtn,.mech{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.metiles .tl{width:min(calc(13*var(--v)),11vh);height:min(calc(15*var(--v)),13vh);font-size:min(calc(9*var(--v)),8vh)}
+.metiles .tl.mefly{background:color-mix(in srgb,var(--lav) 45%,var(--card));animation:mefly .7s cubic-bezier(.3,1.4,.5,1)}
+@keyframes mefly{0%{transform:translate(60px,-90px) rotate(30deg) scale(.3);opacity:0;box-shadow:0 0 0 0 var(--gold)}70%{box-shadow:0 0 0 14px color-mix(in srgb,var(--gold) 50%,transparent)}100%{transform:none;opacity:1;box-shadow:0 0 0 0 transparent}}
+.mehear{min-width:clamp(120px,calc(22*var(--v)),200px);font-family:var(--read);font-size:clamp(30px,calc(5*var(--v)),46px)}
+.mehear.done{background:color-mix(in srgb,var(--lav) 40%,var(--card))}
+.mepair{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:clamp(10px,2.4vw,24px)}
+.mearr{font-family:var(--body);font-size:.55em;color:var(--muted)}
+.lcard.mecards .blpic{font-size:min(calc(13*var(--v)),12vh)}
+.lcard.mecards .ltext{font-family:var(--read);font-weight:700;font-size:clamp(40px,calc(8*var(--v)),70px)}
+.mewq{display:flex;flex-direction:column;align-items:center}
+.mech{font-family:var(--read);font-weight:700}
+/* spelling: the vowel and the magic e are marked, not the letter between them */
+:has(> .qpic .mepic,> .qpic .memark) > .slots .slot.bl+.slot.bl:not(:last-child){border-color:var(--muted);border-style:dashed}
+:has(> .qpic .mepic,> .qpic .memark) > .slots .slot.full.bl+.slot.full.bl:not(:last-child){border-color:var(--ink);border-style:solid;background:var(--card);color:var(--ink)}
+:has(> .qpic .mepic,> .qpic .memark) > .slots .slot.bl:last-child{border-color:var(--lav)}
+:has(> .qpic .mepic,> .qpic .memark) > .slots .slot.full.bl:last-child{background:var(--lav)}
+.qpic:has(> .memark){display:none}
+/* listen-and-sort: the card is a speaker until the word is sorted */
+.mecard{border:4px solid var(--ink);min-width:clamp(140px,calc(26*var(--v)),220px);min-height:clamp(90px,calc(16*var(--v)),150px);justify-content:center;color:var(--ink)}
+.mecard .ic{width:clamp(56px,calc(10*var(--v)),88px);height:clamp(56px,calc(10*var(--v)),88px)}
+.mebin{font-family:var(--read);font-weight:700;font-size:clamp(15px,calc(2.4*var(--v)),22px);gap:2px 6px}
+.blab .mewand{display:inline-block;vertical-align:-.2em;width:1em;height:1em;margin-right:4px}
+@media (prefers-reduced-motion:reduce){.metiles .tl.mefly{animation:none}}
+
+/* ---- tens module ---- */
+.b-ten{fill:var(--teal)}.b-one{fill:var(--or)}.b-add{fill:var(--gold)}
+svg.tb{display:block;width:auto;max-width:100%;overflow:visible}
+.qpic svg.tb{height:clamp(96px,17vh,250px)}
+/* blocks, the question and the pad on one phone screen: tighter gaps */
+.stage:has(.qpic svg.tb){gap:clamp(8px,1.2vh,22px)}
+.lcard .lpic svg.tb{height:clamp(120px,24vh,260px)}
+.tnch svg.tb{height:clamp(72px,11vh,170px)!important}
+.stage:has(.tnch) .prompt{font-size:clamp(20px,calc(3.4*var(--v)),32px)}
+.tn-n{font-family:var(--disp);font-weight:400;color:var(--c);font-size:1.5em;line-height:1;vertical-align:-.08em}
+.tn-hear{display:flex;align-items:center;gap:10px;min-height:1.9em}
+.tn-hear .ic{width:1.3em;height:1.3em}
+/* the pile keeps its height as blocks arrive, so the buttons never jump under a finger */
+.tn-pile{height:clamp(130px,min(28vh,calc(40*var(--v))),340px);width:min(100%,640px);display:flex;align-items:flex-end;justify-content:center;gap:clamp(14px,3vw,30px)}
+.tn-blocks,.tn-blocks svg.tb{height:100%}
+.tn-empty{width:60%;height:70%;border:4px dashed color-mix(in srgb,var(--muted) 55%,transparent);border-radius:var(--rd)}
+.tn-pile.money{align-items:center}
+.tn-notes,.tn-coins{display:grid;gap:clamp(4px,1vw,8px);align-content:center}
+.tn-notes{grid-template-columns:repeat(3,auto)}
+.tn-coins{grid-template-columns:repeat(3,auto)}
+.tn-notes>.pop,.tn-coins>.pop{display:block;animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.tn-note{display:grid;place-items:center;width:clamp(58px,calc(13*var(--v)),104px);height:clamp(30px,calc(6.6*var(--v)),52px);border:3px solid var(--ink);border-radius:8px;background:var(--sky);color:#1d2140;font-family:var(--disp);font-size:clamp(16px,calc(3.2*var(--v)),26px);box-shadow:inset 0 0 0 4px color-mix(in srgb,#fff 45%,transparent)}
+.tn-coin{display:grid;place-items:center;width:clamp(34px,calc(7.4*var(--v)),58px);height:clamp(34px,calc(7.4*var(--v)),58px);border:3px solid var(--ink);border-radius:50%;background:var(--gold);color:#1d2140;font-family:var(--disp);font-size:clamp(14px,calc(2.8*var(--v)),22px)}
+.tn-keys{gap:clamp(10px,2vw,16px);flex-wrap:nowrap}
+.tn-k{padding:8px clamp(12px,2.4vw,24px);white-space:nowrap}
+.tn-ki{display:inline-grid;place-items:center;flex:none}
+.tn-ki .tn-note{width:40px;height:22px;font-size:12px;border-width:2px;box-shadow:none}
+.tn-ki .tn-coin{width:28px;height:28px;font-size:11px;border-width:2px}
+.tn-rod{width:12px;height:38px;border:3px solid var(--ink);border-radius:3px;background:repeating-linear-gradient(180deg,var(--teal) 0 5px,var(--ink) 5px 6px)}
+.tn-cube{width:16px;height:16px;border:3px solid var(--ink);border-radius:3px;background:var(--or)}
+.tn-undo{min-width:64px;padding:8px 14px}
+.tn-undo .ic{width:30px;height:30px}
+.tn-go{min-width:min(60vw,260px)}
+.tn-go .ic{width:30px;height:30px}
+/* shop price tag: a hole and string make it read as a tag */
+.tn-tag{position:relative;display:flex;align-items:baseline;gap:clamp(10px,2vw,18px);padding:clamp(8px,1.6vh,14px) clamp(22px,4vw,40px) clamp(8px,1.6vh,14px) clamp(40px,6vw,56px);border:4px solid var(--ink);border-radius:12px 30px 30px 12px;background:var(--card);rotate:-3deg}
+.tn-tag::before{content:"";position:absolute;left:14px;top:50%;width:14px;height:14px;margin-top:-7px;border:3px solid var(--ink);border-radius:50%;background:var(--bg)}
+.tn-tag .tn-item{font-size:clamp(20px,calc(3.4*var(--v)),30px);font-weight:600;text-transform:capitalize}
+.tn-tag b{font-family:var(--disp);font-weight:400;font-size:clamp(40px,calc(9*var(--v)),76px);line-height:1;color:var(--c)}
+.tn-tag.sold{background:color-mix(in srgb,var(--ok) 20%,var(--card))}
+@media (max-width:520px){.tn-k{font-size:18px;padding:8px 10px}.tn-keys{gap:8px}}
+@media (prefers-reduced-motion:reduce){.tn-notes>.pop,.tn-coins>.pop{animation:none}}
+
+/* ---- sentence module ---- */
+.snsent{font-family:var(--read);font-weight:700;font-size:clamp(26px,calc(5.4*var(--v)),50px);line-height:1.25;max-width:min(720px,100%);padding:6px 20px;border:4px solid var(--ink);border-radius:20px;background:var(--card);text-align:center}
+.snpic{font-size:clamp(40px,calc(8*var(--v)),78px);line-height:1;white-space:nowrap}
+.snlab{display:block;font-family:var(--read);font-weight:700;font-size:clamp(18px,calc(3*var(--v)),26px);line-height:1.1;color:var(--muted)}
+.ch.snp{min-width:clamp(96px,calc(20*var(--v)),190px);min-height:clamp(84px,calc(15*var(--v)),150px);padding:6px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.ch.right .snlab{color:inherit}
+.snbig .snpic{font-size:min(calc(18*var(--v)),16vh)}
+.lcard.sncard .ltext .snsent{border:0;padding:0}
+/* text answers: whole sentences stack, one per row */
+.choices.snstack,.qwrap:has(.ch.snc) .choices{flex-direction:column;align-items:center;gap:clamp(10px,1.6vh,18px)}
+.ch.snc{min-width:min(100%,clamp(240px,calc(50*var(--v)),460px));min-height:clamp(58px,min(calc(11*var(--v)),9vh),84px);padding:4px 20px;font-size:clamp(22px,min(calc(4.6*var(--v)),4vh),40px);line-height:1.15}
+.ch.snw{min-width:clamp(84px,calc(16*var(--v)),150px);padding:0 16px;font-size:clamp(28px,calc(5.4*var(--v)),48px)}
+/* building a sentence: filled words, the gold spot to fill next, then empty slots */
+.qpic:has(.snbuild){flex-direction:column;align-items:center;gap:10px}
+.snbuild{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:clamp(5px,1.4vw,10px);max-width:min(100%,760px)}
+.snslot{min-width:clamp(44px,calc(10*var(--v)),90px);min-height:clamp(48px,calc(9*var(--v)),78px);padding:0 8px;border:4px dashed var(--muted);border-radius:14px;display:grid;place-items:center;font-family:var(--read);font-weight:700;font-size:clamp(22px,calc(4.6*var(--v)),42px);background:var(--card)}
+.snslot.full{border-style:solid;border-color:var(--ink)}
+.snslot.at{border-color:var(--gold);border-style:solid;background:color-mix(in srgb,var(--gold) 30%,var(--card));animation:glow 1.2s ease-in-out infinite}
+.snstop{font-family:var(--read);font-weight:700;font-size:clamp(30px,calc(6*var(--v)),54px);line-height:1}
+/* word tiles to tap in a sentence (capital, full stop, fix it) */
+.qwrap.snrules,.qwrap.snfix,.qwrap.snsilly{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2vh,20px);width:100%}
+.pool.snpool{max-width:min(100%,760px);gap:clamp(6px,1.6vw,14px)}
+.lt.snt{width:auto;min-width:max(56px,min(calc(12*var(--v)),10vh));height:max(60px,min(calc(13*var(--v)),10vh));padding:0 12px;font-size:clamp(26px,calc(5.4*var(--v)),48px)}
+.lt.snt.hit{background:color-mix(in srgb,var(--ok) 25%,var(--card));border-color:var(--ok);animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.lt.snt.gap{border-style:dashed;border-color:var(--muted);box-shadow:none}
+.snlast{display:flex;gap:4px}
+.lt.snt.snend{min-width:56px;padding:0 6px}
+/* the capital only takes colour once found, so it isn't pointed out */
+.lt.snt.hit .sncap{color:var(--c)}
+.ch.snyn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:clamp(140px,calc(26*var(--v)),220px);min-height:clamp(110px,min(calc(20*var(--v)),18vh),180px);font-family:var(--body);font-weight:700;font-size:clamp(20px,calc(3.6*var(--v)),30px)}
+.ch.snyn .ic{width:clamp(54px,min(calc(11*var(--v)),10vh),96px);height:auto}
+@media (prefers-reduced-motion:reduce){.snslot.at,.lt.snt.hit{animation:none}}
+/* the boss shows no pictures: its bonus is hear and spell, which also fits two rows of tiles on a phone */
+.bonus .qpic:has(> .mepic){display:none}

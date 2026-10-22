@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="42 4 116 76" width="200" height="200"><title>Pirate hat</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M128 40C134 26 142 16 150 12C154 22 146 34 134 44Z" fill="#ff8a6b" stroke-width="4"/>
+    <path d="M50 66C46 50 56 40 70 42C74 20 126 20 130 42C144 40 154 50 150 66C134 56 118 52 100 52C82 52 66 56 50 66Z" fill="#3d3f5c"/>
+    <path d="M56 58Q100 44 144 58" fill="none" stroke="#ffd166" stroke-width="5"/><path d="M100.0 32.0L102.1 37.1L107.6 37.5L103.4 41.1L104.7 46.5L100.0 43.6L95.3 46.5L96.6 41.1L92.4 37.5L97.9 37.1Z" fill="#ffd166"/></g></svg>

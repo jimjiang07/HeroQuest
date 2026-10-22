@@ -79,8 +79,10 @@ and a play-through test in `tests/e2e/`.
 
 ## Planned content (Term 4 and beyond)
 
-- Maths: times tables one table at a time (2, 5, 10, 3, 4, 6, 7, 8, 9, mixed). Addition/subtraction fluency (jump through 10, back through 10, then tens and ones, mixed word problems).
-- English: consonant blends, digraphs (sh, ch, th), common words, short sentences, writing a sentence, a four-sentence story.
+- Built: maths Jump Through 10, Back Through 10, Tens and Ones, Equal Groups, Arrays, Twos Fives Tens; English Blend
+  Bridge, sh ch th Cave, Magic e, Heart Words 1 and 2, Short Sentences.
+- Maths next: times tables one table at a time (3, 4, 6, 7, 8, 9, mixed), mixed word problems, tens and ones crossing 10.
+- English next: more common words, longer sentences, writing a sentence and a four-sentence story (on the worksheet).
 - A 5-minute thinking game each day (patterns, odd one out, simple logic). Long-term aim: selective high school, which includes writing, so protect writing practice.
 
 ## Working agreements

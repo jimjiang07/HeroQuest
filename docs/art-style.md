@@ -73,6 +73,12 @@ saved in the profile's `kit` (a slot left out = the starter's piece, `null` = no
 | Bridge Troll (blend) | `mossy-club` (main hand) | `river-cape` (back) |
 | Cave Bat (digraph) | `bat-hood` (head) | `glow-lantern` (off hand) |
 | Word Owl (heart) | `quill` (main hand) | `owl-cloak` (outfit) |
+| Tide Crab (bt10) | `pirate-hat` (head) | `shell-shield` (off hand) |
+| Clock Gremlin (skip) | `cog-wand` (main hand) | `clockwork-wings` (back) |
+| Block Golem (tens) | `stone-helmet` (head) | `block-hammer` (main hand) |
+| Swamp Snake (magice) | `star-wand` (main hand) | `swamp-cloak` (outfit) |
+| Book Worm (heart2) | `bookworm-cap` (head) | `page-cape` (back) |
+| Jumble Monkey (sentence) | `leaf-shield` (off hand) | `vine-pack` (back) |
 
 Every piece also has a picture on its own (`gear-<id>.svg`, `outfit-<id>.svg`), cropped by `GEAR[id].vb`. The contact
 sheet shows the boss gear on every base hero, to check it sits on each hair style.
@@ -86,12 +92,15 @@ The child has to feel the boss is worth beating, but a 5-year-old must never be 
 - **Don't:** blush cheeks or soft round "aww" eyes (those are for heroes and items), blood, injuries, realistic teeth or
   horror faces.
 - Each boss carries a hint of its quest: the Grid Robot has a 3×3 grid of dots, the Bag Goblin holds a bag of gold, the
-  Bridge Troll stands on a bridge.
+  Bridge Troll stands on a bridge, the Tide Crab grips an anchor, the Clock Gremlin has a clock belly and cogs, the Block
+  Golem has ten-rod arms, the Swamp Snake's tail ends in an "e", the Book Worm comes out of a book and the Jumble Monkey
+  holds word cards in the wrong order.
 - Files are `boss-<name>.svg`; `data/quests.json` names them in `boss.art`.
 
 ## Quest items, worlds and icons
 
-- **Quest items** (`star`, `heart`, `gold-bag`, `bridge`, `ship`, `book`, `chest`, `crystal`) may have tiny happy faces.
+- **Quest items** (`star`, `heart`, `gold-bag`, `bridge`, `ship`, `book`, `chest`, `crystal`, `anchor`, `clock`, `blocks`,
+  `wand`, `scroll`) may have tiny happy faces.
   `data/quests.json` names one in `art` for each quest card.
 - **Worlds** are round badges (`world-castle`, `world-ocean`, `world-space`, `world-jungle`).
 - **UI icons** (speaker, star, heart, pencil, printer, map, gear, …) are in `src/components/Icon.vue`: the same ink
@@ -109,9 +118,17 @@ Each quest has its own map: a scene that belongs to its boss and a road with its
 | Blend bridge | Troll River: two rivers to cross, reeds | wood |
 | sh ch th | Bat Caves: stalactites, glowing mushrooms | stone |
 | Heart words | Owl Woods: a big tree, books, letters | leaves |
+| Back through 10 | Pirate Cove: sea, a little ship, palms, a chest | sand |
+| Twos, fives, tens | Clock Tower: a tall tower with a clock, cogs | cobbles |
+| Tens and ones | Stone Quarry: cliffs, rocks, crates, ten-rods | gravel |
+| Magic e | Misty Swamp: ponds, lily pads, reeds, fireflies | moss |
+| Heart words 2 | Library Tower: bookshelves, a moon window, pages | red carpet |
+| Short sentences | Jungle Temple: a stepped temple, big leaves, flowers | old stone |
 
 - The scene is `public/art/map-<scene>.svg` (portrait) and `map-<scene>-wide.svg` (laptops, landscape), drawn by
   `SCENES` in `scripts/make-art.mjs`. Scenery hugs the edges and stays soft; the middle is open for the road.
+  The map is cropped to fill its box, so on tablets about the top and bottom 10% of a portrait scene is hidden: keep
+  top-band scenery below ~12%.
 - Where the stones sit is data: `map.path` in `data/quests.json`, six `[x%, y%]` points on a portrait map, Learn it
   first and the boss last. Make each quest's path its own shape; keep neighbouring stones at least ~25% apart.
 - The app draws the road through the stones with a bend between each pair (the same bends every visit), in the

@@ -33,7 +33,8 @@ for(const [id,g] of Object.entries(GEAR))if(!A.some(a=>a.id===g.art))
   A.push({group:g.slot==='outfit'?'Outfits':'Gear',id:g.art,name:cap(g.name),bg:'#f7f4ee',vb:g.vb,body:gearBody(id)});
 // contact sheet only: the boss gear on every base, to check it sits on each hair style
 const SETS=[{head:'crystal-crown',main:'spanner',off:'coin-shield',back:'dragon-wings'},{head:'robot-helmet',main:'mossy-club',off:'glow-lantern',back:'treasure-pack'},
-  {head:'bat-hood',main:'quill',back:'river-cape',outfit:'owl-cloak'}];
+  {head:'bat-hood',main:'quill',back:'river-cape',outfit:'owl-cloak'},{head:'pirate-hat',main:'cog-wand',off:'shell-shield',back:'clockwork-wings'},
+  {head:'stone-helmet',main:'block-hammer',off:'leaf-shield',back:'vine-pack'},{head:'bookworm-cap',main:'star-wand',back:'page-cape',outfit:'swamp-cloak'}];
 [['light','gold','long'],['tan','red','curly'],['brown','black','buns'],['deep','brown','spiky']].forEach(([skin,hair,style])=>SETS.forEach((k,i)=>
   A.push({group:'Boss gear on every base',id:`try-${skin}-${i}`,name:`Set ${i+1}`,bg:'#f4f1ff',sheetOnly:true,body:heroBody({skin,hair,style,outfit:'tunic',...k})})));
 
@@ -231,6 +232,130 @@ const letter=(x,y,ch,col)=>`<text x="${x}" y="${y}" font-family="Arial Rounded M
 // sprinkle small things over the open middle, away from where the big scenery sits
 const sprinkle=(W,H,n,seed,f)=>{const r=rnd(seed);let o='';for(let i=0;i<n;i++)o+=f(W*(.08+.84*r()),H*(.12+.76*r()),r());return o;};
 
+// ---------- Six more bosses and quest items (drawn here so they can use the map helpers above) ----------
+const shell=(x,y,s=1,col=C.coralL)=>`<path d="M${x} ${y}L${x-9*s} ${y-9*s}Q${x} ${y-20*s} ${x+9*s} ${y-9*s}Z" fill="${col}" stroke-width="2.5"/><path d="M${x} ${y}V${y-14*s}" fill="none" stroke-width="2"/>`;
+const anchor=(x,y,s,col)=>`<circle cx="${x}" cy="${y-50*s}" r="${9*s}" fill="none" stroke-width="${12*s}"/><circle cx="${x}" cy="${y-50*s}" r="${9*s}" fill="none" stroke="${col}" stroke-width="${5*s}"/>
+<rect x="${x-6*s}" y="${y-40*s}" width="${12*s}" height="${82*s}" rx="${5*s}" fill="${col}"/><rect x="${x-24*s}" y="${y-30*s}" width="${48*s}" height="${11*s}" rx="${5*s}" fill="${col}"/>
+<path d="M${x-36*s} ${y+10*s}Q${x-32*s} ${y+44*s} ${x} ${y+46*s}Q${x+32*s} ${y+44*s} ${x+36*s} ${y+10*s}" fill="none" stroke-width="${16*s}"/><path d="M${x-36*s} ${y+10*s}Q${x-32*s} ${y+44*s} ${x} ${y+46*s}Q${x+32*s} ${y+44*s} ${x+36*s} ${y+10*s}" fill="none" stroke="${col}" stroke-width="${8*s}"/>
+<path d="M${x-44*s} ${y+16*s}L${x-36*s} ${y}L${x-26*s} ${y+14*s}ZM${x+44*s} ${y+16*s}L${x+36*s} ${y}L${x+26*s} ${y+14*s}Z" fill="${col}" stroke-width="${3.5*s}"/>`;
+// a ten-rod (or any row of unit blocks): n cubes in one rounded bar
+const rod=(x,y,w,h,n,col,down=false)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" fill="${col}"/><path d="${Array.from({length:n-1},(_,i)=>down?`M${x} ${y+h*(i+1)/n}h${w}`:`M${x+w*(i+1)/n} ${y}v${h}`).join('')}" fill="none" stroke-width="2.5"/>`;
+const card=(x,y,w,word,rot,col='#fff')=>`<g transform="rotate(${rot} ${x} ${y})"><rect x="${x-w/2}" y="${y-17}" width="${w}" height="34" rx="6" fill="${col}" stroke-width="4"/><text x="${x}" y="${y+8}" font-family="Arial Rounded MT Bold,Fredoka,sans-serif" font-size="22" font-weight="700" fill="${INK}" stroke="none" text-anchor="middle">${word}</text></g>`;
+const fangs=(x,y,gap,h=9)=>`<path d="M${x-gap-4} ${y}l4 ${h} 4-${h}ZM${x+gap-4} ${y}l4 ${h} 4-${h}Z" fill="#fff" stroke-width="2.5"/>`;
+
+const CR={body:'#e8553f',dark:'#b8392a',belly:'#ffb08a'};
+add('Bosses','boss-tide-crab','Tide Crab','#e1f3f6',`
+<path d="M-4 182Q100 168 204 182V204H-4Z" fill="${C.khaki}" stroke-width="4"/>
+${[18,34,50,150,166,182].map((x,i)=>shell(x,193-(i%2)*3,.7,[C.coralL,C.butter,C.pink][i%3])).join('')}
+${tube('M56 140Q34 150 30 178',CR.body,8)}${tube('M66 148Q52 162 52 182',CR.body,8)}${tube('M144 140Q166 150 170 178',CR.body,8)}${tube('M134 148Q148 162 148 182',CR.body,8)}
+${tube('M50 120Q26 106 30 78',CR.body,10)}
+<ellipse cx="20" cy="56" rx="11" ry="22" fill="${CR.body}" transform="rotate(-24 20 56)"/><ellipse cx="42" cy="54" rx="10" ry="19" fill="${CR.body}" transform="rotate(22 42 54)"/>
+${tube('M150 120Q174 108 170 76',CR.body,10)}
+<path d="M84 96V68M116 96V68" fill="none" stroke-width="12"/><path d="M84 96V68M116 96V68" fill="none" stroke="${CR.body}" stroke-width="5"/>
+${both('M46 112L36 96L56 104Z',CR.dark,'stroke-width="3.5"')}${both('M62 96L58 80L74 90Z',CR.dark,'stroke-width="3.5"')}
+<ellipse cx="100" cy="126" rx="62" ry="40" fill="${CR.body}"/><ellipse cx="100" cy="138" rx="34" ry="20" fill="${CR.belly}" stroke-width="3.5"/>
+${anchor(170,104,.66,'#9aa3bf')}<ellipse cx="160" cy="70" rx="10" ry="17" fill="${CR.body}" transform="rotate(-30 160 70)"/><ellipse cx="180" cy="66" rx="9" ry="16" fill="${CR.body}" transform="rotate(26 180 66)"/>
+<path d="M66 40L98 54M134 40L102 54" fill="none" stroke-width="8"/>
+${lidEye(84,62,-1,CR.body,'#fff3b0')}${lidEye(116,62,1,CR.body,'#fff3b0')}
+<path d="M70 118Q100 146 130 118Q100 128 70 118Z" fill="${MOUTH}"/>${teethRow(76,124,121,6,6)}`);
+
+const CG={skin:'#4fa3a5',dark:'#2f7a7c'};
+add('Bosses','boss-clock-gremlin','Clock Gremlin','#efeafb',`
+${cog(40,50,20,C.khaki)}${cog(164,40,15,C.butter)}${cog(170,150,13,C.khaki)}
+${both('M62 84C42 74 22 56 12 34C34 40 52 54 66 68Z',CG.skin)}${both('M58 78C44 70 34 60 28 48C40 54 52 62 60 70Z',CG.dark,'stroke-width="3"')}
+<path d="M62 192C58 150 76 128 100 128C124 128 142 150 138 192Z" fill="${CG.skin}"/>
+<circle cx="100" cy="164" r="23" fill="${C.cream}"/><path d="M100 144v5M100 179v5M80 164h5M115 164h5" fill="none" stroke-width="3"/><path d="M100 164V151M100 164L110 170" fill="none" stroke-width="4"/>
+<ellipse cx="78" cy="192" rx="14" ry="6" fill="${CG.dark}"/><ellipse cx="122" cy="192" rx="14" ry="6" fill="${CG.dark}"/>
+${tube('M70 142Q48 150 40 132',CG.skin,9)}<path d="M40 136L30 82L42 90L46 80Z" fill="${C.butter}" stroke-width="4"/>
+${tube('M130 142Q150 152 156 138',CG.skin,9)}
+<path d="M88 56L82 34L96 48ZM102 52L104 28L112 50Z" fill="${CG.dark}"/>
+<ellipse cx="100" cy="90" rx="46" ry="38" fill="${CG.skin}"/>
+<path d="M66 72L94 82M134 72L106 82" fill="none" stroke-width="7"/>
+${lidEye(82,90,-1,CG.skin,'#fff3b0',true)}${lidEye(118,90,1,CG.skin,'#fff3b0',true)}
+<path d="M74 108Q100 132 126 108Q100 116 74 108Z" fill="${MOUTH}"/>${fangs(100,110,14)}`);
+
+const BG={a:'#9a9cb6',b:'#b9bbd0',rod:'#e88a3c',eye:'#fff3b0'};
+add('Bosses','boss-block-golem','Block Golem','#eeeae0',`
+${rod(18,92,24,90,10,BG.rod,true)}${rod(158,92,24,90,10,BG.rod,true)}
+<rect x="14" y="172" width="32" height="22" rx="9" fill="${BG.a}"/><rect x="154" y="172" width="32" height="22" rx="9" fill="${BG.a}"/>
+<rect x="66" y="166" width="28" height="26" rx="6" fill="${BG.a}"/><rect x="106" y="166" width="28" height="26" rx="6" fill="${BG.a}"/>
+<rect x="44" y="96" width="112" height="76" rx="14" fill="${BG.a}"/><path d="M60 124l10 6M134 150l10-8" fill="none" stroke-width="3"/>
+${rod(54,134,92,16,10,BG.rod)}<path d="M96 108L104 108L108 118L100 126L92 118Z" fill="${C.mint}" stroke-width="3"/>
+<rect x="20" y="88" width="36" height="22" rx="9" fill="${BG.b}"/><rect x="144" y="88" width="36" height="22" rx="9" fill="${BG.b}"/>
+<rect x="60" y="28" width="80" height="72" rx="14" fill="${BG.b}"/>
+<path d="M70 32q6-12 16-4q8-10 16 0" fill="${C.green}" stroke-width="3.5"/>
+<path d="M66 50L96 60V66L66 56ZM134 50L104 60V66L134 56Z" fill="${INK}" stroke-width="3"/>
+${lidEye(82,70,-1,BG.b,BG.eye)}${lidEye(118,70,1,BG.b,BG.eye)}
+<path d="M74 84H126Q122 96 100 96Q78 96 74 84Z" fill="${MOUTH}"/><path d="M82 84v6h8v-6M110 84v6h8v-6" fill="#fff" stroke-width="2.5"/>`);
+
+const SN={body:'#5e9e4a',dark:'#3f7a33',belly:'#c8e39a'};
+add('Bosses','boss-swamp-snake','Swamp Snake','#e2eedb',`
+<ellipse cx="100" cy="186" rx="86" ry="13" fill="${C.mint}"/><path d="M100 186L60 180" fill="none" stroke-width="3"/>
+${tube('M150 170Q186 166 178 136',SN.body,12)}<circle cx="176" cy="120" r="18" fill="${C.lav}" stroke-width="4"/><text x="176" y="130" font-family="Arial Rounded MT Bold,Fredoka,sans-serif" font-size="30" font-weight="700" fill="${INK}" stroke="none" text-anchor="middle">e</text>
+<ellipse cx="100" cy="166" rx="60" ry="18" fill="${SN.body}"/><ellipse cx="100" cy="144" rx="48" ry="16" fill="${SN.body}"/>
+${[[70,166],[100,170],[130,166],[82,144],[118,144]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="${SN.dark}" stroke="none"/>`).join('')}
+${tube('M112 140Q130 116 104 96',SN.body,22)}<path d="M112 136Q124 118 108 104" fill="none" stroke="${SN.belly}" stroke-width="8"/>
+<path d="M84 42L80 24L94 36ZM100 38L102 18L110 36ZM116 42L124 26L124 44Z" fill="${SN.dark}"/>
+<ellipse cx="100" cy="72" rx="44" ry="32" fill="${SN.body}"/>
+<path d="M66 56L94 66M134 56L106 66" fill="none" stroke-width="7"/>
+${lidEye(82,72,-1,SN.body,'#fff3b0',true)}${lidEye(118,72,1,SN.body,'#fff3b0',true)}
+<path d="M76 88Q100 108 124 88Q100 96 76 88Z" fill="${MOUTH}"/>${fangs(100,90,12,10)}
+<path d="M100 102V114M100 114l-5 5M100 114l5 5" fill="none" stroke="${C.coral}" stroke-width="4"/>`);
+
+const BW={body:'#b65a85',ring:'#8f3f67'};
+add('Bosses','boss-book-worm','Book Worm','#f4ece0',`
+<path d="M70 28L60 10M130 28L140 10" fill="none" stroke-width="5"/>${star(60,10,9,4,C.butter)}${star(140,10,9,4,C.butter)}
+<path d="M6 152Q54 134 100 154Q146 134 194 152V194Q146 178 100 198Q54 178 6 194Z" fill="#8f2f3a"/>
+<path d="M14 148Q56 132 100 150Q144 132 186 148V186Q144 172 100 190Q56 172 14 186Z" fill="#fff8e8"/>
+<path d="M100 150V190M28 156L62 150M28 168L58 164M140 150L172 156M144 164L172 168" fill="none" stroke-width="3"/>
+<ellipse cx="100" cy="158" rx="28" ry="9" fill="${INK}"/>
+<circle cx="100" cy="146" r="24" fill="${BW.body}"/><path d="M78 140Q100 150 122 140" fill="none" stroke="${BW.ring}" stroke-width="4"/>
+<circle cx="110" cy="122" r="25" fill="${BW.body}"/><path d="M88 116Q110 128 134 116" fill="none" stroke="${BW.ring}" stroke-width="4"/>
+${both('M58 70L46 58L60 56Z',BW.ring,'stroke-width="3.5"')}
+<ellipse cx="100" cy="74" rx="44" ry="38" fill="${BW.body}"/>
+${lidEye(82,74,-1,BW.body,'#fff3b0')}${lidEye(118,74,1,BW.body,'#fff3b0')}
+<circle cx="82" cy="74" r="15" fill="none" stroke-width="4.5"/><circle cx="118" cy="74" r="15" fill="none" stroke-width="4.5"/><path d="M97 72Q100 68 103 72" fill="none" stroke-width="4"/>
+<path d="M62 54L94 62M138 54L106 62" fill="none" stroke-width="7"/>
+<path d="M78 94Q100 116 122 94Q100 102 78 94Z" fill="${MOUTH}"/><path d="M92 96v8h7v-6M101 98v6h7v-8" fill="#fff" stroke-width="2.5"/>`);
+
+const JM={fur:'#8b5a35',dark:'#5e3a20',face:'#e8c49a'};
+add('Bosses','boss-jumble-monkey','Jumble Monkey','#e3f2d6',`
+${tube('M130 176C176 180 186 156 166 146',JM.fur,9)}${card(160,140,50,'the',10,C.butter)}
+<path d="M64 192C60 150 76 128 100 128C124 128 140 150 136 192Z" fill="${JM.fur}"/><ellipse cx="100" cy="164" rx="22" ry="22" fill="${JM.face}"/>
+<ellipse cx="80" cy="192" rx="16" ry="7" fill="${JM.dark}"/><ellipse cx="120" cy="192" rx="16" ry="7" fill="${JM.dark}"/>
+${tube('M72 140Q40 124 40 60',JM.fur,9)}${tube('M128 140Q160 124 160 60',JM.fur,9)}
+${card(42,36,54,'sat',-10)}${card(158,36,54,'cat',10)}
+<circle cx="40" cy="54" r="9" fill="${JM.dark}"/><circle cx="160" cy="54" r="9" fill="${JM.dark}"/>
+<circle cx="54" cy="76" r="15" fill="${JM.fur}"/><circle cx="146" cy="76" r="15" fill="${JM.fur}"/><circle cx="54" cy="76" r="7" fill="${JM.face}" stroke-width="3"/><circle cx="146" cy="76" r="7" fill="${JM.face}" stroke-width="3"/>
+<path d="M86 42L84 22L98 36ZM100 38L106 18L112 38Z" fill="${JM.fur}"/>
+<circle cx="100" cy="76" r="40" fill="${JM.fur}"/>
+<path d="M68 82C66 62 84 58 100 68C116 58 134 62 132 82C134 104 118 114 100 114C82 114 66 104 68 82Z" fill="${JM.face}"/>
+<path d="M68 58L96 70M132 58L104 70" fill="none" stroke-width="7"/>
+${lidEye(85,78,-1,JM.face,'#fff3b0')}${lidEye(115,78,1,JM.face,'#fff3b0')}
+<circle cx="95" cy="92" r="2.4" fill="${INK}" stroke="none"/><circle cx="105" cy="92" r="2.4" fill="${INK}" stroke="none"/>
+<path d="M80 98Q100 118 120 98Q100 104 80 98Z" fill="${MOUTH}"/>${fangs(100,99,11,8)}`);
+
+add('Quest items','anchor','Anchor','#e4f2f8',`${anchor(100,96,1.1,C.sky)}<path d="M100 40C70 60 140 84 100 112" fill="none" stroke="${C.coral}" stroke-width="5"/>${sparkle(160,40,.6)}`);
+add('Quest items','clock','Clock','#f1ecfb',`
+<path d="M66 170L56 184M134 170L144 184" fill="none" stroke-width="7"/>
+<path d="M46 66A22 22 0 0 1 78 40Z" fill="${C.butter}"/><path d="M154 66A22 22 0 0 0 122 40Z" fill="${C.butter}"/><path d="M100 46V36" fill="none" stroke-width="5"/><circle cx="100" cy="32" r="6" fill="${C.butter}" stroke-width="4"/>
+<circle cx="100" cy="114" r="66" fill="${C.coral}"/><circle cx="100" cy="114" r="52" fill="${C.cream}"/>
+<path d="M100 68v8M100 152v8M54 114h8M138 114h8" fill="none" stroke-width="4"/>
+${eye(82,110,.75)}${eye(118,110,.75)}${cheek(68,124)}${cheek(132,124)}${smile(100,130,8)}`);
+add('Quest items','blocks','Ten blocks','#fdf2dc',`
+${rod(34,28,30,150,10,C.butter,true)}${rod(74,28,30,150,10,C.teal,true)}
+<rect x="118" y="148" width="30" height="30" rx="5" fill="${C.coral}"/><rect x="152" y="148" width="30" height="30" rx="5" fill="${C.mint}"/><rect x="135" y="114" width="30" height="30" rx="5" fill="${C.lav}"/>
+${sparkle(158,58,.7)}`);
+add('Quest items','wand','Magic wand','#f1edff',`
+<path d="M58 178L104 92" fill="none" stroke-width="20"/><path d="M58 178L104 92" fill="none" stroke="${C.lavD}" stroke-width="10"/>
+${star(118,70,52,24,C.butter)}${iface(118,74)}${sparkle(44,52,.6,C.mint)}${sparkle(172,150,.5,C.pink)}`);
+add('Quest items','scroll','Scroll','#fdf3e0',`
+<rect x="40" y="46" width="120" height="112" fill="${C.cream}"/>
+<path d="M58 74H142M58 92H142M58 110H126M58 128H134" fill="none" stroke="${C.khaki}" stroke-width="5"/>
+<rect x="28" y="30" width="144" height="24" rx="12" fill="${C.khaki}"/><rect x="28" y="150" width="144" height="24" rx="12" fill="${C.khaki}"/>
+<circle cx="28" cy="42" r="8" fill="${C.brown}" stroke-width="4"/><circle cx="172" cy="42" r="8" fill="${C.brown}" stroke-width="4"/><circle cx="28" cy="162" r="8" fill="${C.brown}" stroke-width="4"/><circle cx="172" cy="162" r="8" fill="${C.brown}" stroke-width="4"/>
+<path d="M100 174V194L110 186L120 194V174" fill="${C.coral}" stroke-width="4"/>${sparkle(164,96,.5)}`);
+
 const SCENES={
   'crystal-peaks':{name:'Crystal Peaks',bg:'#e6f3fc',draw:(W,H)=>{
     let o=`<rect width="${W}" height="${H*.22}" fill="#d4ebfa" stroke="none"/>`;
@@ -283,6 +408,68 @@ const SCENES={
     o+=sprinkle(W,H,10,21,(x,y)=>`<circle cx="${x}" cy="${y}" r="4" fill="${C.butter}" stroke-width="2"/>`);
     return o;}},
 };
+// six more scenes; wide maps (W>H) move a few big pieces so they stay clear of the turned-on-its-side road
+const palm=(x,y,s,lean=1)=>tube(`M${x} ${y}Q${x+14*s*lean} ${y-40*s} ${x+6*s*lean} ${y-76*s}`,WOOD,7*s)+[-60,-20,20,60,100].map(a=>`<ellipse cx="${x+6*s*lean}" cy="${y-76*s}" rx="${26*s}" ry="${8*s}" fill="${C.green}" stroke-width="3.5" transform="rotate(${a+180} ${x+6*s*lean} ${y-76*s}) translate(${-22*s} 0)"/>`).join('');
+const leaf=(x,y,s,rot,col=C.green)=>`<g transform="rotate(${rot} ${x} ${y})"><path d="M${x} ${y}Q${x+20*s} ${y-30*s} ${x} ${y-62*s}Q${x-20*s} ${y-30*s} ${x} ${y}Z" fill="${col}" stroke-width="3.5"/><path d="M${x} ${y-4*s}V${y-54*s}" fill="none" stroke-width="2.5"/></g>`;
+const starfish=(x,y,s=1)=>star(x,y,13*s,6*s,C.orange).replace('/>',' stroke-width="3"/>');
+const crate=(x,y,s=1)=>`<rect x="${x-18*s}" y="${y-36*s}" width="${36*s}" height="${36*s}" rx="5" fill="${C.brown}" stroke-width="3.5"/><path d="M${x-18*s} ${y-18*s}h${36*s}" fill="none" stroke-width="3"/>`;
+const shelf=(x,y,w,h,seed)=>{const r=rnd(seed),cols=[C.coral,C.teal,C.lav,C.butter,C.mint,C.sky];let o=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${WOOD}"/>`;
+  for(let sy=y+12;sy+40<y+h;sy+=52){let bx=x+5;while(bx<x+w-12){const bw=7+5*r(),bh=26+12*r();o+=`<rect x="${bx}" y="${sy+40-bh}" width="${bw}" height="${bh}" rx="2" fill="${cols[Math.floor(r()*6)]}" stroke-width="2.5"/>`;bx+=bw+1}
+  o+=`<path d="M${x} ${sy+40}h${w}" fill="none" stroke-width="4"/>`}return o;};
+Object.assign(SCENES,{
+  'pirate-cove':{name:'Pirate Cove',bg:'#fbf0d6',draw:(W,H)=>{
+    let o=`<path d="M0 0H${W}V${W>H?H*.08:H*.13}${Array.from({length:Math.ceil(W/40)},(_,i)=>`q-10 8-20 0t-20 0`).join('')}Z" fill="${C.teal}" transform="translate(${W%40-40} 0)"/>`;
+    o+=`<path d="M${W*.04} ${H*.04}q10-6 20 0M${W*.36} ${H*.05}q10-6 20 0M${W*.6} ${H*.03}q10-6 20 0" fill="none" stroke="#fff" stroke-width="3"/>`;
+    const sx=W*.13,sy=W>H?H*.08:H*.13;o+=`<path d="M${sx} ${sy-6}V${sy-50}" fill="none" stroke-width="4"/><path d="M${sx+2} ${sy-48}L${sx+26} ${sy-12}H${sx+2}Z" fill="#fff" stroke-width="3"/><path d="M${sx} ${sy-50}l14 4-14 5Z" fill="${C.coral}" stroke-width="2.5"/><path d="M${sx-30} ${sy-12}H${sx+30}L${sx+20} ${sy+4}H${sx-20}Z" fill="${C.brown}"/>`;
+    o+=palm(W*.04,H*.5,1,1)+palm(W*.97,H*.74,1.1,-1)+(W>H?palm(W*.95,H*.98,.8,-1):palm(W*.95,H*.3,.8,-1));
+    o+=`<path d="M${W*.02} ${H}V${H*.96}Q${W*.02} ${H*.92} ${W*.1} ${H*.92}Q${W*.18} ${H*.92} ${W*.18} ${H*.96}V${H}Z" fill="#c07a45"/><path d="M${W*.02} ${H*.955}H${W*.18}" fill="none" stroke="${C.butter}" stroke-width="5"/>`;
+    o+=(W>H?starfish(W*.3,H*.93):starfish(W*.08,H*.72))+starfish(W*.92,H*.48,.8)+shell(W*.5,H*.99,1)+shell(W*.94,H*.92,.9,C.pink);
+    o+=sprinkle(W,H,10,17,(x,y)=>`<circle cx="${x}" cy="${y}" r="3.5" fill="${C.khaki}" stroke-width="2"/>`);
+    return o;}},
+  'clock-tower':{name:'Clock Tower',bg:'#ece8f7',draw:(W,H)=>{
+    const tx=W>H?W*.955:W*.93,tw=W>H?W*.07:W*.13,top=W>H?H*.62:H*.2,cr=Math.min(tw*.38,H*.06);
+    let o=`<rect x="${tx-tw/2}" y="${top}" width="${tw}" height="${H-top+6}" fill="#cfc6e6"/>${[1,2,3,4].map(i=>`<path d="M${tx-tw/2} ${top+i*(H-top)/5}h${tw}" fill="none" stroke-width="2.5"/>`).join('')}`;
+    o+=`<path d="M${tx-tw/2-6} ${top}L${tx} ${top-tw*.8}L${tx+tw/2+6} ${top}Z" fill="${C.lavD}"/>`;
+    o+=`<circle cx="${tx}" cy="${top+cr+10}" r="${cr}" fill="${C.cream}"/><path d="M${tx} ${top+cr+10}v${-cr*.6}M${tx} ${top+cr+10}l${cr*.45} ${cr*.25}" fill="none" stroke-width="3.5"/>`;
+    o+=cog(W*.08,W>H?H*.08:H*.14,20,C.khaki)+cog(W*.2,W>H?H*.05:H*.12,12,C.butter)+cog(W*.05,H*.7,14,C.lav)+cog(W>H?W*.06:W*.62,W>H?H*.94:H*.11,12,C.khaki);
+    o+=`<path d="M${W*.02} ${H}V${H*.96}L${W*.08} ${H*.92}L${W*.14} ${H*.96}V${H}Z" fill="${C.coral}"/>`;
+    o+=sprinkle(W,H,9,29,(x,y)=>sparkle(x,y,.35,'#fff'));
+    return o;}},
+  'stone-quarry':{name:'Stone Quarry',bg:'#f2ede2',draw:(W,H)=>{
+    const cd=W>H?1:1.8;let o=`<path d="M0 0H${W}V${H*.07*cd}Q${W*.85} ${H*.06*cd} ${W*.7} ${H*.04*cd}Q${W*.5} ${H*.05*cd} ${W*.3} ${H*.065*cd}Q${W*.15} ${H*.075*cd} 0 ${H*.07*cd}Z" fill="#c9c3b4"/>`;
+    o+=rock(W*.05,H*.56,1.4,'#c9c3b4')+rock(W*.09,H*.58,.8)+rock(W*.95,H*.72,1.3,'#c9c3b4')+rock(W*.94,W>H?H*.2:H*.26,1)+rock(W*.5,H*1.01,1.2,'#c9c3b4');
+    o+=crate(W*.9,H*.99,1.1)+crate(W*.97,H*.99,1.1)+rod(W*.02,H*.88,48,12,4,C.orange)+rod(W*.02,H*.88+14,48,12,4,C.butter);
+    o+=`${rod(W*.84,W>H?H*.1:H*.15,12,48,4,C.orange,true)}${rod(W*.88,W>H?H*.1:H*.15,12,48,4,C.butter,true)}`;
+    o+=sprinkle(W,H,10,31,(x,y)=>`<circle cx="${x}" cy="${y}" r="4" fill="#d6d0c2" stroke-width="2.5"/>`);
+    return o;}},
+  'swamp':{name:'Misty Swamp',bg:'#dfeacf',draw:(W,H)=>{
+    const pad=(x,y,s)=>`<path d="M${x} ${y}m${14*s} 0A${14*s} ${8*s} 0 1 1 ${x} ${y-8*s}L${x} ${y}Z" fill="${C.green}" stroke-width="3"/>`;
+    let o=`<ellipse cx="0" cy="${H*.62}" rx="${W*.13}" ry="${H*.07}" fill="#9cc7a8"/><ellipse cx="${W}" cy="${H*.4}" rx="${W*.12}" ry="${H*.06}" fill="#9cc7a8"/><ellipse cx="${W*.9}" cy="${H*1.01}" rx="${W*.16}" ry="${H*.05}" fill="#9cc7a8"/>`;
+    o+=pad(W*.05,H*.6,1)+pad(W*.95,H*.42,.9)+pad(W*.84,H*.99,.8);
+    o+=tree(W*.07,W>H?H*.1:H*.17,1,'#7fae6a')+tree(W*.93,W>H?H*.08:H*.15,1.1,'#6f9a5a')+tree(W*.3,W>H?H*.04:H*.12,.6,'#7fae6a');
+    o+=reed(W*.05,H*.98)+reed(W*.12,H*.99)+reed(W*.95,H*.56)+reed(W*.04,H*.3);
+    o+=sprinkle(W,H,12,37,(x,y,k)=>`<circle cx="${x}" cy="${y}" r="${2+2*k}" fill="${C.butter}" stroke="none" opacity=".8"/>`);
+    return o;}},
+  'library-tower':{name:'Library Tower',bg:'#f6ecdc',draw:(W,H)=>{
+    const sw=W>H?W*.06:W*.075;
+    let o=shelf(-4,H*.1,sw+4,H*.9+4,41)+shelf(W-sw,H*.1,sw+4,H*.9+4,43);
+    const wb=W>H?H*.06:H*.12;o+=`<path d="M0 0H${W}V${wb}H0Z" fill="#d9a066"/><path d="M0 ${wb}H${W}" fill="none" stroke-width="4"/>`;
+    const wx=W*.6,wy=W>H?H*.06:H*.12;o+=`<path d="M${wx-22} ${wy}V${wy-18}A22 22 0 0 1 ${wx+22} ${wy-18}V${wy}Z" fill="#3a3163"/><path d="M${wx+8} ${wy-24}a7 7 0 1 0 6 9a5 5 0 1 1-6-9Z" fill="${C.butter}" stroke-width="2.5"/>`;
+    o+=books(W>H?W*.14:W*.2,H*.99)+books(W*.86,H*.99);
+    o+=letter(W*.14,H*.16+30,'a',C.coral)+letter(W*.86,H*.2+30,'t',C.teal);
+    o+=sprinkle(W,H,8,47,(x,y,k)=>`<g transform="rotate(${k*40-20} ${x} ${y})"><rect x="${x-9}" y="${y-11}" width="18" height="22" rx="2" fill="#fff" stroke-width="2.5"/><path d="M${x-5} ${y-4}h10M${x-5} ${y+2}h10" fill="none" stroke-width="2"/></g>`);
+    return o;}},
+  'jungle-temple':{name:'Jungle Temple',bg:'#e2f2d4',draw:(W,H)=>{
+    const tx=W*.18,tb=W>H?H*.11:H*.18,tw=W>H?W*.3:W*.34,st=4,sh=(H*.1)/st;
+    let o=`<rect x="0" y="0" width="${W}" height="${H*.02}" fill="${C.greenD}" stroke="none"/>`;
+    for(let i=0;i<st;i++){const w=tw*(1-i*.2);o+=`<rect x="${tx-w/2}" y="${tb-(i+1)*sh}" width="${w}" height="${sh+1}" rx="3" fill="${i%2?'#d8cfa8':'#c9bf94'}"/>`;}
+    o+=`<path d="M${tx-8} ${tb}V${tb-sh*1.2}Q${tx} ${tb-sh*1.8} ${tx+8} ${tb-sh*1.2}V${tb}Z" fill="${INK}"/>`;
+    o+=`<path d="M${W*.94} 0V${H*.05}q-6 8 0 14M${W*.98} 0V${H*.08}" fill="none" stroke="${C.greenD}" stroke-width="4"/>`+leaf(W*.94,H*.07,.4,170)+leaf(W*.98,H*.1,.35,190);
+    o+=leaf(W*.02,H*.62,1.1,60)+leaf(W*.02,H*.66,.9,90,C.greenD)+leaf(W*.98,H*.5,1,-60)+leaf(W*.98,H*.54,.8,-90,C.greenD);
+    o+=leaf(W*.04,H*1.02,1.2,30)+leaf(W*.1,H*1.02,.9,60,C.greenD)+leaf(W*.96,H*1.02,1.2,-30)+leaf(W*.9,H*1.02,.9,-60,C.greenD);
+    o+=sprinkle(W,H,9,53,(x,y)=>`<circle cx="${x}" cy="${y}" r="5" fill="${C.pink}" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="1.8" fill="${C.butter}" stroke="none"/>`);
+    return o;}},
+});
 const mapSvg=(id,W,H)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice"><title>${SCENES[id].name}</title><defs>${FILTER}</defs>
 <rect width="${W}" height="${H}" fill="${SCENES[id].bg}"/><g filter="url(#doodle)" stroke="${INK}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${SCENES[id].draw(W,H)}</g></svg>\n`;
 

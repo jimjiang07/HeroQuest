@@ -35,7 +35,7 @@ for(const s of lines.flatMap(sentences)){
 }
 
 // what the voice reads: symbols as words (the clip is still named by the sentence as written)
-const spoken=s=>s.replace(/ \+ /g,' plus ').replace(/ = /g,' equals ').replace(/ × /g,' times ');
+const spoken=s=>s.replace(/ \+ /g,' plus ').replace(/ = /g,' equals ').replace(/ × /g,' times ').replace(/ − /g,' take away ');
 
 fs.mkdirSync(out,{recursive:true});
 const old=fs.existsSync(indexFile)?JSON.parse(fs.readFileSync(indexFile,'utf8')):{};

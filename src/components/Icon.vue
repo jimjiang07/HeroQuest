@@ -17,6 +17,8 @@ const I:Record<string,string>={
   castle:'<path d="M8 42V18h7v5h5v-9h8v9h5v-5h7v24z" fill="var(--lav)"/><path d="M20 42v-9a4 4 0 0 1 8 0v9" fill="var(--brown)"/><path d="M24 14V5l7 3-7 3" fill="var(--coral)"/>',
   hanger:'<path d="M20 12a4.5 4.5 0 1 1 6 4.2c-1.4.6-2 1.6-2 3V22" fill="none"/><path d="M24 22L6 34c-2.4 1.8-1.6 4 1.4 4h33.2c3 0 3.8-2.2 1.4-4z" fill="var(--sky)"/>',
   back:'<path d="M29 9L14 24l15 15" fill="none" stroke-width="6"/>',
+  thumbUp:'<path d="M7 22h7v18H7z" fill="var(--sky)"/><path d="M14 22l7-13c3-1 5.5 1 5 4.5L25 20h10c3 0 5 2.6 4.4 5.4l-2.6 11C36.3 39 34.5 40 32 40H14z" fill="var(--butter)"/>',
+  silly:'<circle cx="24" cy="24" r="18" fill="var(--lav)"/><path d="M14 17l6 3.5-6 3.5" fill="none"/><circle cx="31" cy="20" r="2.8" fill="var(--ink)" stroke="none"/><path d="M14 29q10 7 20 0" fill="none"/><path d="M21 32q-1 8 5 7.5t4-8" fill="var(--coral)"/>',
 };
 defineProps<{name:string}>();
 </script>

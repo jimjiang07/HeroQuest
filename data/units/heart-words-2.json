@@ -1,0 +1,167 @@
+{
+ "app": {
+  "id": "heart2",
+  "module": "heart",
+  "title": "Heart Words 2",
+  "intro": {
+   "title": "Learn it: more heart words!",
+   "say": "Here are more words with a tricky part. We learn that part by heart. Look for the heart! Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "meet"
+   ],
+   "game": [
+    "sentence",
+    "pop"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "come",
+      "some",
+      "one",
+      "two",
+      "what"
+     ]
+    },
+    {
+     "words": [
+      "come",
+      "some",
+      "one",
+      "two",
+      "what",
+      "were",
+      "here",
+      "there",
+      "where",
+      "who"
+     ]
+    }
+   ]
+  },
+  "words": [
+   {
+    "w": "come",
+    "heart": "o",
+    "sent": "Come and sit with me.",
+    "alike": [
+     "came",
+     "cone"
+    ]
+   },
+   {
+    "w": "some",
+    "heart": "o",
+    "sent": "Ava has some red pens.",
+    "alike": [
+     "same",
+     "home"
+    ]
+   },
+   {
+    "w": "one",
+    "heart": "o",
+    "sent": "Leo has one red kite.",
+    "alike": [
+     "on",
+     "own"
+    ]
+   },
+   {
+    "w": "two",
+    "heart": "w",
+    "sent": "I can see two ducks.",
+    "alike": [
+     "tow",
+     "top"
+    ]
+   },
+   {
+    "w": "what",
+    "heart": "a",
+    "sent": "What is in the box?",
+    "alike": [
+     "want",
+     "that"
+    ]
+   },
+   {
+    "w": "were",
+    "heart": "ere",
+    "sent": "We were at the beach.",
+    "alike": [
+     "wear",
+     "we"
+    ]
+   },
+   {
+    "w": "here",
+    "heart": "ere",
+    "sent": "The dog is here.",
+    "alike": [
+     "her",
+     "hare"
+    ]
+   },
+   {
+    "w": "there",
+    "heart": "ere",
+    "sent": "There is a big frog.",
+    "alike": [
+     "three",
+     "then"
+    ]
+   },
+   {
+    "w": "where",
+    "heart": "ere",
+    "sent": "Where is my hat?",
+    "alike": [
+     "when",
+     "whale"
+    ]
+   },
+   {
+    "w": "who",
+    "heart": "o",
+    "sent": "Who has the ball?",
+    "alike": [
+     "how",
+     "why"
+    ]
+   }
+  ],
+  "sentence": {
+   "names": [
+    "Ava",
+    "Leo"
+   ],
+   "sentences": [
+    "Come and sit with me.",
+    "Ava has some red pens.",
+    "We were at the beach.",
+    "The dog is here.",
+    "I can see two ducks."
+   ]
+  },
+  "pop": {
+   "words": [
+    "there",
+    "where",
+    "who",
+    "what",
+    "one",
+    "were"
+   ]
+  }
+ }
+}

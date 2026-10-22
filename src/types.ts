@@ -27,7 +27,7 @@ export interface Question{
 /** a generated practice item: numbers or a word, depending on the generator */
 export type Item=Record<string,number|string>;
 
-export interface PracticeSpec{gen:'add10'|'groups'|'arrays'|'words';levels:Record<string,unknown>[]}
+export interface PracticeSpec{gen:'add10'|'sub10'|'tens'|'groups'|'arrays'|'words';levels:Record<string,unknown>[]}
 /** which of the activity's own steps make up "Learn it" and "Game"; question counts for the shared steps */
 export interface QuestSpec{learn:string[];game:string[];help?:number;own?:number;challenge?:number;boss?:number}
 

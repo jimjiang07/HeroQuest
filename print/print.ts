@@ -1,5 +1,5 @@
 /* Paper quest worksheets: one A4 sheet per quest (print/index.html#<quest id>). Writing practice only; learning happens
-   in the app. Reads data/quests.json and each quest's unit "print" block. Pictures are SVG strings in the worksheet style. */
+   in the app. Reads data/quests.json and each quest's data/print/<unit>.json, else its unit "print" block. Pictures are SVG strings in the worksheet style. */
 import '../src/fonts';
 import './print.css';
 import questsFile from '../data/quests.json';
@@ -10,9 +10,10 @@ interface PrintBlock{kind:string;cls?:string;title?:string;practice?:unknown[];e
 interface Unit{app?:{id:string;title:string};print?:PrintBlock}
 
 const units=import.meta.glob<Unit>('../data/units/*.json',{eager:true,import:'default'});
+const prints=import.meta.glob<PrintBlock>('../data/print/*.json',{eager:true,import:'default'});
 const QUESTS=questsFile.quests.map(q=>{
   const u=units[`../data/units/${q.unit}.json`];
-  return {id:u?.app?.id??q.unit,name:u?.app?.title??q.unit,subject:q.subject==='english'?'English':'Maths',print:u?.print};
+  return {id:u?.app?.id??q.unit,name:u?.app?.title??q.unit,subject:q.subject==='english'?'English':'Maths',print:prints[`../data/print/${q.unit}.json`]??u?.print};
 });
 
 const INK='#1d2140',C='var(--c)',O='#ff922b',Y='#ffd43b';
@@ -117,11 +118,78 @@ function heartWord(w:string,hearts:Record<string,string>){
   return `<div class="hrow"><div class="hword">${mark}</div>${hw([w,w])}</div>`;
 }
 function heartBody(p:PrintBlock){
-  const words=(p.words as string[]??[]).slice(0,6),hearts=(p.hearts as Record<string,string>)??{},sents=((p.sentences as [string,string][])??[]).slice(0,p.explain?1:2);  // one sentence leaves room for Explain one
+  const words=(p.words as string[]??[]).slice(0,10),hearts=(p.hearts as Record<string,string>)??{},sents=((p.sentences as [string,string][])??[]).slice(0,p.explain?1:2);  // one sentence leaves room for Explain one
   return `<section class="sec hearts"><div class="tag"><svg><use href="#sword"/></svg>Trace it twice, write it once <em>the ♥ part is tricky: learn it by heart</em></div>
-    <div class="hrows">${words.map(w=>heartWord(w,hearts)).join('')}</div></section>
+    <div class="hrows${words.length>6?' many':''}">${words.map(w=>heartWord(w,hearts)).join('')}</div></section>
     ${sents.length?`<section class="sec copy"><div class="tag"><svg><use href="#bolt"/></svg>Copy the sentence <em>finger spaces, full stop</em></div>
     ${sents.map(([,s])=>`<div class="cs"><div class="cst">${s}</div>${hw()}</div>`).join('')}</section>`:''}`;
+}
+
+/* ----- maths: back through 10 (ten-frame plus extras; labelled = extras crossed "−e" back to 10, "then −r" from the ten) ----- */
+const cross=(cx:number,cy:number)=>`<path d="M${cx-7} ${cy-7}L${cx+7} ${cy+7}M${cx+7} ${cy-7}L${cx-7} ${cy+7}" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>`;
+function tfSub(a:number,b:number,lab:boolean){
+  const e=a-10,r=b-e,cols=Math.max(1,Math.ceil(e/2)),y0=lab?20:0,w=104+14+cols*20;
+  let s=`<svg viewBox="0 0 ${w} ${44+y0}"><rect x="2" y="${2+y0}" width="100" height="40" rx="4" fill="#fff" stroke="${INK}" stroke-width="2.6"/>`;
+  for(let i=1;i<5;i++)s+=`<line x1="${2+i*20}" y1="${2+y0}" x2="${2+i*20}" y2="${42+y0}" stroke="${INK}" stroke-width="1.4"/>`;
+  s+=`<line x1="2" y1="${22+y0}" x2="102" y2="${22+y0}" stroke="${INK}" stroke-width="1.4"/>`;
+  for(let i=0;i<10;i++){const cx=12+(i%5)*20,cy=12+Math.floor(i/5)*20+y0;s+=dot(cx,cy,C);if(lab&&i>=10-r)s+=cross(cx,cy)}
+  for(let i=0;i<e;i++){const cx=124+Math.floor(i/2)*20,cy=12+(i%2)*20+y0;s+=dot(cx,cy,O);if(lab)s+=cross(cx,cy)}
+  if(lab){
+    s+=`<text x="52" y="15" text-anchor="middle" font-size="19" font-weight="700" ${FONT} fill="${INK}">then −${r}</text>`;
+    s+=`<text x="${124+(cols-1)*10}" y="15" text-anchor="middle" font-size="19" font-weight="700" ${FONT} style="fill:${C}">−${e}</text>`;
+  }
+  return s+'</svg>';
+}
+const subCard=([a,b,mode]:[number,number,Mode],i:number)=>card(i,mode,mode==='D'?'':tfSub(a,b,mode!=='C'),`${a} − ${b} = ${ansBox(mode,a-b)}`);
+
+/* ----- maths: tens and ones (rods of ten and loose ones; labelled = "30" and "+4"; D = draw it yourself) ----- */
+function rods(n:number,lab:boolean){
+  const t=Math.floor(n/10),o=n%10,y0=lab?20:0,ox=t*13+8,w=ox+Math.max(1,Math.ceil(o/5))*12;
+  let s=`<svg viewBox="0 0 ${w} ${82+y0}">`;
+  for(let k=0;k<t;k++){const x=2+k*13;
+    s+=`<rect x="${x}" y="${2+y0}" width="9" height="80" rx="1.5" style="fill:${C}" stroke="${INK}" stroke-width="1.6"/>`;
+    for(let j=1;j<10;j++)s+=`<line x1="${x}" y1="${2+y0+j*8}" x2="${x+9}" y2="${2+y0+j*8}" stroke="${INK}" stroke-width="1"/>`;}
+  for(let k=0;k<o;k++)s+=`<rect x="${ox+Math.floor(k/5)*12}" y="${74+y0-(k%5)*12}" width="8" height="8" rx="1.2" fill="${O}" stroke="${INK}" stroke-width="1.4"/>`;
+  if(lab){
+    s+=`<text x="${(t*13)/2+1}" y="15" text-anchor="middle" font-size="17" font-weight="700" ${FONT} fill="${INK}">${t*10}</text>`;
+    if(o)s+=`<text x="${ox+Math.ceil(o/5)*6-2}" y="15" text-anchor="middle" font-size="17" font-weight="700" ${FONT} style="fill:${C}">+${o}</text>`;
+  }
+  return s+'</svg>';
+}
+const tensCard=([n,mode]:[number,Mode],i:number)=>mode==='D'
+  ?`<div class="card"><span class="no">${i+1}</span><div class="eq q">Draw <b class="dn">${n}</b></div><div class="drawsp"></div></div>`
+  :card(i,mode,rods(n,mode!=='C'),ansBox(mode,n));
+function tensBody(p:PrintBlock){
+  const adds=(p.adds as [number,number][]??[]);
+  return `<section class="sec grow"><div class="tag"><svg><use href="#sword"/></svg>Tens and ones <em>write the number, then draw your own</em></div>
+    <div class="train t9">${(p.practice as [number,Mode][]).map(tensCard).join('')}</div></section>
+    ${adds.length?`<section class="sec adds"><div class="tag"><svg><use href="#bolt"/></svg>Add it on <em>+10 makes one more ten</em></div>
+    <div class="addrow">${adds.map(([a,b])=>`<div class="ai eq">${a} + ${b} = ${box()}</div>`).join('')}</div></section>`:''}`;
+}
+
+/* ----- English: magic e (read the pair, write the magic e word under its picture: done → trace → boxes → line) ----- */
+const MAGIC:Record<string,string>={cape:'🦸',kite:'🪁',cube:'🧊',pine:'🌲',tube:'🧪',note:'🎵',globe:'🌍',mane:'🦁',slide:'🛝',cake:'🎂',bike:'🚲',rose:'🌹',bone:'🦴',hose:'🧯'};
+function magicCard([short,long,m]:[string,string,Mode?],i:number){
+  const mode:Mode=m??(i===0?'A':i<3?'T':i<6?'C':'D'),last=long.length-1;
+  const tiles=mode==='D'?hw([],'one'):`<div class="tiles">${[...long].map((ch,k)=>mode==='A'?`<span class="tile${k===last?' bl':''}">${ch}</span>`:mode==='T'?`<span class="tile hint">${ch}</span>`:`<span class="tile in${k===last?' me':''}"></span>`).join('')}</div>`;
+  return `<div class="card mcard${mode==='A'?' ex':''}"><span class="no">${i+1}</span>${mode==='A'?'<span class="exl">Look!</span>':''}
+    <div class="pic"><span class="emo">${MAGIC[long]??EMO[long]??''}</span></div>
+    <div class="mpair"><span>${short}</span><svg viewBox="0 0 24 12"><path d="M2 6H20M15 1.5 21 6 15 10.5"/></svg><span>${long.slice(0,last)}<b>${long[last]}</b></span></div>${tiles}</div>`;
+}
+const magicBody=(p:PrintBlock)=>`<section class="sec grow"><div class="tag"><svg><use href="#sword"/></svg>Read both, write the magic e word <em>the e makes the vowel say its name</em></div>
+  <div class="train t9">${(p.pairs as [string,string,Mode?][]).map(magicCard).join('')}</div></section>`;
+
+/* ----- English: short sentences (copy and fix: capital letter, full stop; then read one and draw it) ----- */
+const broken=(s:string)=>s.charAt(0).toLowerCase()+s.slice(1).replace(/\.$/,'');
+function sentBody(p:PrintBlock){
+  const all=(p.sentences as string[])??[],fix=all.slice(0,4),draw=(p.draw as string[]|undefined)??all.slice(4,6);
+  const row=(s:string,i:number)=>{const b=broken(s);
+    const shown=i===1?`<span class="cap1">${b[0]}</span>${b.slice(1)}<span class="fs"></span>`:b;  // card 2: the two spots to fix are marked
+    return `<div class="srow${i===0?' ex':''}"><span class="no">${i+1}</span><div class="sbad">${shown}${i===0?'<span class="exl">Look!</span>':''}</div>${hw(i===0?[s]:[])}</div>`};
+  return `<section class="sec grow fixs"><div class="tag"><svg><use href="#sword"/></svg>Fix it and copy it <em>capital letter at the start, full stop at the end</em></div>
+    <div class="srows">${fix.map(row).join('')}</div></section>
+    ${draw.length?`<section class="sec draws"><div class="tag"><svg><use href="#bolt"/></svg>Read it and draw it</div>
+    <div class="dbxs">${draw.map(s=>`<div class="dbx"><div class="dbt">${s}</div><div class="drawsp"></div></div>`).join('')}</div></section>`:''}`;
 }
 
 const KINDS:Record<string,(p:PrintBlock)=>string>={
@@ -129,7 +197,11 @@ const KINDS:Record<string,(p:PrintBlock)=>string>={
   'math-mul':p=>train((p.practice as [number,number,Mode][]).map(mulCard)),
   'math-arr':p=>train((p.practice as [number,number,Mode][]).map(arrCard)),
   'eng-blend':p=>train((p.practice as [string,number,Mode][]).map(blendCard((p.bracket as string)??'2 sounds'))),
-  'eng-heart':heartBody
+  'eng-heart':heartBody,
+  'math-sub':p=>train((p.practice as [number,number,Mode][]).map(subCard)),
+  'math-tens':tensBody,
+  'eng-magice':magicBody,
+  'eng-sentence':sentBody
 };
 
 function sheet(q:(typeof QUESTS)[number]){

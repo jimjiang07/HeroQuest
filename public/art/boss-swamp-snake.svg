@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Swamp Snake</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="100" cy="186" rx="86" ry="13" fill="#8fe0b9"/><path d="M100 186L60 180" fill="none" stroke-width="3"/>
+<path d="M150 170Q186 166 178 136" fill="none" stroke-width="22"/><path d="M150 170Q186 166 178 136" fill="none" stroke="#5e9e4a" stroke-width="12"/><circle cx="176" cy="120" r="18" fill="#c3b4ff" stroke-width="4"/><text x="176" y="130" font-family="Arial Rounded MT Bold,Fredoka,sans-serif" font-size="30" font-weight="700" fill="#2b2d42" stroke="none" text-anchor="middle">e</text>
+<ellipse cx="100" cy="166" rx="60" ry="18" fill="#5e9e4a"/><ellipse cx="100" cy="144" rx="48" ry="16" fill="#5e9e4a"/>
+<circle cx="70" cy="166" r="5" fill="#3f7a33" stroke="none"/><circle cx="100" cy="170" r="5" fill="#3f7a33" stroke="none"/><circle cx="130" cy="166" r="5" fill="#3f7a33" stroke="none"/><circle cx="82" cy="144" r="5" fill="#3f7a33" stroke="none"/><circle cx="118" cy="144" r="5" fill="#3f7a33" stroke="none"/>
+<path d="M112 140Q130 116 104 96" fill="none" stroke-width="32"/><path d="M112 140Q130 116 104 96" fill="none" stroke="#5e9e4a" stroke-width="22"/><path d="M112 136Q124 118 108 104" fill="none" stroke="#c8e39a" stroke-width="8"/>
+<path d="M84 42L80 24L94 36ZM100 38L102 18L110 36ZM116 42L124 26L124 44Z" fill="#3f7a33"/>
+<ellipse cx="100" cy="72" rx="44" ry="32" fill="#5e9e4a"/>
+<path d="M66 56L94 66M134 56L106 66" fill="none" stroke-width="7"/>
+<ellipse cx="82" cy="72" rx="10" ry="10" fill="#fff3b0"/><ellipse cx="84" cy="74" rx="2.4" ry="6" fill="#2b2d42" stroke="none"/><path d="M68 56H96V71L68 63Z" fill="#5e9e4a" stroke="none"/><path d="M70 63L94 71" fill="none" stroke-width="5"/><ellipse cx="118" cy="72" rx="10" ry="10" fill="#fff3b0"/><ellipse cx="116" cy="74" rx="2.4" ry="6" fill="#2b2d42" stroke="none"/><path d="M104 56H132V63L104 71Z" fill="#5e9e4a" stroke="none"/><path d="M106 71L130 63" fill="none" stroke-width="5"/>
+<path d="M76 88Q100 108 124 88Q100 96 76 88Z" fill="#6b2737"/><path d="M84 90l4 10 4-10ZM108 90l4 10 4-10Z" fill="#fff" stroke-width="2.5"/>
+<path d="M100 102V114M100 114l-5 5M100 114l5 5" fill="none" stroke="#ff8a6b" stroke-width="4"/></g></svg>

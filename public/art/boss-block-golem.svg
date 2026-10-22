@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Block Golem</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<rect x="18" y="92" width="24" height="90" rx="5" fill="#e88a3c"/><path d="M18 101h24M18 110h24M18 119h24M18 128h24M18 137h24M18 146h24M18 155h24M18 164h24M18 173h24" fill="none" stroke-width="2.5"/><rect x="158" y="92" width="24" height="90" rx="5" fill="#e88a3c"/><path d="M158 101h24M158 110h24M158 119h24M158 128h24M158 137h24M158 146h24M158 155h24M158 164h24M158 173h24" fill="none" stroke-width="2.5"/>
+<rect x="14" y="172" width="32" height="22" rx="9" fill="#9a9cb6"/><rect x="154" y="172" width="32" height="22" rx="9" fill="#9a9cb6"/>
+<rect x="66" y="166" width="28" height="26" rx="6" fill="#9a9cb6"/><rect x="106" y="166" width="28" height="26" rx="6" fill="#9a9cb6"/>
+<rect x="44" y="96" width="112" height="76" rx="14" fill="#9a9cb6"/><path d="M60 124l10 6M134 150l10-8" fill="none" stroke-width="3"/>
+<rect x="54" y="134" width="92" height="16" rx="5" fill="#e88a3c"/><path d="M63.2 134v16M72.4 134v16M81.6 134v16M90.8 134v16M100 134v16M109.2 134v16M118.4 134v16M127.6 134v16M136.8 134v16" fill="none" stroke-width="2.5"/><path d="M96 108L104 108L108 118L100 126L92 118Z" fill="#8fe0b9" stroke-width="3"/>
+<rect x="20" y="88" width="36" height="22" rx="9" fill="#b9bbd0"/><rect x="144" y="88" width="36" height="22" rx="9" fill="#b9bbd0"/>
+<rect x="60" y="28" width="80" height="72" rx="14" fill="#b9bbd0"/>
+<path d="M70 32q6-12 16-4q8-10 16 0" fill="#9bd77c" stroke-width="3.5"/>
+<path d="M66 50L96 60V66L66 56ZM134 50L104 60V66L134 56Z" fill="#2b2d42" stroke-width="3"/>
+<ellipse cx="82" cy="70" rx="10" ry="10" fill="#fff3b0"/><circle cx="84" cy="73" r="4.6" fill="#2b2d42" stroke="none"/><path d="M68 54H96V69L68 61Z" fill="#b9bbd0" stroke="none"/><path d="M70 61L94 69" fill="none" stroke-width="5"/><ellipse cx="118" cy="70" rx="10" ry="10" fill="#fff3b0"/><circle cx="116" cy="73" r="4.6" fill="#2b2d42" stroke="none"/><path d="M104 54H132V61L104 69Z" fill="#b9bbd0" stroke="none"/><path d="M106 69L130 61" fill="none" stroke-width="5"/>
+<path d="M74 84H126Q122 96 100 96Q78 96 74 84Z" fill="#6b2737"/><path d="M82 84v6h8v-6M110 84v6h8v-6" fill="#fff" stroke-width="2.5"/></g></svg>

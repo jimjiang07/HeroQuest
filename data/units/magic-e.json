@@ -1,0 +1,159 @@
+{
+ "app": {
+  "id": "magice",
+  "module": "magice",
+  "title": "Magic e",
+  "intro": {
+   "title": "Learn it: magic e!",
+   "say": "An e at the end of a word is magic. It makes the vowel say its name. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "trick",
+    "pairs"
+   ],
+   "game": [
+    "wand",
+    "sort"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "kite",
+      "cube",
+      "note",
+      "cape"
+     ]
+    },
+    {
+     "words": [
+      "kite",
+      "cube",
+      "note",
+      "cape",
+      "plane",
+      "pine",
+      "slide",
+      "globe",
+      "tube"
+     ]
+    }
+   ]
+  },
+  "pairs": [
+   [
+    "cap",
+    "cape"
+   ],
+   [
+    "plan",
+    "plane"
+   ],
+   [
+    "kit",
+    "kite"
+   ],
+   [
+    "pin",
+    "pine"
+   ],
+   [
+    "slid",
+    "slide"
+   ],
+   [
+    "not",
+    "note"
+   ],
+   [
+    "glob",
+    "globe"
+   ],
+   [
+    "hop",
+    "hope"
+   ],
+   [
+    "cub",
+    "cube"
+   ],
+   [
+    "tub",
+    "tube"
+   ]
+  ],
+  "trick": {
+   "from": "cap",
+   "to": "cape"
+  },
+  "learnPairs": [
+   [
+    "kit",
+    "kite"
+   ],
+   [
+    "hop",
+    "hope"
+   ],
+   [
+    "cub",
+    "cube"
+   ],
+   [
+    "pin",
+    "pine"
+   ]
+  ],
+  "wand": {
+   "rounds": [
+    [
+     "kit",
+     "kite"
+    ],
+    [
+     "cap",
+     "cap"
+    ],
+    [
+     "cub",
+     "cube"
+    ],
+    [
+     "pin",
+     "pin"
+    ],
+    [
+     "not",
+     "note"
+    ],
+    [
+     "hat",
+     "hat"
+    ],
+    [
+     "slid",
+     "slide"
+    ]
+   ]
+  },
+  "sort": {
+   "words": [
+    "kite",
+    "cap",
+    "cube",
+    "pin",
+    "note",
+    "hop",
+    "plane",
+    "tub"
+   ]
+  }
+ }
+}

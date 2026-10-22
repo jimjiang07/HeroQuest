@@ -2,7 +2,9 @@
 export const EMO:Record<string,string>={frog:'🐸',flag:'🚩',drum:'🥁',star:'⭐',crab:'🦀',sled:'🛷',tent:'⛺',hand:'✋',nest:'🪺',ant:'🐜',stop:'🛑',tree:'🌲',brick:'🧱',
   clap:'👏',plug:'🔌',grin:'😁',truck:'🚚',swim:'🏊',clock:'🕐',
   plant:'🪴',dress:'👗',planet:'🪐',tram:'🚊',trumpet:'🎺',vest:'🦺',fist:'✊',plus:'➕',
-  ship:'🚢',shell:'🐚',fish:'🐟',dish:'🍽️',chip:'🍟',chick:'🐤',cheese:'🧀',bench:'🪑',bath:'🛁',thumb:'👍',teeth:'🦷',moth:'🦋'};
+  ship:'🚢',shell:'🐚',fish:'🐟',dish:'🍽️',chip:'🍟',chick:'🐤',cheese:'🧀',bench:'🪑',bath:'🛁',thumb:'👍',teeth:'🦷',moth:'🦋',
+  cat:'🐱',dog:'🐶',bed:'🛏️',box:'📦',bug:'🐛',log:'🪵',cup:'☕',hen:'🐔',egg:'🥚',fox:'🦊',pig:'🐷',bus:'🚌',van:'🚐',sand:'🏖️',sun:'☀️',bat:'🦇',
+  cap:'🧢',cape:'🦸',plane:'✈️',kite:'🪁',pin:'📌',pine:'🌲',slide:'🛝',note:'🎵',globe:'🌏',cube:'🧊',tube:'🧪',hat:'🎩'};
 /* consonant blends (two sounds) and digraphs (two letters, one sound) that the English quests highlight */
 export const BL=['fr','fl','dr','st','sl','cr','tr','br','pl','gr','cl','sw','nt','mp','nd'];
 export const DG=['sh','ch','th'];

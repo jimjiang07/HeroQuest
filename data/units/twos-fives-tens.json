@@ -1,0 +1,163 @@
+{
+ "app": {
+  "id": "skip",
+  "module": "groups",
+  "title": "Twos, Fives, Tens",
+  "picture": "hops",
+  "intro": {
+   "title": "Learn it: count by 2s, 5s and 10s!",
+   "say": "Let’s count by twos, fives and tens. Every bag has the same number, so we can jump along. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read"
+   ],
+   "game": [
+    "memory",
+    "hop"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "groups",
+   "levels": [
+    {
+     "g": [
+      2,
+      5
+     ],
+     "ns": [
+      2,
+      10
+     ]
+    },
+    {
+     "g": [
+      2,
+      5
+     ],
+     "ns": [
+      5
+     ]
+    },
+    {
+     "g": [
+      2,
+      10
+     ],
+     "ns": [
+      2,
+      5,
+      10
+     ]
+    }
+   ]
+  },
+  "read": {
+   "facts": [
+    [
+     5,
+     2
+    ],
+    [
+     3,
+     10
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     6,
+     2
+    ]
+   ]
+  },
+  "memory": {
+   "facts": [
+    [
+     3,
+     2
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     10
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     10
+    ]
+   ]
+  },
+  "hop": {
+   "rounds": [
+    [
+     2,
+     5,
+     4
+    ],
+    [
+     10,
+     5,
+     2
+    ],
+    [
+     5,
+     5,
+     3
+    ],
+    [
+     2,
+     6,
+     1
+    ],
+    [
+     10,
+     6,
+     4
+    ],
+    [
+     5,
+     6,
+     5
+    ]
+   ]
+  },
+  "stories": {
+   "names": [
+    "Sam",
+    "Ava",
+    "Leo",
+    "Mia",
+    "Kai",
+    "Zoe",
+    "Ben",
+    "Ivy",
+    "Noah",
+    "Ruby"
+   ],
+   "templates": [
+    "{name} has {a} packs. Each pack has {b} stickers. How many stickers?",
+    "There are {a} jars. Each jar has {b} marbles. How many marbles?",
+    "{name} builds {a} towers. Each tower has {b} blocks. How many blocks?",
+    "There are {a} trays. Each tray has {b} muffins. How many muffins?",
+    "{name} picks {a} bunches. Each bunch has {b} flowers. How many flowers?"
+   ]
+  }
+ }
+}

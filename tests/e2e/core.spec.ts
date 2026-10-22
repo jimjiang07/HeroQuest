@@ -28,9 +28,9 @@ test('the voice plays recorded clips, not the device voice',async({page})=>{
 test('quests show both subjects, and a locked quest says what opens it',async({page})=>{
   await seed(page,hero({unlockAll:false}));
   await page.goto('./#/hub');
-  await expect(page.locator('.qcard')).toHaveCount(3);
+  await expect(page.locator('.qcard')).toHaveCount(6);
   await page.locator('.tab.english').click();await fits(page,'english tab');
-  await expect(page.locator('.qcard')).toHaveCount(3);
+  await expect(page.locator('.qcard')).toHaveCount(6);
   await page.locator('.tab.maths').click();
   await expect(page.locator('.qcard[data-q="arrays"]')).toContainText('Opens after');
   await page.locator('.qcard[data-q="arrays"]').click();
@@ -94,7 +94,7 @@ test('grown-ups: press and hold opens the dialog; skills, feedback and heroes wo
   const gear=page.getByRole('button',{name:/grown-ups/i});
   await gear.dispatchEvent('pointerdown');await page.waitForTimeout(1200);await gear.dispatchEvent('pointerup');
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.locator('.srow')).toHaveCount(6);
+  await expect(page.locator('.srow')).toHaveCount(12);
   await page.locator('.srow').first().getByRole('button',{name:'Treat as secure'}).click();
   await expect(page.locator('.srow').first().locator('.schip')).toHaveText(/Secure/);
   await page.getByRole('tab',{name:'How did it go?'}).click();

@@ -1,0 +1,167 @@
+{
+ "app": {
+  "id": "tens",
+  "module": "tens",
+  "title": "Tens and Ones",
+  "intro": {
+   "title": "Learn it: tens and ones!",
+   "say": "Let’s build numbers from tens and ones. A ten is a stick of ten blocks. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "build",
+    "read"
+   ],
+   "game": [
+    "hear",
+    "shop"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "tens",
+   "levels": [
+    {
+     "t": [
+      1,
+      5
+     ],
+     "o": [
+      1,
+      9
+     ]
+    },
+    {
+     "t": [
+      2,
+      8
+     ],
+     "o": [
+      0,
+      9
+     ]
+    },
+    {
+     "t": [
+      1,
+      8
+     ],
+     "o": [
+      0,
+      9
+     ],
+     "mode": "ten"
+    },
+    {
+     "t": [
+      2,
+      7
+     ],
+     "o": [
+      1,
+      6
+     ],
+     "b": [
+      2,
+      4
+     ],
+     "mode": "add"
+    }
+   ]
+  },
+  "build": {
+   "numbers": [
+    34,
+    21,
+    46
+   ]
+  },
+  "read": {
+   "cards": [
+    [
+     3,
+     4,
+     0
+    ],
+    [
+     2,
+     6,
+     0
+    ],
+    [
+     5,
+     0,
+     0
+    ],
+    [
+     3,
+     4,
+     10
+    ]
+   ]
+  },
+  "hear": {
+   "numbers": [
+    23,
+    41,
+    17,
+    35,
+    52
+   ]
+  },
+  "shop": {
+   "rounds": [
+    [
+     "kite",
+     34
+    ],
+    [
+     "ball",
+     15
+    ],
+    [
+     "drum",
+     42
+    ],
+    [
+     "teddy",
+     26
+    ]
+   ]
+  },
+  "stories": {
+   "names": [
+    "Kai",
+    "Ava",
+    "Leo",
+    "Mia",
+    "Zoe",
+    "Ben",
+    "Ivy",
+    "Noah",
+    "Ruby",
+    "Sam"
+   ],
+   "num": [
+    "{name} has {t} bags of 10 marbles and {o} more. How many marbles?",
+    "{name} packs {t} boxes of 10 pencils and {o} more. How many pencils?",
+    "{name} stacks {t} towers of 10 blocks and {o} more. How many blocks?"
+   ],
+   "ten": [
+    "{name} has {n} marbles. Then {name} gets one more bag of 10. How many marbles now?",
+    "{name} has {n} stickers. A friend gives {name} a pack of 10 more. How many stickers now?",
+    "There are {n} shells in a bucket. {name} adds a row of 10 more. How many shells now?"
+   ],
+   "add": [
+    "{name} has {t} bags of 10 marbles and {o} more. Then {name} finds {b} more marbles. How many marbles now?",
+    "{name} has {t} boxes of 10 pencils and {o} more. Then {name} gets {b} more pencils. How many pencils now?",
+    "There are {t} trays of 10 lamingtons and {o} more on a plate. {name} bakes {b} more. How many lamingtons now?",
+    "{name} has {t} packs of 10 stickers and {o} more. A friend gives {name} {b} more. How many stickers now?",
+    "{name} counts {t} rows of 10 shells and {o} more. Then {name} finds {b} more shells. How many shells now?"
+   ]
+  }
+ }
+}

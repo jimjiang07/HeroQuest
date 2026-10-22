@@ -1,0 +1,59 @@
+{
+ "app": {
+  "id": "sentence",
+  "module": "sentence",
+  "title": "Short Sentences",
+  "intro": {
+   "title": "Learn it: short sentences!",
+   "say": "A sentence tells us one thing. It starts with a capital letter and ends with a full stop. Tap Start."
+  },
+  "quest": {
+   "learn": ["rules", "cards"],
+   "game": ["fix", "silly"],
+   "help": 5,
+   "own": 8,
+   "challenge": 5,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {"words": ["A frog can hop.", "The sun is hot.", "Kai ran to the bus.", "Leo can see a fox.", "Mia can see a pig.", "Ava has a big hat."]},
+    {"words": ["The cat is on the bed.", "The cat is in the box.", "The dog is on the bed.", "The dog is in the box.", "A bug is on the log.", "A bug is in the cup.",
+      "A hen sat on an egg.", "A crab is in the sand.", "Zoe can dig in the sand.", "Ben can fix the van.", "Ruby got a big fish.", "Ivy can see a bat."]}
+   ]
+  },
+  "names": ["Kai", "Leo", "Mia", "Ava", "Zoe", "Ben", "Ruby", "Ivy", "Sam", "Noah"],
+  "sentences": [
+   {"s": "A frog can hop.", "pic": ["frog"]},
+   {"s": "The sun is hot.", "pic": ["sun"]},
+   {"s": "Kai ran to the bus.", "pic": ["bus"]},
+   {"s": "Leo can see a fox.", "pic": ["fox"]},
+   {"s": "Mia can see a pig.", "pic": ["pig"]},
+   {"s": "Ava has a big hat.", "pic": ["hat"]},
+   {"s": "The cat is on the bed.", "pic": ["cat", "bed"]},
+   {"s": "The cat is in the box.", "pic": ["cat", "box"]},
+   {"s": "The dog is on the bed.", "pic": ["dog", "bed"]},
+   {"s": "The dog is in the box.", "pic": ["dog", "box"]},
+   {"s": "A bug is on the log.", "pic": ["bug", "log"]},
+   {"s": "A bug is in the cup.", "pic": ["bug", "cup"]},
+   {"s": "A hen sat on an egg.", "pic": ["hen", "egg"]},
+   {"s": "A crab is in the sand.", "pic": ["crab", "sand"]},
+   {"s": "Zoe can dig in the sand.", "pic": ["sand"]},
+   {"s": "Ben can fix the van.", "pic": ["van"]},
+   {"s": "Ruby got a big fish.", "pic": ["fish"]},
+   {"s": "Ivy can see a bat.", "pic": ["bat"]}
+  ],
+  "rules": ["The sun is hot.", "Kai ran to the bus.", "A bug is on the log."],
+  "cards": ["A frog can hop.", "The cat is on the bed.", "Mia can see a pig.", "A crab is in the sand."],
+  "fix": ["The dog can dig.", "Sam has a red cap.", "A fish can swim.", "The hen is in the pen.", "Noah got a pet bug."],
+  "silly": [
+   {"s": "A fish can swim.", "ok": true},
+   {"s": "The sun is in the box.", "ok": false},
+   {"s": "A dog can dig.", "ok": true},
+   {"s": "A cat has six legs.", "ok": false},
+   {"s": "Ivy sat on the bed.", "ok": true},
+   {"s": "The bus is in my cup.", "ok": false}
+  ]
+ }
+}

@@ -31,3 +31,5 @@ export function miniArr(r:number,c:number){
   return s+'</svg>';
 }
 export const seq=(g:number,n:number)=>Array.from({length:g},(_,i)=>(i+1)*n);
+/* skip-counting stones, one per group, five to a row: labelled = the running total on each, else "+n" to count on */
+export const hops=(g:number,n:number,lab:boolean)=>`<div class="hops" style="--h:${Math.min(g,5)}">${seq(g,n).map(t=>`<span class="hop${lab?' lab':''}">${lab?t:'+'+n}</span>`).join('')}</div>`;

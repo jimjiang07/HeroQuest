@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>Clock</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M66 170L56 184M134 170L144 184" fill="none" stroke-width="7"/>
+<path d="M46 66A22 22 0 0 1 78 40Z" fill="#ffd166"/><path d="M154 66A22 22 0 0 0 122 40Z" fill="#ffd166"/><path d="M100 46V36" fill="none" stroke-width="5"/><circle cx="100" cy="32" r="6" fill="#ffd166" stroke-width="4"/>
+<circle cx="100" cy="114" r="66" fill="#ff8a6b"/><circle cx="100" cy="114" r="52" fill="#fff3dc"/>
+<path d="M100 68v8M100 152v8M54 114h8M138 114h8" fill="none" stroke-width="4"/>
+<ellipse cx="82" cy="110" rx="4.875" ry="6.375" fill="#2b2d42" stroke="none"/><circle cx="83.65" cy="107.75" r="1.9500000000000002" fill="#fff" stroke="none"/><ellipse cx="118" cy="110" rx="4.875" ry="6.375" fill="#2b2d42" stroke="none"/><circle cx="119.65" cy="107.75" r="1.9500000000000002" fill="#fff" stroke="none"/><ellipse cx="68" cy="124" rx="9" ry="5.5" fill="#ff8fa8" opacity=".6" stroke="none"/><ellipse cx="132" cy="124" rx="9" ry="5.5" fill="#ff8fa8" opacity=".6" stroke="none"/><path d="M92 130Q100 138 108 130" fill="none" stroke-width="4"/></g></svg>

@@ -45,7 +45,7 @@ test('without a boss beaten, every boss piece is locked',async({page})=>{
   await seed(page,hero());
   await page.goto('./#/wardrobe');
   await expect(page.locator('.wtile:not(.lock)')).toHaveCount(2);           // nothing and the wizard hat
-  await expect(page.locator('.wtile.lock')).toHaveCount(3);
+  await expect(page.locator('.wtile.lock')).toHaveCount(6);
 });
 
 test('the boss end screen shows the gear just won, and nothing when it is already owned',async({page})=>{

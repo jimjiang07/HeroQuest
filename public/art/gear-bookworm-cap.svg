@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="46 -2 108 76" width="200" height="200"><title>Bookworm cap</title><defs><filter id="doodle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
+<g filter="url(#doodle)" stroke="#2b2d42" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M100 30C96 20 98 10 108 6C118 4 124 12 120 18" fill="none" stroke-width="13"/><path d="M100 30C96 20 98 10 108 6C118 4 124 12 120 18" fill="none" stroke="#8fe0b9" stroke-width="7"/>
+    <circle cx="122" cy="16" r="8" fill="#8fe0b9" stroke-width="3.5"/><circle cx="125" cy="14" r="2" fill="#2b2d42" stroke="none"/>
+    <path d="M60 62C60 36 78 26 100 26C122 26 140 36 140 62Z" fill="#9d8af0"/><path d="M80 32Q76 46 78 60M120 32Q124 46 122 60" fill="none" stroke-width="3"/>
+    <rect x="54" y="56" width="92" height="12" rx="6" fill="#fff8e8"/><path d="M66 62H90M110 62H134" fill="none" stroke="#9d8af0" stroke-width="2.5"/></g></svg>

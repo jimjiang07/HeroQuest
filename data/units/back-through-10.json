@@ -1,0 +1,152 @@
+{
+ "app": {
+  "id": "bt10",
+  "module": "sub10",
+  "title": "Back Through 10",
+  "intro": {
+   "title": "Learn it: back through 10!",
+   "say": "Let’s learn to take away back through ten. Take away to get back to ten first, then take the rest. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "take",
+    "read"
+   ],
+   "game": [
+    "frog",
+    "memory"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "sub10",
+   "levels": [
+    {
+     "a": [
+      11,
+      14
+     ],
+     "b": [
+      3,
+      6
+     ]
+    },
+    {
+     "a": [
+      11,
+      16
+     ],
+     "b": [
+      4,
+      8
+     ]
+    },
+    {
+     "a": [
+      12,
+      18
+     ],
+     "b": [
+      5,
+      9
+     ]
+    }
+   ]
+  },
+  "take": {
+   "rounds": [
+    [
+     13,
+     5
+    ],
+    [
+     15,
+     7
+    ]
+   ]
+  },
+  "read": {
+   "pairs": [
+    [
+     12,
+     3
+    ],
+    [
+     14,
+     6
+    ],
+    [
+     13,
+     7
+    ],
+    [
+     15,
+     8
+    ]
+   ]
+  },
+  "memory": {
+   "pairs": [
+    [
+     13,
+     5
+    ],
+    [
+     12,
+     3
+    ],
+    [
+     14,
+     7
+    ],
+    [
+     11,
+     5
+    ],
+    [
+     12,
+     8
+    ]
+   ]
+  },
+  "frog": {
+   "rounds": [
+    [
+     13,
+     5
+    ],
+    [
+     12,
+     4
+    ],
+    [
+     14,
+     6
+    ],
+    [
+     11,
+     3
+    ],
+    [
+     16,
+     9
+    ]
+   ]
+  },
+  "stories": [
+   "Ava has {a} stickers. Ava gives {b} to Leo. How many stickers are left?",
+   "{a} crabs sit on a rock. {b} crabs scuttle away. How many crabs are left?",
+   "Sam has {a} shells. A wave takes {b} away. How many shells are left?",
+   "Mia bakes {a} lamingtons. The family eats {b}. How many lamingtons are left?",
+   "{a} boats are in the cove. {b} boats sail away. How many boats are left?",
+   "Kai has {a} gold coins. Kai spends {b}. How many gold coins are left?",
+   "Zoe picks {a} apples. Zoe gives {b} to Ben. How many apples are left?",
+   "{a} gulls sit on the pier. {b} gulls fly off. How many gulls are left?",
+   "Noah has {a} pebbles. Noah drops {b} in the sea. How many pebbles are left?",
+   "Ruby has {a} pegs. Ivy borrows {b}. How many pegs are left?"
+  ]
+ }
+}
