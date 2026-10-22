@@ -11,7 +11,7 @@ export function miniFrame(a:number,b:number){
   for(let i=0;i<10;i++){const cx=12+(i%5)*20,cy=12+Math.floor(i/5)*20+y0;s+=d(cx,cy,i<a?'d-red':'d-gd')}
   for(let i=0;i<r;i++)s+=d(124+Math.floor(i/2)*20,12+(i%2)*20+y0,'d-or');
   s+=`<text class="svgt" x="52" y="15" text-anchor="middle" font-size="19">10</text>`;
-  s+=`<text class="svgt" x="${124+(cols-1)*10}" y="15" text-anchor="middle" font-size="19" style="fill:var(--c)">+${r}</text>`;
+  s+=`<text class="svgt" x="${124+(cols-1)*10}" y="15" text-anchor="middle" font-size="19" style="fill:#d9700a">+${r}</text>`;
   return s+'</svg>';
 }
 /* a ten-frame holding n counters, plus b loose counters beside it */

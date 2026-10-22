@@ -372,7 +372,8 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .stage:has(.pad,[data-pad]){gap:clamp(6px,1.4vh,22px);--cs:min(clamp(44px,calc(10.2*var(--v)),108px),5.2vh)}
 .stage:has(.pad,[data-pad]) .scene{gap:clamp(10px,calc(3*var(--v)),48px)}
 .stage:has(.pad,[data-pad]) .extras{gap:4px}
-.stage:has(.pad,[data-pad]) .qpic svg.mini{max-height:20vh}
+.stage:has(.pad,[data-pad]) .qpic svg.mini{max-height:17vh}
+.stage:has(.pad,[data-pad]) .split{font-size:clamp(22px,min(calc(4.4*var(--v)),3.6vh),40px)}
 /* the bonus question with a pad: the beaten boss steps back and the box tightens */
 .stage:has(.bonus .pad,.bonus [data-pad]) img.boss{width:clamp(56px,10vh,140px)}
 .bonus:has(.pad,[data-pad]){padding:8px 10px;gap:8px;width:100%}
@@ -536,6 +537,21 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 .frogline .frog{transition:transform .7s ease-in-out}
 .frogline .fbody.hop{animation:froghop .7s ease-in-out}
 @keyframes froghop{50%{transform:translateY(-46px)}}
+/* the "make ten" split, same colours everywhere: gold reaches ten, orange is left over */
+.sg{color:#b07d00}.so{color:#d9700a}
+.eq b.so,.eq b.sg{font-weight:400}
+.split{display:block;font-family:var(--disp);font-size:clamp(26px,calc(4.4*var(--v)),40px);line-height:1.1;text-align:center;letter-spacing:.5px}
+.qpic:has(.split),.lpic:has(.split){flex-direction:column;align-items:center;gap:4px}
+.frogsum{font-family:var(--disp);font-size:clamp(24px,calc(4*var(--v)),36px);line-height:1;padding:2px 14px;border:3px solid var(--ink);border-radius:var(--rd-s);background:var(--card)}
+.hoptok{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center}
+.hoptok .tk{width:clamp(20px,calc(3.4*var(--v)),30px);height:clamp(20px,calc(3.4*var(--v)),30px);border-radius:50%;border:3px solid var(--ink);background:var(--card);transition:background .3s}
+.hoptok .tk.g{background:var(--gold)}.hoptok .tk.o{background:var(--or)}
+.stage:has(.frogpad) .frogline{max-height:clamp(88px,13vh,230px)}
+@media (max-height:760px){.stage:has(.frogpad) .stars{display:none}}   /* short screens: the round stars give way to the pad */
+.stage:has(.frogpad) .eq{font-size:clamp(30px,min(calc(8*var(--v)),6vh),76px)}
+.frogtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.stage:has(.splitrow){gap:clamp(6px,1.4vh,22px)}
+.stage:has(.splitrow) .split{font-size:clamp(26px,calc(4*var(--v)),40px)}
 /* a stuck child's story problem carries the picture too, so it is kept small to fit a phone */
 .qpic .a10ch svg.mini{width:auto;max-width:100%;height:clamp(70px,10vh,150px)}
 @media (prefers-reduced-motion:reduce){.frogline .frog{transition:none}.frogline .fbody.hop{animation:none}}

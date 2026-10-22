@@ -3,15 +3,16 @@
 import type {Item,Question,UnitApp} from '@/types';
 import {nw} from '@/shared';
 import {extras,frameWith,miniFrame} from '../common/pics';
+import {splitHTML} from './speech';
 import {story} from './speech';
 
 const parts=(it:Item)=>{const a=Number(it.a),b=Number(it.b),s=a+b,gap=10-a;return {a,b,s,
-  explain:`${nw(a)} needs ${nw(gap)} more to make ten. Then ${nw(b-gap)} more. ${nw(s)}!`,after:`${a} + ${b} = ${s}`}};
+  explain:`${nw(a)} needs ${nw(gap)} to make ten. ${nw(b)} is ${nw(gap)} and ${nw(b-gap)}. Ten and ${nw(b-gap)} is ${nw(s)}!`,after:`${a} + ${b} = ${s}`}};
 
 export function ask(it:Item,h:number):Question{
   const {a,b,s,explain,after}=parts(it);
   if(h>=4)return {prompt:'What is missing?',say:`${nw(a)} plus what makes ${nw(s)}?`,eq:`${a} + <span class="q"></span> = ${s}`,answer:String(b),choices:[],pad:true,after,explain};
-  const pic=h<=1?miniFrame(a,b):h===2?`<div class="scene">${frameWith(a)}${extras(b)}</div>`:'';
+  const pic=h<=1?miniFrame(a,b)+splitHTML(a,b):h===2?`<div class="scene">${frameWith(a)}${extras(b)}</div>`:'';
   return {prompt:h>=3?'Think it!':'How many altogether?',say:`${nw(a)} plus ${nw(b)}.`,pic,eq:`${a} + ${b} = <span class="q"></span>`,answer:String(s),choices:[],pad:true,after,explain};
 }
 

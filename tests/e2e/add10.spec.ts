@@ -35,7 +35,7 @@ test('With help and On your own: shared practice records answers',async({page})=
   expect(errors).toEqual([]);
 });
 
-test('Game: make-ten memory and frog jump',async({page})=>{
+test('Game: make-ten memory and frog jump (hops to ten, hops left, where it lands)',async({page})=>{
   const errors=watchErrors(page);
   await startStep(page,'jt10','game');await playMemory(page);
   await next(page);
@@ -45,7 +45,10 @@ test('Game: make-ten memory and frog jump',async({page})=>{
     await expect(page.locator('.msg')).toHaveText('Try again!');
     await expect(page.locator('.eq .q')).toHaveText('');
     await answer(page);
-    await fits(page,`frog ${r} more`);
+    await fits(page,`frog ${r} left`);
+    await expect(page.locator('.hoptok .tk.o').first()).toBeVisible();      // the hops left over are orange
+    await answer(page);
+    await fits(page,`frog ${r} land`);
     await answer(page);
     await expect(page.locator('.frogpad')).toHaveCount(0);
     await expect(page.locator('.eq')).toHaveText(/= \d+$/);

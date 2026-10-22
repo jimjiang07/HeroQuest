@@ -32,7 +32,7 @@ export function watchErrors(page:Page){const errors:string[]=[],lines=!process.e
 /* Next, then wait until the screen has drawn (a quest's steps load on first use) */
 export async function next(page:Page){
   await page.click('#next');
-  await expect(page.locator('.stage > *').first()).toBeVisible();
+  await expect(page.locator('.stage > *:visible').first()).toBeVisible();
 }
 /* after a right answer: wait for Next, take it if it brings the next question */
 export async function moreOrDone(page:Page){

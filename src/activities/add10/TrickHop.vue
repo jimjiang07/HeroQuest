@@ -4,7 +4,7 @@ import {onMounted,ref} from 'vue';
 import type {UnitApp} from '@/types';
 import {useRun} from '@/composables/run';
 import {audio,say,sfx,sleep} from '@/services/audio';
-import {counted,hopped,trickAsk} from './speech';
+import {counted,hopped,splitHTML,trickAsk} from './speech';
 
 const props=defineProps<{data:UnitApp}>();
 const run=useRun(),{a,b}=props.data.trick as {a:number;b:number},gap=10-a,left=b-gap;
@@ -30,6 +30,7 @@ async function count(){
     <div class="extras"><div v-for="i in b-moved" :key="i" class="xs"><span class="dot or" :class="{lit}"></span></div></div>
   </div>
   <div class="eq">{{ eq }}</div>
+  <div class="splitrow" v-html="phase==='start'?'&nbsp;':splitHTML(a,b)"></div>
   <div class="msg">{{ msg }}</div>
   <div class="row"><button class="btn red" :disabled="phase!=='start'" @click="hop">Hop!</button><button class="btn alt" :disabled="phase!=='hopped'" @click="count">Count</button></div>
 </template>
