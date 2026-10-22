@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* One quest: 5 steps and the boss, climbing from the bottom. Only the next stone glows; later ones stay locked. */
-import {computed} from 'vue';
+import {computed,onBeforeUnmount,onMounted,ref,watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {useProgress} from '@/stores/progress';
 import {setHeader} from '@/stores/ui';
@@ -25,6 +25,26 @@ const stones=computed(()=>L.QUEST_STEPS.map((s,i)=>{
 }).reverse());
 if(Q)say(cur.value?`${Q.name}. Tap the glowing stone: ${STEP[cur.value]}.`:`You finished ${Q.name}! Play any stone again.`);
 
+/* the road: a smooth curve through the stone centres, measured from the screen so it follows any size and orientation */
+const box=ref<HTMLElement>(),road=ref(''),walked=ref(''),view=ref('0 0 0 0');
+type Pt={x:number;y:number};
+// Catmull-Rom through the points, as cubic Béziers
+const curve=(p:Pt[])=>p.length<2?'':p.slice(0,-1).reduce((d,b,i)=>{const a=p[i-1]??b,c=p[i+1],e=p[i+2]??c;
+  return d+` C${b.x+(c.x-a.x)/6} ${b.y+(c.y-a.y)/6} ${c.x-(e.x-b.x)/6} ${c.y-(e.y-b.y)/6} ${c.x} ${c.y}`},`M${p[0].x} ${p[0].y}`);
+function measure(){
+  const b=box.value;if(!b)return;
+  const r=b.getBoundingClientRect();
+  // stones are drawn boss-first; the road starts at Learn it
+  const pts=[...b.querySelectorAll('.stone2 .sf')].map(el=>{const s=el.getBoundingClientRect();return {x:s.left-r.left+s.width/2,y:s.top-r.top+s.height/2}}).reverse();
+  view.value=`0 0 ${r.width} ${r.height}`;road.value=curve(pts);
+  const reached=cur.value?L.QUEST_STEPS.indexOf(cur.value):pts.length-1;
+  walked.value=curve(pts.slice(0,reached+1));
+}
+let ro:ResizeObserver|null=null;
+onMounted(()=>{measure();ro=new ResizeObserver(measure);if(box.value)ro.observe(box.value)});
+onBeforeUnmount(()=>ro?.disconnect());
+watch(cur,()=>requestAnimationFrame(measure));
+
 function go(st:{s:QuestStep;state:string},e:Event){
   audio();
   if(st.state==='lock'){shake(e.currentTarget as Element);say('Finish the stone before it first!');return}
@@ -33,7 +53,10 @@ function go(st:{s:QuestStep;state:string},e:Event){
 </script>
 
 <template>
-  <div v-if="Q" class="qpath" :style="{'--wc':WORLDS[p.world]?.c}">
+  <div v-if="Q" ref="box" class="qpath" :style="{'--wc':WORLDS[p.world]?.c}">
+    <svg class="qroad" :viewBox="view" aria-hidden="true">
+      <path class="edge" :d="road"/><path class="lane" :d="road"/><path class="walked" :d="walked"/><path class="dash" :d="road"/>
+    </svg>
     <button v-for="st in stones" :key="st.s" class="stone2" :class="[st.state,{boss:st.s==='boss'},st.i%2?'r':'l']" :data-s="st.s"
       :aria-label="`${STEP[st.s]}: ${st.state}`" @click="go(st,$event)">
       <span class="sf">{{ st.face }}</span>

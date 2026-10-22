@@ -32,6 +32,7 @@ test('a quest map opens one stone at a time',async({page})=>{
   await seed(page,hero({unlockAll:false}));
   await page.goto('./#/quest/jt10');await fits(page,'quest map');
   await expect(page.locator('.stone2')).toHaveCount(6);
+  await expect(page.locator('.qroad .lane')).toHaveAttribute('d',/^M[\d.]+ [\d.]+( C[\d. ]+){5}$/);   // a road through all six stones
   await expect(page.locator('.stone2[data-s="learn"]')).toHaveClass(/cur/);
   await expect(page.locator('.stone2[data-s="help"]')).toHaveClass(/lock/);
   await page.locator('.stone2[data-s="boss"]').click();
