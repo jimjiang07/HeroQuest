@@ -8,11 +8,13 @@ import {AVATARS,WORLDS} from '@/heroes';
 import * as L from '@/learn/learner';
 import {say,vRank,voices} from '@/services/audio';
 import HeroAvatar from './HeroAvatar.vue';
+import PlanTab from './PlanTab.vue';
+import BackupCode from './BackupCode.vue';
 
 const emit=defineEmits<{close:[]}>();
 const P=useProgress(),router=useRouter();
-const tab=ref<'skills'|'feedback'|'heroes'|'settings'>('skills');
-const TABS={skills:'Skills',feedback:'How did it go?',heroes:'Heroes',settings:'Settings'} as const;
+const tab=ref<'plan'|'skills'|'feedback'|'heroes'|'settings'>('skills');
+const TABS={plan:'Plan',skills:'Skills',feedback:'How did it go?',heroes:'Heroes',settings:'Settings'} as const;
 const hero=computed(()=>P.hero);
 const CHIP:Record<L.Status,string>={secure:'Secure',growing:'Growing',notyet:'Not yet'};
 
@@ -56,7 +58,8 @@ function close(){emit('close');if(!P.hero)router.push('/who')}
         <button v-for="(v,k) in TABS" :key="k" role="tab" class="gtab" :aria-selected="tab===k" @click="tab=k">{{ v }}</button>
       </div>
 
-      <div v-if="tab==='skills'">
+      <PlanTab v-if="tab==='plan'"/>
+      <div v-else-if="tab==='skills'">
         <template v-if="hero">
           <p class="tip">{{ AVATARS[hero.avatar]?.name }}’s skills. Secure = boss beaten, then a rematch won on a later day.</p>
           <div v-for="q in QUESTS" :key="q.id" class="srow">
@@ -92,6 +95,7 @@ function close(){emit('close');if(!P.hero)router.push('/who')}
         </div>
         <div class="row"><button class="btn alt" @click="backup">Back up progress</button><label class="btn alt filebtn">Restore backup<input type="file" accept="application/json" hidden @change="restore"></label></div>
         <p class="tip">{{ imsg }}</p>
+        <BackupCode/>
       </div>
 
       <div v-else>

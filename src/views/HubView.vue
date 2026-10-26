@@ -15,7 +15,7 @@ import {SAY} from '@/voice/say';
 
 const P=useProgress(),router=useRouter();
 const subj=ref<Subject>((sessionStorage.getItem('hq-subj') as Subject)||'maths');
-setHeader({title:'Choose your quest',back:()=>router.push('/who'),backLabel:'',backIcon:'person'});
+setHeader({title:'More quests',back:()=>router.push('/term'),backLabel:'Map',backIcon:'map'});
 const p=computed(()=>P.hero!);
 
 type QS='lock'|'secure'|'beaten'|'going'|'new';

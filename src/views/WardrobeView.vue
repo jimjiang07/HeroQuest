@@ -15,7 +15,7 @@ import HeroAvatar from '@/components/HeroAvatar.vue';
 import Icon from '@/components/Icon.vue';
 
 const P=useProgress(),router=useRouter();
-setHeader({title:'Wardrobe',back:()=>router.push('/hub'),backLabel:'Quests'});
+setHeader({title:'Wardrobe',back:()=>router.push('/term'),backLabel:'Map'});
 const p=computed(()=>P.hero!);
 
 const pics=new Map<string,string>();
