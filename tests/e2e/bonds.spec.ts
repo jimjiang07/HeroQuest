@@ -1,38 +1,10 @@
 import {test,expect,type Page} from '@playwright/test';
-import {answer,finishRun,fits,hero,learnCards,moreOrDone,next,playBoss,playMemory,playPractice,saved,seed,startStep,watchErrors,wrong} from './helpers';
+import {answer,finishRun,fits,hero,learnCards,moreOrDone,next,padFits,playBoss,playCross,playFill,playMemory,playPractice,saved,seed,startStep,watchErrors,wrong} from './helpers';
 
 /* Make 10 and Make 20 (bonds module, ten-frames), plus Twos and Tens and Count by 5s (groups module): every step plays
    to the end on the pad, and every screen fits. */
 test.beforeEach(async({page})=>{await seed(page,hero())});
 
-const padFits=async(page:Page,where:string)=>{await expect(page.locator('.qwrap .pad')).toBeVisible({timeout:15000});await fits(page,where)};
-
-/* cross out: tap the right number of counters, then type how many are left */
-async function playCross(page:Page){
-  for(let r=0;r<3;r++){
-    await expect(page.locator('.bdx .cell[data-i]').first()).toBeVisible();
-    await fits(page,`cross ${r}`);
-    const b=Number((await page.locator('.prompt').textContent())!.match(/Take away (\d+)/)![1]);
-    for(let i=0;i<b;i++)await page.locator(`.bdx .cell[data-i="${i}"]`).click();
-    await expect(page.locator('.bdx .dot.gone')).toHaveCount(b);
-    await padFits(page,`cross ${r} left`);
-    if(!r)await wrong(page,'.crosspad');
-    await answer(page,'.crosspad');
-    await expect(page.locator('.crosspad')).toHaveCount(0);
-    await moreOrDone(page);
-  }
-}
-/* fill the frame: type how many more make 10 (or 20), one wrong answer first */
-async function playFill(page:Page,rounds:number){
-  for(let r=0;r<rounds;r++){
-    await padFits(page,`fill ${r}`);
-    if(!r){await wrong(page,'.fillpad');await expect(page.locator('.fillpad')).toBeVisible()}
-    await answer(page,'.fillpad');
-    await expect(page.locator('.fillpad')).toHaveCount(0);
-    await fits(page,`fill ${r} full`);
-    await moreOrDone(page);
-  }
-}
 /* back to ten (Back Through 10's frame step) */
 async function playBack(page:Page){
   for(let r=0;r<2;r++){

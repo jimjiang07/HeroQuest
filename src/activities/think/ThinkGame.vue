@@ -87,7 +87,7 @@ async function pick(v:string,el:HTMLElement){
 .tk.helped :deep(.tkfact){background:repeating-linear-gradient(45deg,var(--card) 0 10px,color-mix(in srgb,var(--gold) 22%,var(--card)) 10px 16px)}
 .tk :deep(.tkwall){width:min(calc(54*var(--v)),24vh * 1.67);height:auto}
 .tk :deep(.tkshield){width:auto;height:min(calc(30*var(--v)),20vh)}
-.tk :deep(.tkflag){width:auto;height:min(calc(30*var(--v)),22vh)}
+.tk :deep(.tkflag){width:auto;height:min(calc(27*var(--v)),22vh)}
 .tk-shape :deep(.qpic > svg.tks:not(.tkwall,.tkshield,.tkflag)){width:auto;height:min(calc(24*var(--v)),16vh)}
 .tk :deep(.ch.tkh .tkp){width:min(calc(9*var(--v)),6vh);height:min(calc(18*var(--v)),12vh)}
 .tk :deep(.eq .tkj){display:inline-block;font-family:var(--body);font-size:.5em;font-weight:700;color:var(--c);text-shadow:none;vertical-align:.5em;margin:0 .15em}

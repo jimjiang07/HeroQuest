@@ -174,3 +174,65 @@ export async function revealItems(page:Page,items:string[],where=''){
   await page.click('#next');
   await expect(page).toHaveURL(/#\/session\/\d+$/);
 }
+
+/* ---------- module play helpers shared by the quest specs and the session specs ---------- */
+export const padFits=async(page:Page,where:string)=>{await expect(page.locator('.qwrap .pad')).toBeVisible({timeout:15000});await fits(page,where)};
+/* bonds cross out: tap the right number of counters, then type how many are left */
+export async function playCross(page:Page){
+  for(let r=0;r<3;r++){
+    await expect(page.locator('.bdx .cell[data-i]').first()).toBeVisible();
+    await fits(page,`cross ${r}`);
+    const b=Number((await page.locator('.prompt').textContent())!.match(/Take away (\d+)/)![1]);
+    for(let i=0;i<b;i++)await page.locator(`.bdx .cell[data-i="${i}"]`).click();
+    await expect(page.locator('.bdx .dot.gone')).toHaveCount(b);
+    await padFits(page,`cross ${r} left`);
+    if(!r)await wrong(page,'.crosspad');
+    await answer(page,'.crosspad');
+    await expect(page.locator('.crosspad')).toHaveCount(0);
+    await moreOrDone(page);
+  }
+}
+/* bonds fill the frame: type how many more make 10 (or 20), one wrong answer first */
+export async function playFill(page:Page,rounds:number){
+  for(let r=0;r<rounds;r++){
+    await padFits(page,`fill ${r}`);
+    if(!r){await wrong(page,'.fillpad');await expect(page.locator('.fillpad')).toBeVisible()}
+    await answer(page,'.fillpad');
+    await expect(page.locator('.fillpad')).toHaveCount(0);
+    await fits(page,`fill ${r} full`);
+    await moreOrDone(page);
+  }
+}
+/* read module: page through story pages and questions (the first two questions wrong three times, so the glow comes) */
+export async function playSeq(page:Page,where:string){
+  for(let i=0;i<40;i++){
+    await expect(page.locator('.rdpage, .qwrap').first()).toBeVisible();
+    await fits(page,`${where} ${i}`);
+    if(await page.locator('.rdpage').count()){
+      // once read, a word can be tapped to hear it on its own
+      await expect(page.locator('.rdt').first()).toBeEnabled({timeout:15000});
+      if(!i)await page.locator('.rdt').first().click();
+    }else{
+      if(i<2){for(let k=0;k<3;k++)await wrong(page);await expect(page.locator('.ch.glow, .lt.glow').first()).toBeVisible();await fits(page,`${where} glow`)}
+      await answer(page);
+    }
+    await expect(page.locator('#next:enabled')).toBeVisible({timeout:15000});
+    if(!(await page.locator('#next[data-more]').count()))return;
+    await next(page);
+  }
+  throw new Error(`${where}: never finished`);
+}
+/* thinking game: every round fits; round 2 gets one wrong tap first, then each round is answered */
+export async function playThink(page:Page,where:string){
+  for(let i=0;i<20;i++){
+    await expect(page.locator('.qwrap.tk')).toBeVisible();
+    await fits(page,`${where} round ${i+1}`);
+    if(i===1)await wrong(page);
+    await answer(page);
+    await fits(page,`${where} round ${i+1} answered`);
+    await expect(page.locator('#next:enabled')).toBeVisible({timeout:15000});
+    if(!(await page.locator('#next[data-more]').count()))return i+1;
+    await next(page);
+  }
+  throw new Error(`${where}: never finished`);
+}

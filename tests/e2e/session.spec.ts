@@ -1,5 +1,5 @@
 import {test,expect,type Page} from '@playwright/test';
-import {answer,fits,hero,next,playBoss,playPractice,revealItems,saved,seed,startSessionStep,termHero,watchErrors,wrong} from './helpers';
+import {answer,fits,hero,learnCards,next,playBoss,playCross,playFill,playMemory,playPractice,playSeq,playThink,revealItems,saved,seed,startSessionStep,termHero,watchErrors,wrong} from './helpers';
 import {itemsWon,type Profile,type RewardPlan} from '../../src/learn/learner';
 import rewards from '../../data/rewards.json' with {type:'json'};
 
@@ -155,19 +155,47 @@ test('leaving mid-step needs a second tap',async({page})=>{
   await expect(page).toHaveURL(/#\/session\/1$/);
 });
 
-/* Stone 1 from start to finish with the term's own units (bonds10, read1, think-pattern). Each step key plays its screens;
-   the maths quest's learn/game and the English and thinking steps need their modules' play helpers once those land. */
-test.fixme('stone 1 plays start to finish with the term’s own units',async({page})=>{
+/* Stone 1 from start to finish with the term's own units (bonds10, read1, think-pattern): every step plays its screens,
+   its item is revealed before Next turns on, and at the end all nine items plus the medium one are won and stone 2 opens. */
+test('stone 1 plays start to finish with the term’s own units',async({page})=>{
+  test.setTimeout(360000);
+  const errors=watchErrors(page);
   await seed(page,hero({unlockAll:false}));
-  const PLAY:Record<string,(page:Page)=>Promise<void>>={
+  const PLAY:Record<string,(page:Page)=>Promise<unknown>>={
     warmup:p=>playPractice(p,'warm-up'),
+    learn:async p=>{await learnCards(p,4,'learn cards');await next(p);await playCross(p)},
     training:async p=>{await playPractice(p,'training help');await next(p);await playPractice(p,'training own')},
-    boss:p=>playBoss(p,'stone 1')
-    // learn, game, read, words, infer, think: add when the bonds, read and think modules land
+    game:async p=>{await playFill(p,5);await next(p);await playMemory(p)},
+    boss:p=>playBoss(p,'stone 1'),
+    read:async p=>{await expect(p.locator('.rdpage .rdpic svg')).toBeVisible();await playSeq(p,'read')},
+    words:p=>playSeq(p,'words'),
+    infer:p=>playSeq(p,'infer'),
+    think:p=>playThink(p,'think')
   };
   for(const k of ALL){
     await startSessionStep(page,1,k);await PLAY[k](page);
-    await revealItems(page,[R.stones[0].small[k]],k);
+    await revealItems(page,k==='think'?[S1.think,R.stones[0].medium]:[S1[k]],k);
+    await expect(page.locator(`.sstep[data-k="${k}"]`)).toHaveClass(/done/);
   }
-  expect((await saved(page)).profiles.p1.term[1].done).toEqual(ALL);
+  const p=(await saved(page)).profiles.p1;
+  expect(p.term[1].done).toEqual(ALL);
+  expect(p.quests.bonds10.done).toEqual(expect.arrayContaining(['learn','help','own','game','boss']));
+  expect(await won(page)).toEqual(expect.arrayContaining([...ALL.map(k=>S1[k]),R.stones[0].medium]));
+  await page.goto('./#/term');
+  await expect(page.locator('.tstone[data-n="1"]')).toHaveClass(/done/);
+  await expect(page.locator('.tstone[data-n="2"]')).toHaveClass(/cur/);
+  expect(errors).toEqual([]);
 });
+
+/* every thinking game plays through stone 1's thinking step (the plan points the step at each one in turn) */
+for(const id of ['think-pattern','think-odd','think-taller','think-shape','think-seq']){
+  test(`thinking game ${id} plays every round and each one fits`,async({page})=>{
+    const errors=watchErrors(page);
+    await seed(page,hero({plan:{1:{think:id}}}));
+    await startSessionStep(page,1,'think');
+    expect(await playThink(page,id)).toBeGreaterThan(2);
+    await revealItems(page,[S1.think],id);
+    expect((await saved(page)).profiles.p1.term[1].done).toEqual(['think']);
+    expect(errors).toEqual([]);
+  });
+}

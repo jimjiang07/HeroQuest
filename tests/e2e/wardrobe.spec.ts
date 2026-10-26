@@ -52,10 +52,10 @@ test('wear and take off term rewards in several slots, including a pet and a pla
   for(const s of SLOTS){await tab(page,s);await expect(page.locator(`.wd-tab[data-slot="${s}"]`)).toHaveAttribute('aria-selected','true');await fits(page,`wardrobe ${s}`)}
   await expect(tile(page,'none')).toBeVisible();                            // a place can be taken off too
   await tab(page,'outfit');await expect(tile(page,'none')).toHaveCount(0);   // an outfit can't be taken off
-  // items are never lost: back on the hub the hero still wears them
+  // items are never lost: back on the term map the hero still wears them
   await page.locator('header .home').click();
-  await expect(page).toHaveURL(/#\/hub$/);
-  await expect(page.locator('.wardb .av')).toHaveAttribute('data-kit',/rain-boots/);
+  await expect(page).toHaveURL(/#\/term$/);
+  await expect(page.locator('.there .av')).toHaveAttribute('data-kit',/rain-boots/);
   expect(errors).toEqual([]);
 });
 

@@ -42,7 +42,7 @@
   },
   "pages": [
    {
-    "text": "Pip has a red cap.",
+    "text": "Pip has a cap.",
     "pic": "squire-cap"
    },
    {
@@ -109,7 +109,7 @@
     ],
     "answer": "pony",
     "clues": [
-     "Pip has a red cap.",
+     "Pip has a cap.",
      "Peg is a pony.",
      "In the bag is a map."
     ],
@@ -146,7 +146,7 @@
     ],
     "answer": "day",
     "clues": [
-     "Pip has a red cap.",
+     "Pip has a cap.",
      "In the bag is a map.",
      "The sun is hot."
     ],

@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {fits,playBoss,hero,next,quiet,saved,seed,watchErrors} from './helpers';
 
-test('a first-time player makes a hero and reaches the quest picker',async({page})=>{
+test('a first-time player makes a hero and reaches the term map',async({page})=>{
   const errors=watchErrors(page);
   await quiet(page);
   await page.goto('./');
@@ -9,7 +9,7 @@ test('a first-time player makes a hero and reaches the quest picker',async({page
   await page.getByText('Make your hero').click();await fits(page,'pick hero');
   await page.locator('[data-a="ranger"]').click();await fits(page,'pick world');
   await page.locator('[data-w="jungle"]').click();
-  await expect(page.locator('.keep')).toBeVisible();await fits(page,'hub');
+  await expect(page).toHaveURL(/#\/term$/);await expect(page.locator('.tstone[data-n="1"]')).toHaveClass(/cur/);await fits(page,'term map');
   const st=await saved(page);
   expect(Object.values(st.profiles)).toHaveLength(1);
   expect(st.profiles[st.active].avatar).toBe('ranger');
