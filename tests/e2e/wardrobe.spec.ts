@@ -5,7 +5,7 @@ const ALL=['learn','help','own','game','challenge','boss'];
 const QUESTS=['bonds10','skip210','bonds20','skip5','jt10','groups','arrays','bt10','skip','tens','read1','read2','read3','read4','blend','digraph','heart','magice','heart2','sentence'];
 const SLOTS=['head','face','neck','badge','outfit','back','main','off','gloves','feet','pet','bg'];
 // a wizard who has finished every stone of the first n quests (so 6n stone items and n boss rewards), plus anything else
-const termHero=(n:number,over:Record<string,unknown>={})=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],skills:{},
+const termHero=(n:number,over:Record<string,unknown>={})=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],skills:{},itemsFrom:{stones:0,bosses:0},
   quests:Object.fromEntries(QUESTS.slice(0,n).map(id=>[id,{done:ALL}])),...over}}});
 // the Crystal Dragon beaten yesterday: its first piece is won, the rematch piece is not
 const beaten=()=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],

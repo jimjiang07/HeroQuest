@@ -47,12 +47,20 @@ describe('items won',()=>{
     L.markThinker(p);L.markThinker(p);
     expect(L.itemsWon(p,R)).toEqual(R.thinker.slice(0,2));
   });
-  it('a save from the term map loses its old term fields but keeps its items from quests',()=>{
-    const {st,p}=fresh();
-    L.markStep(p,'jt10','learn');
+  it('a save from the term map loses its old term fields',()=>{
+    const {st}=fresh();
     const old=JSON.parse(JSON.stringify(st));old.plan={1:{maths:'bonds10'}};old.profiles.p1.term={1:{done:['warmup']}};
     const out=L.migrate(old);
     expect((out as {plan?:unknown}).plan).toBeUndefined();expect((out.profiles.p1 as {term?:unknown}).term).toBeUndefined();
-    expect(L.itemsWon(out.profiles.p1,R)).toEqual([R.small[0]]);
+  });
+  it('progress from before item rewards wins nothing: items start with the next stone played',()=>{
+    const {st}=fresh();
+    const old=JSON.parse(JSON.stringify(st));delete old.profiles.p1.itemsFrom;
+    old.profiles.p1.quests={jt10:{done:['learn','help','own','game','challenge','boss']},heart:{done:['learn']}};
+    const p=L.migrate(old).profiles.p1;
+    expect(p.itemsFrom).toEqual({stones:7,bosses:1});
+    expect(L.itemsWon(p,R)).toEqual([]);
+    expect(L.newItems(p,R,()=>L.markStep(p,'heart','help'))).toEqual([R.small[0]]);
+    expect(L.newItems(p,R,()=>L.bossWon(p,'heart'))).toEqual([R.small[1],...R.boss[0]]);
   });
 });
