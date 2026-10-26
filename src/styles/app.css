@@ -719,3 +719,11 @@ svg.tb{display:block;width:auto;max-width:100%;overflow:visible}
 .rdrow{display:flex;align-items:center;gap:clamp(12px,3vw,28px)}
 .qpic .rdrow .rpic{width:clamp(72px,min(calc(20*var(--v)),15vh),170px)}
 .qpic > .rpic{width:clamp(90px,min(calc(26*var(--v)),20vh),220px)}
+/* ---------- bonds (maths, term 4): helped pictures sit on a striped card, like the worksheets ---------- */
+.bd-help{display:flex;flex-direction:column;align-items:center;gap:4px;padding:clamp(6px,1.2vh,12px) clamp(10px,2vw,18px);border-radius:var(--rd-s);
+  background:repeating-linear-gradient(135deg,transparent 0 12px,color-mix(in srgb,var(--gold) 22%,transparent) 12px 20px)}
+.qpic .bd-help svg.bdf,.lcard .lpic .bd-help svg.bdf{width:min(380px,calc(70*var(--v)));height:auto}
+.qpic .bd-help svg.bdf[viewBox^="0 0 222"],.lcard .lpic .bd-help svg.bdf[viewBox^="0 0 222"]{width:min(560px,calc(88*var(--v)))}
+.stage:has(.pad,[data-pad]) .qpic .bd-help svg.bdf{max-height:15vh}
+.bd-r{color:var(--c)}.bd-help .split b{font-weight:400}
+.qpic .bd-ch svg.bdf{width:auto;max-width:100%;height:clamp(60px,9vh,140px)}

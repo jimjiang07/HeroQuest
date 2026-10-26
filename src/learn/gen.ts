@@ -29,8 +29,18 @@ export const GEN:Record<string,(p:any,r:Rng)=>Item>={
   // t tens and o ones, plus b: 0 (read the number), 10 (mode "ten") or b ones that stay inside the ten (mode "add")
   tens(p:TensP,r){
     for(;;){const t=int(r,p.t),o=int(r,p.o),b=p.mode==='ten'?10:p.mode==='add'?int(r,p.b??[1,9]):0;if(tensOk({t,o,b}))return {t,o,b}}
+  },
+  // ten-frame bonds: "bond" a + ? = t, "add" a + b, "take" a − b (within 20); the op is picked from the kinds a level lists
+  bonds(p:BondsP,r){
+    const ops=BOND_OPS.filter(o=>p[o]);
+    for(;;){const op=ops[Math.floor(r()*ops.length)];
+      if(op==='bond'){const a=int(r,p.bond!.a),b=p.bond!.t-a;if(bondOk({op,a,b}))return {op,a,b}}
+      else{const a=int(r,p[op]!.a),b=int(r,p[op]!.b);if(bondOk({op,a,b}))return {op,a,b}}}
   }
 };
+type BondsP={bond?:{t:number;a:Range};add?:{a:Range;b:Range};take?:{a:Range;b:Range}};
+const BOND_OPS=['bond','add','take'] as const;
+const bondOk=({op,a,b}:{op:string;a:number;b:number})=>a>0&&b>0&&(op==='take'?b<a&&a<=20:a+b<=20);
 type TensP={t:Range;o:Range;b?:Range;mode?:'num'|'ten'|'add'};
 const tensOk=({t,o,b}:{t:number;o:number;b:number})=>t>=1&&t<=9&&o>=0&&(b===10||o+b<=9);
 
@@ -42,6 +52,9 @@ export const EVERY:Record<string,(p:any)=>Item[]>={
   groups:(p:{g:Range;n?:Range;ns?:number[]})=>span(p.g).flatMap(g=>(p.ns??span(p.n!)).map(n=>({g,n}))),
   arrays:(p:{r:Range;c:Range})=>span(p.r).flatMap(r=>span(p.c).map(c=>({r,c}))),
   words:(p:{words:string[]})=>p.words.map(w=>({w})),
+  bonds:(p:BondsP)=>BOND_OPS.flatMap(op=>{const q=p[op];if(!q)return [];
+    const all=op==='bond'?span(q.a).map(a=>({op,a,b:p.bond!.t-a})):span(q.a).flatMap(a=>span((q as {b:Range}).b).map(b=>({op,a,b})));
+    return all.filter(bondOk)}),
   tens:(p:TensP)=>span(p.t).flatMap(t=>span(p.o).flatMap(o=>(p.mode==='ten'?[10]:p.mode==='add'?span(p.b??[1,9]):[0]).map(b=>({t,o,b})))).filter(tensOk)
 };
 

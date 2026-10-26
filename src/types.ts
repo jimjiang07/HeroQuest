@@ -27,7 +27,7 @@ export interface Question{
 /** a generated practice item: numbers or a word, depending on the generator */
 export type Item=Record<string,number|string>;
 
-export interface PracticeSpec{gen:'add10'|'sub10'|'tens'|'groups'|'arrays'|'words';levels:Record<string,unknown>[]}
+export interface PracticeSpec{gen:'add10'|'sub10'|'tens'|'bonds'|'groups'|'arrays'|'words';levels:Record<string,unknown>[]}
 /** which of the activity's own steps make up "Learn it" and "Game"; question counts for the shared steps */
 export interface QuestSpec{learn:string[];game:string[];help?:number;own?:number;challenge?:number;boss?:number}
 
@@ -56,7 +56,7 @@ export interface QuestDef{
   boss:{name:string;art:string};
   map:{scene:string;path:number[][]};   // path: the 6 stones, Learn it first, as [x%,y%] of a portrait map
   needs:string[];
-  reward:[string,string];               // gear ids (src/art/rig.js GEAR): for beating the boss, then for winning the rematch
+  reward:string[];                      // gear ids (src/art/rig.js GEAR): for beating the boss, then for winning the rematch; empty for term units
   data:UnitApp;
   mod:ActivityModule;
 }

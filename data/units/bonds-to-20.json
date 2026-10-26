@@ -1,0 +1,205 @@
+{
+ "app": {
+  "id": "bonds20",
+  "module": "bonds",
+  "title": "Make 20",
+  "intro": {
+   "title": "Learn it: make 20 with two frames!",
+   "say": "Let’s make twenty with two ten-frames. A full ten, and some more. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read",
+    "back"
+   ],
+   "game": [
+    "fill",
+    "frog"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "bonds",
+   "levels": [
+    {
+     "add": {
+      "a": [
+       10,
+       10
+      ],
+      "b": [
+       1,
+       9
+      ]
+     },
+     "bond": {
+      "t": 20,
+      "a": [
+       11,
+       19
+      ]
+     }
+    },
+    {
+     "bond": {
+      "t": 20,
+      "a": [
+       11,
+       19
+      ]
+     },
+     "take": {
+      "a": [
+       11,
+       19
+      ],
+      "b": [
+       1,
+       9
+      ]
+     }
+    },
+    {
+     "bond": {
+      "t": 20,
+      "a": [
+       10,
+       19
+      ]
+     },
+     "add": {
+      "a": [
+       5,
+       9
+      ],
+      "b": [
+       5,
+       9
+      ]
+     },
+     "take": {
+      "a": [
+       11,
+       18
+      ],
+      "b": [
+       3,
+       9
+      ]
+     }
+    }
+   ]
+  },
+  "read": {
+   "cards": [
+    {
+     "op": "add",
+     "a": 10,
+     "b": 6,
+     "help": 1
+    },
+    {
+     "op": "bond",
+     "a": 14,
+     "b": 6,
+     "help": 2
+    },
+    {
+     "op": "add",
+     "a": 8,
+     "b": 5,
+     "help": 1
+    },
+    {
+     "op": "add",
+     "a": 6,
+     "b": 7,
+     "help": 2
+    },
+    {
+     "op": "take",
+     "a": 15,
+     "b": 7,
+     "help": 1
+    }
+   ]
+  },
+  "take": {
+   "rounds": [
+    [
+     13,
+     5
+    ],
+    [
+     16,
+     8
+    ]
+   ]
+  },
+  "fill": {
+   "t": 20,
+   "rounds": [
+    14,
+    16,
+    12,
+    18,
+    11
+   ]
+  },
+  "frog": {
+   "rounds": [
+    [
+     13,
+     5
+    ],
+    [
+     15,
+     7
+    ],
+    [
+     12,
+     4
+    ],
+    [
+     17,
+     9
+    ]
+   ]
+  },
+  "stories": {
+   "names": [
+    "Ava",
+    "Leo",
+    "Mia",
+    "Kai",
+    "Zoe",
+    "Sam",
+    "Ivy",
+    "Noah",
+    "Ruby",
+    "Ben"
+   ],
+   "bond": [
+    "The castle needs {t} flags. {a} flags are up. How many more?",
+    "{name} has {a} shields. How many more make {t}?",
+    "There are {t} seats at the feast. {a} knights sit down. How many seats are empty?",
+    "{name} needs {t} stones for the wall. {name} has {a}. How many more?"
+   ],
+   "add": [
+    "{a} knights ride in. {b} more join them. How many knights?",
+    "{name} picks {a} roses in the royal garden, then {b} more. How many roses?",
+    "The cook bakes {a} pies, then {b} more. How many pies?",
+    "{name} has {a} ribbons. The queen gives {name} {b} more. How many ribbons?"
+   ],
+   "take": [
+    "{a} guards stand on the wall. {b} go home. How many guards are left?",
+    "{name} has {a} gold coins. {name} spends {b} at the fair. How many coins are left?",
+    "There are {a} lanterns. {b} go out. How many are still lit?",
+    "{name} has {a} apples for the horses. The horses eat {b}. How many apples are left?"
+   ]
+  }
+ }
+}
