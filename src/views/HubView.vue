@@ -22,8 +22,8 @@ type QS='lock'|'secure'|'beaten'|'going'|'new';
 const stateOf=(q:QuestDef):QS=>!L.questOpen(p.value,q.needs,P.st.unlockAll)?'lock':L.statusOf(p.value,q.id)==='secure'?'secure'
   :L.stepDone(p.value,q.id,'boss')?'beaten':L.stepsDone(p.value,q.id)?'going':'new';
 const LABEL:Record<QS,string>={lock:'Locked',secure:'Secure',beaten:'Boss beaten!',going:'Keep going',new:'New quest'};
-const mine=computed(()=>QUESTS.filter(q=>q.subject===subj.value));
-const keep=computed(()=>QUESTS.find(q=>stateOf(q)==='going')??mine.value.find(q=>stateOf(q)==='new'));
+const mine=computed(()=>QUESTS.filter(q=>q.subject===subj.value&&!q.term));
+const keep=computed(()=>QUESTS.find(q=>!q.term&&stateOf(q)==='going')??mine.value.find(q=>stateOf(q)==='new'));
 const rematch=computed(()=>QUESTS.find(q=>L.rematchDue(p.value,q.id)));
 const needName=(q:QuestDef)=>QUESTS.find(x=>x.id===q.needs[0])?.name??'another quest';
 say(keep.value?SAY.keepGoing(keep.value.name):'Pick a quest.');

@@ -56,6 +56,7 @@ export interface QuestDef{
   boss:{name:string;art:string};
   map:{scene:string;path:number[][]};   // path: the 6 stones, Learn it first, as [x%,y%] of a portrait map
   needs:string[];
+  term?:boolean;                        // played through the term map only, so More quests leaves it out
   reward:string[];                      // gear ids (src/art/rig.js GEAR): for beating the boss, then for winning the rematch; empty for term units
   data:UnitApp;
   mod:ActivityModule;

@@ -83,6 +83,17 @@ saved in the profile's `kit` (a slot left out = the starter's piece, `null` = no
 Every piece also has a picture on its own (`gear-<id>.svg`, `outfit-<id>.svg`), cropped by `GEAR[id].vb`. The contact
 sheet shows the boss gear on every base hero, to check it sits on each hair style.
 
+## Reward items: the term wardrobe
+
+215 wearable items (`src/art/items/*.js`, gathered by `src/art/wear.js`) on twelve slots: head, face, neck, badge, body,
+back, hand, shield, gloves, feet, pet and place. They follow the same rig anchors as the gear above, plus: face paint and
+glasses around the eyes (86, 80) / (114, 80) and cheeks (74, 94) / (126, 94) (face `under` is drawn before the eyes, for
+masks); neck at the collar (y 112–124); a badge on the chest at (84, 136), r ≤ 10; gloves replace both hands; feet
+replace both boots; a pet stands beside the hero in x 162–238, y 120–198; a place fills x −40…240, y −10…202, pale,
+with the middle left open. The child loves the knight and castle world, so most items fit it. Items are drawn at runtime
+(`itemSvg`, `heroFullSvg`), not as files. New items: draw them in the same style and show Jim a catalogue image first
+(`docs/rewards-catalogue.png`, numbered in unlock order).
+
 ## Bosses: cheeky and a bit fierce, not cute
 
 The child has to feel the boss is worth beating, but a 5-year-old must never be scared.

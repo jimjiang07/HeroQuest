@@ -94,7 +94,7 @@ test('grown-ups: press and hold opens the dialog; skills, feedback and heroes wo
   const gear=page.getByRole('button',{name:/grown-ups/i});
   await gear.dispatchEvent('pointerdown');await page.waitForTimeout(1200);await gear.dispatchEvent('pointerup');
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.locator('.srow')).toHaveCount(12);
+  await expect(page.locator('.srow')).toHaveCount(16);
   await page.locator('.srow').first().getByRole('button',{name:'Treat as secure'}).click();
   await expect(page.locator('.srow').first().locator('.schip')).toHaveText(/Secure/);
   await page.getByRole('tab',{name:'How did it go?'}).click();
