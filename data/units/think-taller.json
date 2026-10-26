@@ -1,0 +1,292 @@
+{
+ "app": {
+  "id": "think-taller",
+  "module": "think",
+  "title": "Taller or Shorter",
+  "intro": {
+   "title": "Thinking game: taller or shorter!",
+   "say": "Listen to the clues. Who is taller? Who is shorter? Put them in order in your head, then pick. Tap Start."
+  },
+  "quest": {
+   "learn": [],
+   "game": [
+    "taller"
+   ]
+  },
+  "practice": {
+   "gen": "add10",
+   "levels": [
+    {
+     "a": [
+      2,
+      9
+     ],
+     "b": [
+      2,
+      9
+     ]
+    }
+   ]
+  },
+  "taller": {
+   "rounds": [
+    {
+     "things": [
+      [
+       "knight-pony",
+       "pony"
+      ],
+      [
+       "castle-cat",
+       "cat"
+      ]
+     ],
+     "facts": [
+      [
+       0,
+       1
+      ]
+     ],
+     "word": "taller",
+     "ask": "least"
+    },
+    {
+     "things": [
+      [
+       "hero-wizard",
+       "wizard"
+      ],
+      [
+       "hero-knight",
+       "knight"
+      ]
+     ],
+     "facts": [
+      [
+       0,
+       1
+      ]
+     ],
+     "word": "taller",
+     "ask": "most"
+    },
+    {
+     "things": [
+      [
+       "hero-ranger",
+       "ranger"
+      ],
+      [
+       "hero-builder",
+       "builder"
+      ]
+     ],
+     "facts": [
+      [
+       1,
+       0
+      ]
+     ],
+     "word": "taller",
+     "ask": "most"
+    },
+    {
+     "things": [
+      [
+       "knight-pony",
+       "pony"
+      ],
+      [
+       "castle-cat",
+       "cat"
+      ],
+      [
+       "mouse",
+       "mouse"
+      ]
+     ],
+     "facts": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "word": "taller",
+     "ask": "least"
+    },
+    {
+     "things": [
+      [
+       "baby-dragon",
+       "dragon"
+      ],
+      [
+       "puppy",
+       "puppy"
+      ],
+      [
+       "chick",
+       "chick"
+      ]
+     ],
+     "facts": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "word": "bigger",
+     "ask": "most"
+    },
+    {
+     "things": [
+      [
+       "hero-explorer",
+       "explorer"
+      ],
+      [
+       "hero-knight",
+       "knight"
+      ],
+      [
+       "hero-wizard",
+       "wizard"
+      ]
+     ],
+     "facts": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "word": "taller",
+     "ask": "least"
+    },
+    {
+     "things": [
+      [
+       "hero-builder",
+       "builder"
+      ],
+      [
+       "hero-astronaut",
+       "astronaut"
+      ],
+      [
+       "hero-ranger",
+       "ranger"
+      ]
+     ],
+     "facts": [
+      [
+       1,
+       2
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     "word": "taller",
+     "ask": "most"
+    },
+    {
+     "things": [
+      [
+       "lamb",
+       "lamb"
+      ],
+      [
+       "hedgehog",
+       "hedgehog"
+      ],
+      [
+       "ladybird",
+       "ladybird"
+      ]
+     ],
+     "facts": [
+      [
+       2,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     "word": "bigger",
+     "ask": "most"
+    },
+    {
+     "things": [
+      [
+       "hero-wizard",
+       "wizard"
+      ],
+      [
+       "hero-ranger",
+       "ranger"
+      ],
+      [
+       "hero-explorer",
+       "explorer"
+      ]
+     ],
+     "facts": [
+      [
+       0,
+       1
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     "word": "taller",
+     "ask": "least"
+    },
+    {
+     "things": [
+      [
+       "hero-knight",
+       "knight"
+      ],
+      [
+       "hero-builder",
+       "builder"
+      ],
+      [
+       "hero-astronaut",
+       "astronaut"
+      ]
+     ],
+     "facts": [
+      [
+       1,
+       2
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     "word": "taller",
+     "ask": "mid"
+    }
+   ]
+  }
+ }
+}

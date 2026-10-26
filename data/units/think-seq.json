@@ -1,0 +1,77 @@
+{
+ "app": {
+  "id": "think-seq",
+  "module": "think",
+  "title": "Number Steps",
+  "intro": {
+   "title": "Thinking game: number steps!",
+   "say": "Numbers can step along in a pattern. Find the step, then type the next number. Tap Start."
+  },
+  "quest": {
+   "learn": [],
+   "game": [
+    "seq"
+   ]
+  },
+  "practice": {
+   "gen": "add10",
+   "levels": [
+    {
+     "a": [
+      2,
+      9
+     ],
+     "b": [
+      2,
+      9
+     ]
+    }
+   ]
+  },
+  "seq": {
+   "rounds": [
+    {
+     "start": 1,
+     "step": 1
+    },
+    {
+     "start": 5,
+     "step": 1
+    },
+    {
+     "start": 10,
+     "step": -1
+    },
+    {
+     "start": 2,
+     "step": 2
+    },
+    {
+     "start": 10,
+     "step": 10
+    },
+    {
+     "start": 5,
+     "step": 5
+    },
+    {
+     "start": 20,
+     "step": -2
+    },
+    {
+     "start": 50,
+     "step": -10
+    },
+    {
+     "start": 3,
+     "step": 3
+    },
+    {
+     "start": 4,
+     "step": 3,
+     "gap": 2
+    }
+   ]
+  }
+ }
+}

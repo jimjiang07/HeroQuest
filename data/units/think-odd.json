@@ -1,0 +1,140 @@
+{
+ "app": {
+  "id": "think-odd",
+  "module": "think",
+  "title": "Odd One Out",
+  "intro": {
+   "title": "Thinking game: odd one out!",
+   "say": "Three of the pictures go together. One does not belong. Find the odd one out, and hear why. Tap Start."
+  },
+  "quest": {
+   "learn": [],
+   "game": [
+    "odd"
+   ]
+  },
+  "practice": {
+   "gen": "add10",
+   "levels": [
+    {
+     "a": [
+      2,
+      9
+     ],
+     "b": [
+      2,
+      9
+     ]
+    }
+   ]
+  },
+  "odd": {
+   "names": {},
+   "rounds": [
+    {
+     "pics": [
+      "circle-red",
+      "circle-red",
+      "circle-blue",
+      "circle-red"
+     ],
+     "odd": 2,
+     "why": "The blue circle is a different colour. The others are red.",
+     "look": "Look at the colours."
+    },
+    {
+     "pics": [
+      "square-yellow",
+      "triangle-yellow",
+      "square-yellow",
+      "square-yellow"
+     ],
+     "odd": 1,
+     "why": "The triangle is a different shape. The others are squares.",
+     "look": "Look at the shapes."
+    },
+    {
+     "pics": [
+      "wooden-shield",
+      "kite-shield",
+      "paper-crown",
+      "buckler"
+     ],
+     "odd": 2,
+     "why": "The crown is not a shield. You wear it on your head.",
+     "look": "Which ones are the same kind of thing?"
+    },
+    {
+     "pics": [
+      "castle-cat",
+      "puppy",
+      "bunny",
+      "teddy"
+     ],
+     "odd": 3,
+     "why": "The teddy is a toy. The others are real animals."
+    },
+    {
+     "pics": [
+      "wooden-sword",
+      "broom",
+      "crystal-sword",
+      "foam-sword"
+     ],
+     "odd": 1,
+     "why": "The broom is for sweeping. The others are swords."
+    },
+    {
+     "pics": [
+      "dove",
+      "owlet",
+      "snail",
+      "butterfly"
+     ],
+     "odd": 2,
+     "why": "The snail can’t fly. The others can."
+    },
+    {
+     "pics": [
+      "circle-blue",
+      "square-blue",
+      "triangle-blue",
+      "circle-red"
+     ],
+     "odd": 3,
+     "why": "The red circle is the odd one. The other three are all blue."
+    },
+    {
+     "pics": [
+      "hen",
+      "piglet",
+      "chick",
+      "duckling"
+     ],
+     "odd": 1,
+     "why": "The piglet is not a bird. The others are birds."
+    },
+    {
+     "pics": [
+      "triangle-red",
+      "triangle-blue",
+      "square-yellow",
+      "triangle-green"
+     ],
+     "odd": 2,
+     "why": "The square has four sides. The others are triangles with three sides."
+    },
+    {
+     "pics": [
+      "lute",
+      "hand-bell",
+      "herald-horn",
+      "watering-can"
+     ],
+     "odd": 3,
+     "why": "The watering can is for plants. The others make music."
+    }
+   ]
+  }
+ }
+}
