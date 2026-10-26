@@ -119,3 +119,13 @@ test('an old save keeps its stars as the first hero',async({page})=>{
   expect(st.profiles[st.active].quests.jt10.done).toEqual(['learn','help','own','game']);
   await expect(page.locator('.qcard[data-q="jt10"] .qp.ok')).toHaveCount(4);
 });
+
+/* short screens (phone sideways, browser bars showing): the quest list and term screens still fit with nothing cut off */
+for(const [w,h] of [[844,390],[390,600],[1180,740]])test(`More quests, the term map and a stone fit at ${w}×${h}`,async({page})=>{
+  await page.setViewportSize({width:w,height:h});
+  await seed(page,hero({unlockAll:false}));
+  await page.goto('./#/hub');
+  for(const tab of ['Maths','English']){await page.getByRole('tab',{name:tab}).click();await expect(page.locator('.qcard').first()).toBeVisible();await fits(page,`hub ${tab} ${w}×${h}`)}
+  await page.goto('./#/term');await expect(page.locator('.tmap')).toBeVisible();await fits(page,`term ${w}×${h}`);
+  await page.goto('./#/session/1');await page.waitForTimeout(400);await fits(page,`stone 1 ${w}×${h}`);
+});
