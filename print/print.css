@@ -370,3 +370,125 @@ h1{font-family:var(--disp);font-weight:400;font-size:11.5mm;margin:.6mm 0 0;line
 .hrows.many .hw .tr{height:12.4mm;font-size:10mm;line-height:11.2mm}
 .hrows.many .hw .l1{top:1.6mm}.hrows.many .hw .l2{top:5.4mm}.hrows.many .hw .l3{top:9.2mm}
 .hrows.many .hword{font-size:7mm;width:30mm;padding:.4mm 0}
+
+/* ============ Term 4 sheets: stone maths/English (front + back), term map, stickers ============ */
+.hd.sm{height:19mm;padding:1.5mm 4mm}
+.hd.sm .qbadge{width:14mm;height:14mm}
+.hd.sm h1{font-size:8mm}
+.hd.sm .heroname{margin-top:1mm}
+.hd.sm .hd-art{width:15mm;height:17mm}
+.tsheet .qbadge b{font-family:var(--disp);font-weight:400;font-size:8mm;margin-top:.4mm}
+.tsheet .hd.sm .qbadge b{font-size:6mm}
+.tsheet .kicker{font-size:3.4mm}
+.tsheet .ft{font-size:3.6mm}
+.no{flex:none}
+
+/* maths front: worked cards to read aloud, warm-up */
+.topic{font-size:4mm;font-weight:600;color:#4a4f70;margin:-1.5mm 0 2mm}
+.learn{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:3mm}
+.card.lc{background:var(--gold-soft);border-color:var(--c);border-width:2.5px;gap:2mm;min-height:0}
+.card.lc.sy{background:#fff;border-style:dashed}
+.card.lc .gv{height:24mm}
+.card.lc .eq.q{font-size:8mm}
+.rd{font-family:var(--read);font-weight:700;font-size:4.6mm;text-align:center;line-height:1.2;padding:0 2mm}
+.box.say{width:12mm;border-color:var(--c)}
+.box.say svg{width:7mm;height:6mm;fill:#fff;stroke:var(--c);stroke-width:2;stroke-linejoin:round}
+.sec.warmbox{flex:none}
+.warm2{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3mm}
+.wi2{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1.6mm;background:var(--c-soft);border-radius:3mm;padding:2mm 1mm;min-width:0}
+.wi2 .gv{height:15mm;max-width:100%}.wi2 .gv svg{height:100%;width:auto;max-width:100%}
+.wi2 .eq{font-size:5.2mm;gap:1.2mm}
+.wi2 .box{width:10mm;height:8.6mm;font-size:5mm}
+.seq{display:inline-flex;align-items:center;gap:1mm}
+.seq b{font-weight:600;margin-left:-.6mm}
+
+/* maths back: 20 cards in 4 columns, help fading down the page */
+.train.tp{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));gap:2.4mm}
+.train.tp .card{min-width:0;min-height:0;gap:1.4mm;padding:1.6mm 1mm;background:#fff}
+.train.tp .card.lab{background:repeating-linear-gradient(135deg,#fff 0 3mm,var(--c-soft) 3mm 3.6mm)}
+.train.tp .gv{height:17mm;max-width:94%;margin-top:3mm}
+.train.tp .eq.q{font-size:5.6mm;gap:1.3mm}
+.train.tp .eq.q .box{width:9.6mm;height:8.6mm;font-size:5mm}
+.train.tp .seq{font-size:5mm}
+.endrow{flex:none;display:flex;gap:4mm;height:56mm}
+.sec.bossq{flex:1;min-width:0;display:flex;flex-direction:column;gap:1.4mm;padding-top:6.5mm;background:var(--c-soft)}
+.bl{font-size:3.4mm;font-weight:600;color:#4a4f70}
+.bq{flex:1;min-height:0;display:flex;align-items:center;gap:2.4mm;background:#fff;border-radius:2.4mm;padding:0 2mm}
+.bq .no,.pg2 .no,.tc .no,.hqq .no{width:5.5mm;height:5.5mm;border-radius:50%;background:var(--c-mid);font-size:3.2mm;font-weight:700;display:flex;align-items:center;justify-content:center}
+.bqt{flex:1;min-width:0;font-size:3.9mm;font-weight:600;line-height:1.15}
+.bq .box{width:11mm;height:7.4mm;font-size:4.6mm}
+.sec.stonep{flex:none;width:58mm;display:flex;flex-direction:column;justify-content:space-around;gap:2mm;padding:6.5mm 3mm 2.5mm}
+.sp{display:flex;align-items:center;gap:2.4mm;font-size:3.6mm;font-weight:600;line-height:1.2}
+.stn.big{flex:none;width:19mm;height:16mm}
+.chs{flex:none;width:19mm;height:16mm}
+
+/* English front: the story, words to know, heart words */
+.sample{flex:none;margin-top:-2mm;text-align:center;font-size:3.6mm;font-weight:700;color:#d6402b;border:2px dashed #d6402b;border-radius:2.4mm;padding:1mm}
+.story{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:3mm}
+.pg2{position:relative;min-height:0;display:flex;flex-direction:column;align-items:center;gap:2mm;border:2px solid var(--ink);border-radius:3.5mm;padding:2.5mm 3mm;background:#fff}
+.pg2:nth-child(4n+1),.pg2:nth-child(4n+4){background:var(--c-soft)}
+.pg2 .no{position:absolute;top:1.6mm;left:2mm}
+.pp{display:flex;align-items:center;justify-content:center;min-height:0}
+.pp svg,.pp img{height:100%;width:auto;max-width:100%}
+.pg2 .pp{flex:1;width:100%}
+.ptx{flex:none;font-family:var(--read);font-weight:700;font-size:7mm;line-height:1.3;text-align:center}
+.story.many .ptx{font-size:5.6mm}
+.wrow{flex:none;display:flex;gap:4mm}
+.sec.wordsec{flex:1;min-width:0}
+.wcards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2.4mm}
+.wc{display:flex;flex-direction:column;align-items:center;gap:1mm;background:var(--c-soft);border-radius:3mm;padding:1.6mm 1mm}
+.wc .pp{height:20mm}
+.wc b{font-family:var(--read);font-size:6.4mm;line-height:1.1}
+.sec.heartsec{flex:none;width:50mm}
+.hchips{display:flex;flex-wrap:wrap;gap:2.4mm;align-content:center;height:100%}
+.hchip{display:inline-flex;align-items:center;gap:1.6mm;font-family:var(--read);font-weight:700;font-size:6.4mm;border:2px solid var(--ink);border-radius:8mm;padding:.4mm 3.6mm .4mm 1.8mm;background:#fff;line-height:1.1}
+.hrt{width:5mm;height:4.6mm;fill:#ff6b6b;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+
+/* English back: trace and copy, missing letter, match, how do you know, draw it */
+.eback{gap:4.4mm}
+.trc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6mm 5mm}
+.tc{display:flex;align-items:center;gap:2mm;min-width:0}
+.twd{flex:none;width:21mm;text-align:center;font-family:var(--read);font-weight:700;font-size:6.2mm;background:var(--c-soft);border:2px solid var(--ink);border-radius:2.4mm;padding:.4mm 0}
+.tc .hw{height:13.6mm}
+.tc .hw .tr{height:13.6mm;font-size:11mm;line-height:12.4mm}
+.tc .hw .l1{top:1.6mm}.tc .hw .l2{top:5.8mm}.tc .hw .l3{top:10mm}
+.train.mis{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,29mm);gap:2.4mm}
+.train.mis .card{min-width:0;min-height:0;gap:1.2mm;padding:1.4mm 1mm;background:#fff}
+.train.mis .card.lab{background:repeating-linear-gradient(135deg,#fff 0 3mm,var(--c-soft) 3mm 3.6mm)}
+.mis .pp{height:14mm}
+.mis .tiles{--tw:7.4mm}
+.mt{display:flex;flex-direction:column;gap:7mm;padding:0 2mm}
+.mrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4mm;justify-items:center}
+.mw{position:relative;font-family:var(--read);font-weight:700;font-size:6.6mm;border:2px solid var(--ink);border-radius:2.4mm;padding:.2mm 4mm;background:var(--c-soft)}
+.mw i,.mp i{position:absolute;left:50%;width:3mm;height:3mm;margin-left:-1.5mm;border-radius:50%;background:var(--ink)}
+.mw i{bottom:-4.6mm}
+.mp{position:relative;display:flex;justify-content:center;width:100%}
+.mp i{top:-4.6mm}
+.mp .pp{height:16mm}
+.endrow.e{flex:1;min-height:0;height:auto}
+.sec.hk{flex:1.25;min-width:0;display:flex;flex-direction:column;justify-content:space-around;gap:1mm;padding-top:6.5mm}
+.hq{display:flex;flex-direction:column;gap:.6mm}
+.hqq{display:flex;align-items:center;gap:2mm;font-family:var(--read);font-weight:700;font-size:5mm}
+.clue{font-size:3.5mm;font-weight:600;color:#4a4f70;padding-left:7.5mm}
+.hq .hw{flex:none;height:13mm;margin-left:7.5mm}
+.sec.dr{flex:1;min-width:0;display:flex;flex-direction:column;gap:2mm;padding-top:6.5mm}
+.sec.dr .dbt{font-size:5mm}
+
+/* term map */
+.howto{flex:none;font-size:4.6mm;font-weight:600;text-align:center;background:var(--gold-soft);border:2px solid var(--ink);border-radius:3mm;padding:1.6mm 3mm}
+.mapwrap{flex:1;min-height:0;display:flex;justify-content:center}
+.tmap{height:100%;width:auto;max-width:100%}
+.sec.chests{flex:none}
+.tchs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2.4mm}
+.tch{display:flex;flex-direction:column;align-items:center;gap:1mm;background:var(--c-soft);border-radius:3mm;padding:1.6mm 1mm;text-align:center;font-size:3.4mm;line-height:1.15;min-width:0}
+.tch svg{width:13mm;height:11mm}
+.tch b{display:block;font-size:3.6mm}
+.tch small{color:#4a4f70;font-weight:600}
+.tch .tickbox{width:7mm;height:7mm}
+
+/* stickers: round, picture and name, 5 × 6 */
+.stgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(6,minmax(0,1fr));gap:2mm;justify-items:center;align-items:center}
+.stc{width:36mm;height:36mm;border-radius:50%;border:2.4px solid var(--ink);outline:.5mm dashed #9aa0b8;outline-offset:1.2mm;background:var(--c-soft);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6mm;padding:3mm;overflow:hidden}
+.stc .pp{height:20mm;width:26mm}
+.stc b{font-size:3mm;line-height:1.1;text-align:center;max-width:28mm}

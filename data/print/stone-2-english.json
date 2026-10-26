@@ -1,0 +1,20 @@
+{
+ "note": "Stone 2 English sheet, double-sided. See stone-1-english.json: \"sample\" prints only until the read unit exists.",
+ "stone": 2,
+ "cls": "q2",
+ "sample": {
+  "id": "read2", "title": "The fox and the box",
+  "pages": [
+   {"text": "A fox got a big red box.", "pic": "mini-chest"},
+   {"text": "Is a bug in the box? No.", "pic": "ladybird"},
+   {"text": "Is a pig in the box? No!", "pic": "piglet"},
+   {"text": "The fox got in the box. It is his bed.", "pic": "star-fox"}
+  ],
+  "words": [{"w": "fox", "pic": "star-fox"}, {"w": "box", "pic": "mini-chest"}, {"w": "bug", "pic": "ladybird"}, {"w": "pig", "pic": "piglet"}],
+  "heart": ["a", "no", "his"],
+  "questions": [
+   {"q": "Who got in the box?", "answer": "fox", "clue": "The fox got in the box."},
+   {"q": "What is the box for?", "answer": "bed", "clue": "It is his bed."}
+  ]
+ }
+}

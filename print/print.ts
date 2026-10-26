@@ -1,9 +1,10 @@
-/* Paper quest worksheets: one A4 sheet per quest (print/index.html#<quest id>). Writing practice only; learning happens
+/* Paper quest worksheets: one A4 sheet per quest (print/index.html#<quest id>), plus the Term 4 sheets (term.ts). Writing practice only; learning happens
    in the app. Reads data/quests.json and each quest's data/print/<unit>.json, else its unit "print" block. Pictures are SVG strings in the worksheet style. */
 import '../src/fonts';
 import './print.css';
 import questsFile from '../data/quests.json';
 import {EMO} from '../src/shared';
+import {TERM_SHEETS} from './term';
 
 type Mode='A'|'T'|'B'|'C'|'D';
 interface PrintBlock{kind:string;cls?:string;title?:string;practice?:unknown[];explain?:string;[k:string]:unknown}
@@ -211,15 +212,18 @@ function sheet(q:(typeof QUESTS)[number]){
 }
 
 /* ================= page ================= */
+// the picker: quests first, then the Term 4 stone sheets, the map and the stickers
+const SHEETS=[...QUESTS.map(q=>({id:q.id,name:q.name,group:'Quests',render:()=>sheet(q)})),...TERM_SHEETS.map(t=>({...t,group:'Term 4'}))];
 const $=(s:string)=>document.querySelector(s) as HTMLElement;
-$('#bar').innerHTML=`<label for="qsel">Quest:</label><select id="qsel">${QUESTS.map(q=>`<option value="${q.id}">${q.name}</option>`).join('')}</select>
-  <button class="go" id="printbtn">🖨 Print</button>
-  <small>One quest = one A4 sheet. Print settings: A4, scale 100%, background graphics on, margins none.</small>`;
+const opts=(g:string)=>`<optgroup label="${g}">${SHEETS.filter(x=>x.group===g).map(x=>`<option value="${x.id}">${x.name}</option>`).join('')}</optgroup>`;
+$('#bar').innerHTML=`<label for="qsel">Sheet:</label><select id="qsel">${opts('Quests')}${opts('Term 4')}</select>
+  <button class="go" id="printbtn">Print</button>
+  <small>Quest sheets are one A4 page. Stone sheets are two pages: print double-sided (flip on the long edge). Print settings: A4, scale 100%, background graphics on, margins none.</small>`;
 function render(){
-  const id=location.hash.slice(1),q=QUESTS.find(x=>x.id===id)??QUESTS[0];
-  $('#sheets').innerHTML=sheet(q);
-  document.title=`Hero Quest · ${q.name} · Paper quest`;
-  ($('#qsel') as HTMLSelectElement).value=q.id;
+  const id=location.hash.slice(1),x=SHEETS.find(s=>s.id===id)??SHEETS[0];
+  $('#sheets').innerHTML=x.render();
+  document.title=`Hero Quest · ${x.name} · Paper quest`;
+  ($('#qsel') as HTMLSelectElement).value=x.id;
 }
 $('#qsel').onchange=e=>{location.hash=(e.target as HTMLSelectElement).value};
 $('#printbtn').onclick=()=>window.print();
