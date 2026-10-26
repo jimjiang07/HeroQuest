@@ -18,7 +18,9 @@ export type Kit=Partial<Record<'head'|'face'|'neck'|'badge'|'outfit'|'back'|'mai
 /** one term session (a stone): the steps finished, and whether it earned a thinker badge (kept trying, or a boss bonus) */
 export interface Session{done:string[];thinker?:boolean}
 export interface Profile{avatar:string;world:string;created:string;quests:Record<string,{done:QuestStep[]}>;skills:Record<string,Skill>;feedback:Feedback[];kit?:Kit;
-  term?:Record<string,Session>;seen?:number}
+  term?:Record<string,Session>;seen?:number;
+  /** play area: where the hero ('hero') and each pet (item id) stand, in % of the place */
+  pose?:Record<string,{x:number;y:number}>}
 /** a grown-up's change to what a stone holds (unit ids); applies to every hero on this device */
 export interface StonePlan{warmup?:string;maths?:string;english?:string;think?:string}
 export interface State{

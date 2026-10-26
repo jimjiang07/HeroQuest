@@ -19,5 +19,15 @@ export const GEAR_SAY={
   won:(gear:string)=>`New gear: ${gear}!`,
   locked:(boss:string)=>`Beat ${boss} to win this.`,
   lockedAgain:(boss:string)=>`Beat ${boss} again in a rematch to win this.`,
-  on:(gear:string)=>`You put on the ${gear}.`
+  on:(gear:string)=>`You put on the ${gear}.`,
+  pet:(pet:string)=>`The ${pet} comes along.`,
+  place:(place:string)=>`Off to the ${place}!`,
+  off:'Nothing there now.',
+  later:'Keep playing to win this one.',
+  hello:'Dress your hero! Tap a picture to try it on.',
+  play:'Drag your hero and pets around. Tap one to make it hop.',
+  // what Natasha says when a wardrobe tab is picked
+  slot:{head:'Pick a hat.',face:'Pick something for your face.',neck:'Pick something for your neck.',badge:'Pick a badge.',
+    outfit:'Pick an outfit.',back:'Pick something for your back.',main:'Pick something for your hand.',off:'Pick something for your other hand.',
+    gloves:'Pick some gloves.',feet:'Pick something for your feet.',pet:'Pick a pet.',bg:'Pick a place.'} as Record<string,string>
 };
