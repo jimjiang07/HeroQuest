@@ -231,7 +231,8 @@ main.screen{flex:1;min-height:0;display:flex;flex-direction:column;align-items:c
 .arr .dot{width:var(--ad);height:var(--ad)}
 .mem.m6{grid-template-columns:repeat(6,minmax(0,1fr))}
 @media (max-width:560px){.mem.m6{grid-template-columns:repeat(4,minmax(0,1fr))}}
-img.boss{width:clamp(80px,min(calc(24*var(--v)),16vh),200px);height:auto;transition:transform .4s,filter .4s}
+img.boss{width:clamp(80px,min(calc(24*var(--v)),16vh),200px);height:auto;min-height:0;flex-shrink:1;object-fit:contain;transition:transform .4s,filter .4s}
+/* the boss gives way first when a question runs tall (fonts differ a little between devices) */
 img.boss.hit{animation:shake .4s}
 img.boss.down{transform:rotate(-12deg) scale(.85);filter:grayscale(.8)}
 .bonus{display:flex;flex-direction:column;align-items:center;gap:14px;border:4px solid var(--gold);border-radius:24px;background:var(--card);padding:16px clamp(12px,calc(3*var(--v)),24px);transition:background .25s}
