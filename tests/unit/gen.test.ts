@@ -63,3 +63,30 @@ describe('tens generator',()=>{
     expect(EVERY.tens({t:[1,2],o:[0,9]})).toHaveLength(20);
   });
 });
+
+describe('bonds generator',()=>{
+  type B={op:string;a:number;b:number};
+  it('makes ten with a bond, and takes away within ten',()=>{
+    const r=rng(9),ops=new Set<string>();
+    for(let i=0;i<300;i++){const {op,a,b}=GEN.bonds({bond:{t:10,a:[1,9]},take:{a:[5,10],b:[1,4]}},r) as B;ops.add(op);
+      expect(a).toBeGreaterThan(0);expect(b).toBeGreaterThan(0);
+      if(op==='bond')expect(a+b).toBe(10);else{expect(op).toBe('take');expect(b).toBeLessThan(a);expect(a).toBeLessThanOrEqual(10);expect(b).toBeLessThanOrEqual(4)}}
+    expect([...ops].sort()).toEqual(['bond','take']);
+  });
+  it('bonds to 20 and sums stay within 20',()=>{
+    const r=rng(4);
+    for(let i=0;i<300;i++){const {op,a,b}=GEN.bonds({bond:{t:20,a:[10,19]},add:{a:[5,9],b:[5,9]},take:{a:[11,18],b:[3,9]}},r) as B;
+      if(op==='bond')expect(a+b).toBe(20);
+      if(op==='add')expect(a+b).toBeLessThanOrEqual(18);
+      if(op==='take'){expect(a-b).toBeGreaterThan(0);expect(a).toBeGreaterThan(10)}}
+  });
+  it('EVERY lists every bond, sum and take-away a level can make',()=>{
+    const p={bond:{t:10,a:[1,9]},take:{a:[5,6],b:[1,9]}},all=EVERY.bonds(p) as B[];
+    expect(all.filter(x=>x.op==='bond')).toHaveLength(9);
+    expect(all).toContainEqual({op:'bond',a:7,b:3});
+    expect(all.filter(x=>x.op==='take')).toHaveLength(4+5);
+    expect(all).not.toContainEqual({op:'take',a:5,b:5});
+    const r=rng(2),keys=all.map(x=>JSON.stringify(x));
+    for(let i=0;i<100;i++)expect(keys).toContain(JSON.stringify(GEN.bonds(p,r)));
+  });
+});

@@ -1,0 +1,149 @@
+{
+ "app": {
+  "id": "skip210",
+  "module": "groups",
+  "title": "Twos and Tens",
+  "picture": "hops",
+  "intro": {
+   "title": "Learn it: count by 2s and 10s!",
+   "say": "Let’s count by twos and tens. Every group has the same number, so we can jump along. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read"
+   ],
+   "game": [
+    "bags",
+    "hop"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "groups",
+   "levels": [
+    {
+     "g": [
+      2,
+      5
+     ],
+     "ns": [
+      2
+     ]
+    },
+    {
+     "g": [
+      2,
+      5
+     ],
+     "ns": [
+      10
+     ]
+    },
+    {
+     "g": [
+      2,
+      10
+     ],
+     "ns": [
+      2,
+      10
+     ]
+    }
+   ]
+  },
+  "read": {
+   "facts": [
+    [
+     3,
+     2
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     2,
+     10
+    ],
+    [
+     4,
+     10
+    ]
+   ]
+  },
+  "bags": {
+   "rounds": [
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     2,
+     10
+    ]
+   ]
+  },
+  "hop": {
+   "rounds": [
+    [
+     2,
+     5,
+     3
+    ],
+    [
+     10,
+     5,
+     2
+    ],
+    [
+     2,
+     6,
+     4
+    ],
+    [
+     10,
+     6,
+     1
+    ],
+    [
+     2,
+     5,
+     1
+    ],
+    [
+     10,
+     5,
+     4
+    ]
+   ]
+  },
+  "stories": {
+   "names": [
+    "Ava",
+    "Leo",
+    "Mia",
+    "Kai",
+    "Zoe",
+    "Sam",
+    "Ivy",
+    "Noah",
+    "Ruby",
+    "Ben"
+   ],
+   "templates": [
+    "{name} has {a} boxes. Each box has {b} tarts. How many tarts?",
+    "There are {a} towers. Each tower has {b} flags. How many flags?",
+    "There are {a} tables at the feast. Each table has {b} cups. How many cups?",
+    "{name} fills {a} baskets. Each basket has {b} apples. How many apples?",
+    "The queen has {a} chests. Each chest has {b} gold coins. How many coins?"
+   ]
+  }
+ }
+}

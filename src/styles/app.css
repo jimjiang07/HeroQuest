@@ -702,3 +702,12 @@ svg.tb{display:block;width:auto;max-width:100%;overflow:visible}
 @media (prefers-reduced-motion:reduce){.snslot.at,.lt.snt.hit{animation:none}}
 /* the boss shows no pictures: its bonus is hear and spell, which also fits two rows of tiles on a phone */
 .bonus .qpic:has(> .mepic){display:none}
+
+/* ---------- bonds (maths, term 4): helped pictures sit on a striped card, like the worksheets ---------- */
+.bd-help{display:flex;flex-direction:column;align-items:center;gap:4px;padding:clamp(6px,1.2vh,12px) clamp(10px,2vw,18px);border-radius:var(--rd-s);
+  background:repeating-linear-gradient(135deg,transparent 0 12px,color-mix(in srgb,var(--gold) 22%,transparent) 12px 20px)}
+.qpic .bd-help svg.bdf,.lcard .lpic .bd-help svg.bdf{width:min(380px,calc(70*var(--v)));height:auto}
+.qpic .bd-help svg.bdf[viewBox^="0 0 222"],.lcard .lpic .bd-help svg.bdf[viewBox^="0 0 222"]{width:min(560px,calc(88*var(--v)))}
+.stage:has(.pad,[data-pad]) .qpic .bd-help svg.bdf{max-height:15vh}
+.bd-r{color:var(--c)}.bd-help .split b{font-weight:400}
+.qpic .bd-ch svg.bdf{width:auto;max-width:100%;height:clamp(60px,9vh,140px)}

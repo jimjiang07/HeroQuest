@@ -1,0 +1,162 @@
+{
+ "app": {
+  "id": "skip5",
+  "module": "groups",
+  "title": "Count by 5s",
+  "picture": "hops",
+  "intro": {
+   "title": "Learn it: count by 5s!",
+   "say": "Let’s count by fives. Every group has five, so we jump along five at a time. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read"
+   ],
+   "game": [
+    "memory",
+    "hop"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "groups",
+   "levels": [
+    {
+     "g": [
+      2,
+      6
+     ],
+     "ns": [
+      5
+     ]
+    },
+    {
+     "g": [
+      2,
+      10
+     ],
+     "ns": [
+      5
+     ]
+    },
+    {
+     "g": [
+      2,
+      10
+     ],
+     "ns": [
+      2,
+      5,
+      10
+     ]
+    }
+   ]
+  },
+  "read": {
+   "facts": [
+    [
+     2,
+     5
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     3,
+     10
+    ]
+   ]
+  },
+  "memory": {
+   "facts": [
+    [
+     2,
+     5
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     3,
+     10
+    ],
+    [
+     6,
+     2
+    ]
+   ]
+  },
+  "hop": {
+   "rounds": [
+    [
+     5,
+     5,
+     2
+    ],
+    [
+     5,
+     6,
+     4
+    ],
+    [
+     5,
+     5,
+     4
+    ],
+    [
+     2,
+     6,
+     3
+    ],
+    [
+     10,
+     5,
+     3
+    ],
+    [
+     5,
+     6,
+     1
+    ]
+   ]
+  },
+  "stories": {
+   "names": [
+    "Ava",
+    "Leo",
+    "Mia",
+    "Kai",
+    "Zoe",
+    "Sam",
+    "Ivy",
+    "Noah",
+    "Ruby",
+    "Ben"
+   ],
+   "templates": [
+    "{name} has {a} boxes. Each box has {b} tarts. How many tarts?",
+    "There are {a} towers. Each tower has {b} flags. How many flags?",
+    "There are {a} tables at the feast. Each table has {b} cups. How many cups?",
+    "{name} fills {a} baskets. Each basket has {b} apples. How many apples?",
+    "The queen has {a} chests. Each chest has {b} gold coins. How many coins?"
+   ]
+  }
+ }
+}

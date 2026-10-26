@@ -1,0 +1,174 @@
+{
+ "app": {
+  "id": "bonds10",
+  "module": "bonds",
+  "title": "Make 10",
+  "intro": {
+   "title": "Learn it: make 10 on a ten-frame!",
+   "say": "Let’s make ten on a ten-frame. Two numbers fill the frame together. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read",
+    "cross"
+   ],
+   "game": [
+    "fill",
+    "memory"
+   ],
+   "help": 5,
+   "own": 8,
+   "challenge": 6,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "bonds",
+   "levels": [
+    {
+     "bond": {
+      "t": 10,
+      "a": [
+       5,
+       9
+      ]
+     }
+    },
+    {
+     "bond": {
+      "t": 10,
+      "a": [
+       1,
+       9
+      ]
+     },
+     "take": {
+      "a": [
+       5,
+       10
+      ],
+      "b": [
+       1,
+       4
+      ]
+     }
+    },
+    {
+     "bond": {
+      "t": 10,
+      "a": [
+       1,
+       9
+      ]
+     },
+     "take": {
+      "a": [
+       6,
+       10
+      ],
+      "b": [
+       2,
+       8
+      ]
+     }
+    }
+   ]
+  },
+  "read": {
+   "cards": [
+    {
+     "op": "bond",
+     "a": 7,
+     "b": 3,
+     "help": 1
+    },
+    {
+     "op": "bond",
+     "a": 6,
+     "b": 4,
+     "help": 2
+    },
+    {
+     "op": "bond",
+     "a": 8,
+     "b": 2,
+     "help": 3
+    },
+    {
+     "op": "bond",
+     "a": 5,
+     "b": 5,
+     "help": 3
+    }
+   ]
+  },
+  "cross": {
+   "rounds": [
+    [
+     8,
+     3
+    ],
+    [
+     10,
+     4
+    ],
+    [
+     7,
+     5
+    ]
+   ]
+  },
+  "fill": {
+   "t": 10,
+   "rounds": [
+    6,
+    3,
+    8,
+    5,
+    1
+   ]
+  },
+  "memory": {
+   "t": 10,
+   "values": [
+    1,
+    9,
+    2,
+    8,
+    3,
+    7,
+    4,
+    6,
+    5,
+    5
+   ]
+  },
+  "stories": {
+   "names": [
+    "Ava",
+    "Leo",
+    "Mia",
+    "Kai",
+    "Zoe",
+    "Sam",
+    "Ivy",
+    "Noah",
+    "Ruby",
+    "Ben"
+   ],
+   "bond": [
+    "{name} has {a} shields. How many more make {t}?",
+    "The castle has {t} flags. {a} flags are up. How many more go up?",
+    "{a} knights sit at the table. There are {t} chairs. How many chairs are empty?",
+    "The king wants {t} tarts. The cook has made {a}. How many more?",
+    "{name} needs {t} bricks for a tower. {name} has {a}. How many more?"
+   ],
+   "take": [
+    "{name} has {a} apples. A horse eats {b}. How many apples are left?",
+    "{a} knights stand on the wall. {b} go inside. How many are left?",
+    "{name} bakes {a} tarts. The dragon eats {b}. How many tarts are left?",
+    "There are {a} torches. {b} blow out. How many are still lit?",
+    "{name} has {a} gold coins. {name} gives {b} to the queen. How many coins are left?"
+   ]
+  }
+ }
+}
