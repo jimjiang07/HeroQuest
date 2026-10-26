@@ -112,9 +112,10 @@ test('grown-ups: press and hold opens the dialog; skills, feedback and heroes wo
 test('an old save keeps its stars as the first hero',async({page})=>{
   await seed(page,{acts:{jt10:{plays:1,done:[1,2]},blend:{plays:2,done:[]}},voice:true});
   await page.goto('./');
-  await expect(page).toHaveURL(/#\/hub$/);
+  await expect(page).toHaveURL(/#\/term$/);                  // one hero: home is the term map
   const st=await saved(page);
   expect(st.schema).toBe(3);
+  await page.goto('./#/hub');
   expect(st.profiles[st.active].quests.jt10.done).toEqual(['learn','help','own','game']);
   await expect(page.locator('.qcard[data-q="jt10"] .qp.ok')).toHaveCount(4);
 });

@@ -11,7 +11,7 @@ import QuestionCard from './QuestionCard.vue';
 import {SAY} from '@/voice/say';
 
 const props=defineProps<{quest:QuestDef;level:{help:number;diff:number};count:number;minHelp:number;maxHelp:number;seed:string}>();
-const emit=defineEmits<{record:[{help:number;diff:number;tries:number}];finish:[{help:number;diff:number}]}>();
+const emit=defineEmits<{record:[{help:number;diff:number;tries:number}];finish:[{help:number;diff:number}];thinker:[]}>();
 const run=useRun(),listening=run.listening;
 const P=props.quest.data.practice,r=rng(props.seed);
 
@@ -32,6 +32,7 @@ async function pick(v:string,el:HTMLElement){
     return;
   }
   picked.value=v;sfx.ding();msg.value=q.value.after??'Yes!';say(SAY.yes(q.value.after??''));
+  if(tries.value>1&&!worked.value)emit('thinker');   // kept trying after a "Try again" (not just tapping the glowing answer)
   const t=worked.value?Math.max(tries.value,A.RULES.workedAfter):tries.value;
   emit('record',{help:s.help,diff:s.diff,tries:t});
   const res=A.next(s,t);s=res.s;

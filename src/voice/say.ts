@@ -10,5 +10,7 @@ export const SAY={
   bossBeaten:(boss:string)=>`You beat ${boss}! Here is one tricky one for a bonus star.`,
   pop:(q:string)=>`Pop the balloon. ${q}`,
   flip:(prompt:string)=>`${prompt} Tap a card to flip it.`,
-  yes:(after:string)=>`Yes! ${after}`
+  yes:(after:string)=>`Yes! ${after}`,
+  // term sessions: the item reveal at the end of a step (item names from src/art/wear.js ITEMS)
+  found:(item:string)=>`You found the ${item}!`
 };

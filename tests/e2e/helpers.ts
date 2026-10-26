@@ -144,3 +144,33 @@ export async function playBalloons(page:Page){
   }
   await expect(page.locator('#next')).toBeEnabled();
 }
+
+/* ---------- term sessions ---------- */
+/* a hero on the term map; plan points stones at units (until the term's own units land, tests use existing quests) */
+export const termHero=(term:Record<string,{done:string[];thinker?:boolean}>={},over:Record<string,unknown>={})=>hero({unlockAll:false,
+  plan:{1:{warmup:'skip',maths:'jt10',english:'heart',think:'blend'},2:{warmup:'jt10',maths:'bt10',english:'heart2',think:'magice'}},
+  profiles:{p1:{avatar:'knight',world:'castle',created:'2026-10-20',quests:{},skills:{},feedback:[],term}},...over});
+/* open a session step and Start it */
+export async function startSessionStep(page:Page,n:number,key:string){
+  await page.goto(`./#/sp/${n}/${key}`);
+  await expect(page.locator('#next')).toHaveText(/Start/);
+  await fits(page,`stone ${n} ${key} intro`);
+  await next(page);
+}
+/* the end of a session step: each item is revealed in turn and Next stays off until the reveal is over */
+export async function revealItems(page:Page,items:string[],where=''){
+  await next(page);
+  await expect(page.locator('.reveal')).toBeVisible();
+  for(const id of items){
+    await expect(page.locator(`.reveal[data-item="${id}"]`)).toBeVisible({timeout:15000});
+    await expect(page.locator('#next')).toBeDisabled();
+  }
+  await fits(page,`${where} reveal`);
+  await page.locator('#next').click({force:true});                  // taps during the reveal do nothing
+  await expect(page.locator('.reveal')).toBeVisible();
+  await expect(page.locator('#next')).toBeEnabled({timeout:20000});
+  await expect(page.locator('.reveal')).toHaveAttribute('data-phase','next');
+  await expect(page.locator('#next')).toHaveText(/Next/);
+  await page.click('#next');
+  await expect(page).toHaveURL(/#\/session\/\d+$/);
+}

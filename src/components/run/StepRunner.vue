@@ -11,7 +11,8 @@ import Icon from '@/components/Icon.vue';
 const P=useProgress();
 
 export interface RunStep{key:string;component:Component;props?:Record<string,unknown>;game?:boolean}
-const props=defineProps<{steps:RunStep[];intro:{title:string;say:string};end:{title:string;sub?:string;say:string;gear?:{art:string;name:string}}}>();
+// hold: Next stays off on the end screen until something there (the item reveal) has finished
+const props=defineProps<{steps:RunStep[];intro:{title:string;say:string};end:{title:string;sub?:string;say:string;gear?:{art:string;name:string}};hold?:boolean;exitLabel?:string;noDots?:boolean}>();
 // busy: the child is inside a step (leaving now would lose it)
 const emit=defineEmits<{done:[];exit:[];busy:[v:boolean]}>();
 
@@ -42,17 +43,17 @@ onBeforeUnmount(()=>{gone=true;hush()});
 function next(){
   audio();sfx.pop();
   if(pending.value){const fn=pending.value;pending.value=null;fn();return}
-  if(cur.value===last.value){emit('exit');return}
+  if(cur.value===last.value){if(!props.hold)emit('exit');return}
   enter(cur.value+1);
 }
 // hearing the prompt again while it's still being asked keeps the answers hidden until it ends
 const hear=()=>{audio();if(listening.value)ask(prompt.value);else say(prompt.value)};
-const nextLabel=computed(()=>cur.value===0?'Start ›':cur.value===last.value?'Map ›':'Next ›');
+const nextLabel=computed(()=>cur.value===0?'Start ›':cur.value===last.value?(props.exitLabel??'Map ›'):'Next ›');
 </script>
 
 <template>
   <div class="run">
-    <div v-if="steps.length>1" class="prog" aria-hidden="true">
+    <div v-if="steps.length>1&&!noDots" class="prog" aria-hidden="true">
       <span v-for="(s,i) in steps" :key="s.key" class="pd" :class="{g:s.game,on:cur===i+1,ok:cur>i+1}"></span>
     </div>
     <div class="stage">
@@ -62,6 +63,7 @@ const nextLabel=computed(()=>cur.value===0?'Start ›':cur.value===last.value?'M
         <div class="sub">Tap Start. Turn the sound up.</div>
       </template>
       <component v-else-if="step" :is="step.component" :key="cur" v-bind="step.props"/>
+      <slot v-else-if="$slots.end" name="end"/>
       <template v-else>
         <div class="medalbox"><svg viewBox="0 0 60 72" aria-hidden="true"><use href="#medal"/></svg></div>
         <div class="prompt">{{ end.title }}</div>
@@ -71,7 +73,7 @@ const nextLabel=computed(()=>cur.value===0?'Start ›':cur.value===last.value?'M
     </div>
     <footer class="foot">
       <button class="btn hear" aria-label="Hear it again" @click="hear"><Icon name="speaker"/></button>
-      <button class="btn" id="next" :disabled="listening||(!ok&&!pending)" :data-more="pending?'1':undefined" @click="next">{{ nextLabel }}</button>
+      <button class="btn" id="next" :disabled="listening||(!ok&&!pending)||(hold&&cur===last)" :data-more="pending?'1':undefined" @click="next">{{ nextLabel }}</button>
     </footer>
   </div>
 </template>
