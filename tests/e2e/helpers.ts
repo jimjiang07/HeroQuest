@@ -145,19 +145,8 @@ export async function playBalloons(page:Page){
   await expect(page.locator('#next')).toBeEnabled();
 }
 
-/* ---------- term sessions ---------- */
-/* a hero on the term map; plan points stones at units (until the term's own units land, tests use existing quests) */
-export const termHero=(term:Record<string,{done:string[];thinker?:boolean}>={},over:Record<string,unknown>={})=>hero({unlockAll:false,
-  plan:{1:{warmup:'skip',maths:'jt10',english:'heart',think:'blend'},2:{warmup:'jt10',maths:'bt10',english:'heart2',think:'magice'}},
-  profiles:{p1:{avatar:'knight',world:'castle',created:'2026-10-20',quests:{},skills:{},feedback:[],term}},...over});
-/* open a session step and Start it */
-export async function startSessionStep(page:Page,n:number,key:string){
-  await page.goto(`./#/sp/${n}/${key}`);
-  await expect(page.locator('#next')).toHaveText(/Start/);
-  await fits(page,`stone ${n} ${key} intro`);
-  await next(page);
-}
-/* the end of a session step: each item is revealed in turn and Next stays off until the reveal is over */
+/* ---------- item rewards ---------- */
+/* the end of a quest step won for the first time: each item is revealed in turn and Next stays off until the reveal is over */
 export async function revealItems(page:Page,items:string[],where=''){
   await next(page);
   await expect(page.locator('.reveal')).toBeVisible();
@@ -170,12 +159,12 @@ export async function revealItems(page:Page,items:string[],where=''){
   await expect(page.locator('.reveal')).toBeVisible();
   await expect(page.locator('#next')).toBeEnabled({timeout:20000});
   await expect(page.locator('.reveal')).toHaveAttribute('data-phase','next');
-  await expect(page.locator('#next')).toHaveText(/Next/);
+  await expect(page.locator('#next')).toHaveText(/Map/);
   await page.click('#next');
-  await expect(page).toHaveURL(/#\/session\/\d+$/);
+  await expect(page).not.toHaveURL(/#\/play\//);
 }
 
-/* ---------- module play helpers shared by the quest specs and the session specs ---------- */
+/* ---------- module play helpers shared by the quest specs ---------- */
 export const padFits=async(page:Page,where:string)=>{await expect(page.locator('.qwrap .pad')).toBeVisible({timeout:15000});await fits(page,where)};
 /* bonds cross out: tap the right number of counters, then type how many are left */
 export async function playCross(page:Page){
@@ -218,20 +207,6 @@ export async function playSeq(page:Page,where:string){
     }
     await expect(page.locator('#next:enabled')).toBeVisible({timeout:15000});
     if(!(await page.locator('#next[data-more]').count()))return;
-    await next(page);
-  }
-  throw new Error(`${where}: never finished`);
-}
-/* thinking game: every round fits; round 2 gets one wrong tap first, then each round is answered */
-export async function playThink(page:Page,where:string){
-  for(let i=0;i<20;i++){
-    await expect(page.locator('.qwrap.tk')).toBeVisible();
-    await fits(page,`${where} round ${i+1}`);
-    if(i===1)await wrong(page);
-    await answer(page);
-    await fits(page,`${where} round ${i+1} answered`);
-    await expect(page.locator('#next:enabled')).toBeVisible({timeout:15000});
-    if(!(await page.locator('#next[data-more]').count()))return i+1;
     await next(page);
   }
   throw new Error(`${where}: never finished`);

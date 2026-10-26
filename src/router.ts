@@ -5,13 +5,9 @@ import {useProgress} from '@/stores/progress';
 export const router=createRouter({
   history:createWebHashHistory(),
   routes:[
-    {path:'/',redirect:()=>{const p=useProgress();return Object.keys(p.st.profiles).length===1&&p.hero?'/term':'/who'}},
+    {path:'/',redirect:()=>{const p=useProgress();return Object.keys(p.st.profiles).length===1&&p.hero?'/hub':'/who'}},
     {path:'/who',component:()=>import('@/views/WhoView.vue')},
     {path:'/new',component:()=>import('@/views/NewHeroView.vue')},
-    // the term: 20 stones, one session each (the home once a hero is chosen); /hub is the free quest picker
-    {path:'/term',component:()=>import('@/views/TermView.vue'),meta:{hero:true}},
-    {path:'/session/:n',component:()=>import('@/views/SessionView.vue'),props:r=>({n:Number(r.params.n)}),meta:{hero:true}},
-    {path:'/sp/:n/:key',component:()=>import('@/views/SessionPlayView.vue'),props:r=>({n:Number(r.params.n),step:r.params.key}),meta:{hero:true}},
     {path:'/hub',component:()=>import('@/views/HubView.vue'),meta:{hero:true}},
     {path:'/wardrobe',component:()=>import('@/views/WardrobeView.vue'),meta:{hero:true}},
     {path:'/play-area',component:()=>import('@/views/PlayAreaView.vue'),meta:{hero:true}},

@@ -1,36 +1,39 @@
 import {test,expect} from '@playwright/test';
-import {fits,hero,playSeq,revealItems,seed,startSessionStep,watchErrors} from './helpers';
+import {finishRun,fits,hero,next,playBoss,playPractice,playSeq,revealItems,saved,seed,startStep,watchErrors} from './helpers';
 import type {RewardPlan} from '../../src/learn/learner';
 import rewards from '../../data/rewards.json' with {type:'json'};
 
-/* Reading units (read module): Read (story pages, each followed by a check), then Words and "How do you know?".
-   They are played from the term sessions: stones 1-4 hold read1-read4, at /sp/<stone>/<read|words|infer>. */
+/* Reading quests (read module): Learn it = the story a page at a time, each page followed by a check; Game = Words, then
+   "How do you know?"; then the shared practice, spelling challenge and boss. Each stone won the first time reveals an item. */
 const R=rewards as RewardPlan,UNITS=['read1','read2','read3','read4'];
 
 test.beforeEach(async({page})=>{await seed(page,hero())});
 
-UNITS.forEach((id,i)=>{
-  const n=i+1,small=R.stones[i].small;
-  test(`${id} Read: the story a page at a time, a check after each page`,async({page})=>{
+for(const id of UNITS){
+  test(`${id}: read the story, then words and How do you know?`,async({page})=>{
     const errors=watchErrors(page);
-    await startSessionStep(page,n,'read');
+    await startStep(page,id,'learn');
     await expect(page.locator('.rdpage .rdpic svg')).toBeVisible();
     await playSeq(page,`${id} read`);
-    await revealItems(page,[small.read],`${id} read`);
-    expect(errors).toEqual([]);
-  });
-
-  test(`${id} Words and How do you know?`,async({page})=>{
-    const errors=watchErrors(page);
-    await startSessionStep(page,n,'words');
+    await revealItems(page,[R.small[0]],`${id} read`);
+    await startStep(page,id,'game');
     await expect(page.locator('.qwrap .rdbig')).toBeVisible({timeout:15000});
     await playSeq(page,`${id} words`);
-    await revealItems(page,[small.words],`${id} words`);
-    await startSessionStep(page,n,'infer');
+    await next(page);
     await expect(page.locator('.qwrap .ch').first()).toBeVisible({timeout:15000});
     await fits(page,`${id} infer`);
     await playSeq(page,`${id} infer`);
-    await revealItems(page,[small.infer],`${id} infer`);
+    await revealItems(page,[R.small[1]],`${id} game`);
+    expect((await saved(page)).profiles.p1.quests[id].done).toEqual(['learn','game']);
     expect(errors).toEqual([]);
   });
+}
+
+test('read1: practice, spelling challenge and boss; the boss wins a stone item and the first boss reward',async({page})=>{
+  const errors=watchErrors(page);
+  for(const s of ['help','own','challenge']){await startStep(page,'read1',s);await playPractice(page,`read1 ${s}`);await finishRun(page)}
+  await startStep(page,'read1','boss');await playBoss(page,'read1');
+  await revealItems(page,[R.small[3],...R.boss[0]],'read1 boss');
+  expect((await saved(page)).profiles.p1.quests.read1.done).toEqual(expect.arrayContaining(['help','own','challenge','boss']));
+  expect(errors).toEqual([]);
 });

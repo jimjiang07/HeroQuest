@@ -7,7 +7,7 @@ import {useProgress} from '@/stores/progress';
 import {setHeader} from '@/stores/ui';
 import {GEAR_SAY,QUESTS} from '@/content';
 import {ITEMS,dressAll,itemSvg} from '@/art/wear';
-import {REWARDS} from '@/term';
+import {REWARDS} from '@/rewards';
 import * as L from '@/learn/learner';
 import {audio,say,sfx} from '@/services/audio';
 import HeroAvatar from '@/components/HeroAvatar.vue';

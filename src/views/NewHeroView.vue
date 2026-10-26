@@ -13,7 +13,7 @@ const P=useProgress(),router=useRouter(),avatar=ref<string|null>(null);
 setHeader({title:'New hero',back:()=>avatar.value?(avatar.value=null):router.push('/who')});
 say('Pick your hero.');
 function pickHero(a:string){audio();sfx.pop();avatar.value=a;say('Now pick your world.')}
-function pickWorld(w:string){audio();sfx.ding();addProfile(P.st,{avatar:avatar.value!,world:w});router.push('/term')}
+function pickWorld(w:string){audio();sfx.ding();addProfile(P.st,{avatar:avatar.value!,world:w});router.push('/hub')}
 </script>
 
 <template>

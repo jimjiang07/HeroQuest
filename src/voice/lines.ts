@@ -7,7 +7,6 @@ import {QUEST_STEPS,STEP_NAME} from '@/learn/learner';
 import {SAY} from './say';
 import {sentences} from './clips';
 import {ITEMS} from '@/art/wear';
-import {englishUnits,thinkUnits} from '@/term';
 
 export function questLines():string[]{
   // shared prompts wrap other lines; split into sentences, only their fixed part is new
@@ -26,9 +25,8 @@ export function questLines():string[]{
       for(const w of [false,true]){const q=Q.mod.challenge(it,d,w);out.push(q.say,q.after??'',q.explain??'')}
     out.push(...Q.mod.lines(d),GEAR_SAY.locked(boss),GEAR_SAY.lockedAgain(boss));
   }
-  // the term: reward reveals and the wardrobe for every item, then the reading and thinking units (not quests)
+  // reward reveals and the wardrobe for every item
   for(const it of Object.values(ITEMS))out.push(SAY.found(it.name),it.slot==='pet'?GEAR_SAY.pet(it.name):it.slot==='bg'?GEAR_SAY.place(it.name):GEAR_SAY.on(it.name));
-  for(const u of [...englishUnits(),...thinkUnits()])out.push(u.data.intro.say,...u.mod.lines(u.data));
   return out;
 }
 

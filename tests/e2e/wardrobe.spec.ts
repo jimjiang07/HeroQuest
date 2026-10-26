@@ -2,11 +2,11 @@ import {test,expect,type Page} from '@playwright/test';
 import {fits,hero,next,playBoss,saved,seed,startStep,watchErrors} from './helpers';
 
 const ALL=['learn','help','own','game','challenge','boss'];
-const STEPS=['warmup','learn','training','game','boss','read','words','infer','think'];
+const QUESTS=['bonds10','skip210','bonds20','skip5','jt10','groups','arrays','bt10','skip','tens','read1','read2','read3','read4','blend','digraph','heart','magice','heart2','sentence'];
 const SLOTS=['head','face','neck','badge','outfit','back','main','off','gloves','feet','pet','bg'];
-// a wizard who has finished the first n term stones (every step), plus anything else
-const termHero=(n:number,over:Record<string,unknown>={})=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],quests:{},skills:{},
-  term:Object.fromEntries(Array.from({length:n},(_,i)=>[i+1,{done:STEPS}])),...over}}});
+// a wizard who has finished every stone of the first n quests (so 6n stone items and n boss rewards), plus anything else
+const termHero=(n:number,over:Record<string,unknown>={})=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],skills:{},
+  quests:Object.fromEntries(QUESTS.slice(0,n).map(id=>[id,{done:ALL}])),...over}}});
 // the Crystal Dragon beaten yesterday: its first piece is won, the rematch piece is not
 const beaten=()=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],
   quests:{jt10:{done:ALL}},skills:{jt10:{status:'growing',help:2,diff:0,recent:[],bossDay:'2020-01-01',secureDay:null,last:null,override:null}}}}});
@@ -52,10 +52,10 @@ test('wear and take off term rewards in several slots, including a pet and a pla
   for(const s of SLOTS){await tab(page,s);await expect(page.locator(`.wd-tab[data-slot="${s}"]`)).toHaveAttribute('aria-selected','true');await fits(page,`wardrobe ${s}`)}
   await expect(tile(page,'none')).toBeVisible();                            // a place can be taken off too
   await tab(page,'outfit');await expect(tile(page,'none')).toHaveCount(0);   // an outfit can't be taken off
-  // items are never lost: back on the term map the hero still wears them
+  // items are never lost: back on the quests the hero still wears them
   await page.locator('header .home').click();
-  await expect(page).toHaveURL(/#\/term$/);
-  await expect(page.locator('.there .av')).toHaveAttribute('data-kit',/rain-boots/);
+  await expect(page).toHaveURL(/#\/hub$/);
+  await expect(page.locator('.wardb .av')).toHaveAttribute('data-kit',/rain-boots/);
   expect(errors).toEqual([]);
 });
 

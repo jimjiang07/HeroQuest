@@ -15,17 +15,13 @@ export interface Skill{status:Status;help:number;diff:number;recent:Attempt[];bo
 export interface Feedback{quest:string;level:string|null;fun:string|null;tags:string[];note:string;day:string}
 /** what the hero is wearing, by wardrobe slot (src/art/wear.js); a slot left out keeps the starter hero's gear, null = nothing */
 export type Kit=Partial<Record<'head'|'face'|'neck'|'badge'|'outfit'|'back'|'main'|'off'|'gloves'|'feet'|'pet'|'bg',string|null>>;
-/** one term session (a stone): the steps finished, and whether it earned a thinker badge (kept trying, or a boss bonus) */
-export interface Session{done:string[];thinker?:boolean}
 export interface Profile{avatar:string;world:string;created:string;quests:Record<string,{done:QuestStep[]}>;skills:Record<string,Skill>;feedback:Feedback[];kit?:Kit;
-  term?:Record<string,Session>;seen?:number;
+  thinker?:number;   // thinker badges earned (kept trying after a Try again, or a boss bonus)
   /** play area: where the hero ('hero') and each pet (item id) stand, in % of the place */
   pose?:Record<string,{x:number;y:number}>}
-/** a grown-up's change to what a stone holds (unit ids); applies to every hero on this device */
-export interface StonePlan{warmup?:string;maths?:string;english?:string;think?:string}
 export interface State{
   schema:number;profiles:Record<string,Profile>;active:string|null;unlockAll?:boolean;
-  voice?:boolean;voiceName?:string;rate?:number;sfx?:boolean;plan?:Record<string,StonePlan>;
+  voice?:boolean;voiceName?:string;rate?:number;sfx?:boolean;
 }
 
 export const today=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -36,8 +32,9 @@ const LEGACY_ACTS=['jt10','blend','groups'];
 const OLD_AVATAR:Record<string,string>={dragon:'knight',owl:'wizard',robot:'astronaut',fox:'ranger',unicorn:'builder'};
 /* schema 3: the paper quest stopped being a step (the worksheet is optional), so its mark and the no-printer switch go */
 const tidy=(st:State)=>{
+  delete (st as {plan?:unknown}).plan;   // the term map came and went (Oct 2026)
   for(const p of Object.values(st.profiles)){
-    p.avatar=OLD_AVATAR[p.avatar]??p.avatar;delete (p as {noPrinter?:boolean}).noPrinter;
+    p.avatar=OLD_AVATAR[p.avatar]??p.avatar;delete (p as {noPrinter?:boolean}).noPrinter;delete (p as {term?:unknown}).term;
     for(const q of Object.values(p.quests??{}))q.done=q.done.filter(s=>QUEST_STEPS.includes(s));
   }
   return st;
@@ -110,40 +107,19 @@ export function newGear(p:Profile,quests:{id:string;reward:readonly string[]}[],
 
 export function addFeedback(p:Profile,entry:Omit<Feedback,'day'>,day=today()){p.feedback=[...(p.feedback||[]),{...entry,day}].slice(-100)}
 
-/* ---------- Term sessions: one stone per session, its steps in a fixed order (data/rewards.json "steps") ---------- */
-export const session=(p:Profile,stone:number)=>((p.term??={})[stone]??=({done:[]}));
-export const sessionStepDone=(p:Profile,stone:number,key:string)=>!!p.term?.[stone]?.done.includes(key);
-export function markSessionStep(p:Profile,stone:number,key:string){const s=session(p,stone);if(!s.done.includes(key))s.done.push(key)}
-export const sessionDone=(p:Profile,stone:number,steps:readonly string[])=>steps.every(k=>sessionStepDone(p,stone,k));
-/* a stone opens when the one before it is finished */
-export const stoneOpen=(p:Profile,stone:number,steps:readonly string[],unlockAll=false)=>unlockAll||stone===1||sessionDone(p,stone-1,steps);
-/* thinker badges: at most one per session, for kept trying after a "Try again" or getting the boss bonus */
-export function markThinker(p:Profile,stone:number){session(p,stone).thinker=true}
-
-export interface RewardPlan{steps:string[];stones:{stone:number;small:Record<string,string>;medium:string;chest:string|null;land:string|null}[];thinker:string[]}
-/* every reward item the hero has, in unlock order; worked out from progress, so nothing can be lost or taken away */
-export function itemsWon(p:Profile,r:RewardPlan):string[]{
-  const out:string[]=[];
-  for(const st of r.stones){
-    for(const k of r.steps)if(sessionStepDone(p,st.stone,k))out.push(st.small[k]);
-    if(sessionDone(p,st.stone,r.steps))out.push(st.medium);
-    // a land's chest opens once all four of its stones are done
-    if(st.chest&&r.stones.filter(x=>Math.ceil(x.stone/4)===Math.ceil(st.stone/4)).every(x=>sessionDone(p,x.stone,r.steps)))out.push(st.chest,...(st.land?[st.land]:[]));
-  }
-  const thinks=Object.values(p.term??{}).filter(s=>s.thinker).length;
-  return [...out,...r.thinker.slice(0,thinks)];
-}
+/* ---------- Reward items (data/rewards.json): the next small item for every quest stone finished, the next boss reward
+   for every boss beaten, and a thinker badge each time the hero kept trying or got the boss bonus ---------- */
+export interface RewardPlan{small:string[];boss:string[][];thinker:string[]}
+const stonesDone=(p:Profile)=>Object.values(p.quests).reduce((n,q)=>n+q.done.length,0);
+const bossesBeaten=(p:Profile)=>Object.keys(p.quests).filter(id=>stepDone(p,id,'boss')).length;
+/* every item the hero has, in unlock order; worked out from progress, so nothing can be lost or taken away */
+export const itemsWon=(p:Profile,r:RewardPlan):string[]=>
+  [...r.small.slice(0,stonesDone(p)),...r.boss.slice(0,bossesBeaten(p)).flat(),...r.thinker.slice(0,p.thinker??0)];
 /* the items a change of progress just won (for the reveal at the end of a step) */
 export function newItems(p:Profile,r:RewardPlan,change:()=>void){
   const had=new Set(itemsWon(p,r));change();
   return itemsWon(p,r).filter(i=>!had.has(i));
 }
-/* the next item still to win (shown as a silhouette); null when every one is won */
-export function nextItem(p:Profile,r:RewardPlan):string|null{
-  const won=new Set(itemsWon(p,r));
-  for(const st of r.stones){
-    for(const k of r.steps)if(!won.has(st.small[k]))return st.small[k];
-    if(!won.has(st.medium))return st.medium;
-  }
-  return null;
-}
+/* the next item a stone will win (shown as a silhouette); null once every one is won */
+export const nextItem=(p:Profile,r:RewardPlan):string|null=>r.small[stonesDone(p)]??null;
+export function markThinker(p:Profile){p.thinker=(p.thinker??0)+1}

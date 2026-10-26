@@ -1,20 +1,21 @@
-/* Paper quest worksheets: one A4 sheet per quest (print/index.html#<quest id>), plus the Term 4 sheets (term.ts). Writing practice only; learning happens
-   in the app. Reads data/quests.json and each quest's data/print/<unit>.json, else its unit "print" block. Pictures are SVG strings in the worksheet style. */
+/* Paper quest worksheets: one sheet per quest (print/index.html#<quest id>), one A4 page, or two (front and back, two-sided.ts)
+   for kinds math-learn and eng-read; plus the sticker sheet (#stickers). Writing practice only; learning happens in the app. Reads data/quests.json and each quest's data/print/<unit>.json, else its unit "print" block. Pictures are SVG strings in the worksheet style. */
 import '../src/fonts';
 import './print.css';
 import questsFile from '../data/quests.json';
 import {EMO} from '../src/shared';
-import {TERM_SHEETS} from './term';
+import {mathsSheet,englishSheet,stickers,type QuestInfo} from './two-sided';
 
 type Mode='A'|'T'|'B'|'C'|'D';
 interface PrintBlock{kind:string;cls?:string;title?:string;practice?:unknown[];explain?:string;[k:string]:unknown}
-interface Unit{app?:{id:string;title:string};print?:PrintBlock}
+interface Unit{app?:{id:string;title:string;[k:string]:unknown};print?:PrintBlock}
 
 const units=import.meta.glob<Unit>('../data/units/*.json',{eager:true,import:'default'});
 const prints=import.meta.glob<PrintBlock>('../data/print/*.json',{eager:true,import:'default'});
 const QUESTS=questsFile.quests.map(q=>{
   const u=units[`../data/units/${q.unit}.json`];
-  return {id:u?.app?.id??q.unit,name:u?.app?.title??q.unit,subject:q.subject==='english'?'English':'Maths',print:prints[`../data/print/${q.unit}.json`]??u?.print};
+  const subject=q.subject.charAt(0).toUpperCase()+q.subject.slice(1);
+  return {id:u?.app?.id??q.unit,name:u?.app?.title??q.unit,subject,art:q.art,boss:q.boss,unit:u?.app,print:prints[`../data/print/${q.unit}.json`]??u?.print};
 });
 
 const INK='#1d2140',C='var(--c)',O='#ff922b',Y='#ffd43b';
@@ -205,20 +206,30 @@ const KINDS:Record<string,(p:PrintBlock)=>string>={
   'eng-sentence':sentBody
 };
 
+// double-sided kinds: a front page and a back page
+const TWO_SIDED:Record<string,(p:PrintBlock,q:QuestInfo)=>string>={
+  'math-learn':(p,q)=>mathsSheet(p as unknown as Parameters<typeof mathsSheet>[0],q),
+  'eng-read':(p,q)=>englishSheet(p,q)
+};
+
 function sheet(q:(typeof QUESTS)[number]){
   const p=q.print;
+  if(p&&TWO_SIDED[p.kind])return TWO_SIDED[p.kind](p,{...q,name:p.title??q.name} as QuestInfo);
   if(!p||!KINDS[p.kind])return `<div class="page none"><div class="nosheet"><b>No sheet for this quest yet.</b><br>${q.name} will get its paper quest soon.</div></div>`;
   return `<div class="page ${p.cls??'q2'} ${p.explain?'has-x':''}">\n${header(p,q.name,q.subject)}\n${KINDS[p.kind](p)}\n${explainBox(p)}\n${footer}\n</div>`;
 }
 
 /* ================= page ================= */
-// the picker: quests first, then the Term 4 stone sheets, the map and the stickers
-const SHEETS=[...QUESTS.map(q=>({id:q.id,name:q.name,group:'Quests',render:()=>sheet(q)})),...TERM_SHEETS.map(t=>({...t,group:'Term 4'}))];
+// the picker: maths quests, English quests (any other subject after), then the sticker sheet
+const ORDER=['Maths','English'],rank=(s:string)=>ORDER.includes(s)?ORDER.indexOf(s):ORDER.length;
+const SHEETS=[...QUESTS.filter(q=>q.print).sort((a,b)=>rank(a.subject)-rank(b.subject)).map(q=>({id:q.id,name:q.name,group:q.subject,render:()=>sheet(q)})),
+  {id:'stickers',name:'Sticker sheet',group:'Stickers',render:stickers}];
+const GROUPS=[...new Set(SHEETS.map(s=>s.group))];
 const $=(s:string)=>document.querySelector(s) as HTMLElement;
 const opts=(g:string)=>`<optgroup label="${g}">${SHEETS.filter(x=>x.group===g).map(x=>`<option value="${x.id}">${x.name}</option>`).join('')}</optgroup>`;
-$('#bar').innerHTML=`<label for="qsel">Sheet:</label><select id="qsel">${opts('Quests')}${opts('Term 4')}</select>
+$('#bar').innerHTML=`<label for="qsel">Sheet:</label><select id="qsel">${GROUPS.map(opts).join('')}</select>
   <button class="go" id="printbtn">Print</button>
-  <small>Quest sheets are one A4 page. Stone sheets are two pages: print double-sided (flip on the long edge). Print settings: A4, scale 100%, background graphics on, margins none.</small>`;
+  <small>Most sheets are one A4 page. Two-page sheets (a front and a back): print double-sided (flip on the long edge). Print settings: A4, scale 100%, background graphics on, margins none.</small>`;
 function render(){
   const id=location.hash.slice(1),x=SHEETS.find(s=>s.id===id)??SHEETS[0];
   $('#sheets').innerHTML=x.render();

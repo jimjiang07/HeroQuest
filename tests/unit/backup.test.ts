@@ -1,10 +1,10 @@
 import {describe,expect,it} from 'vitest';
 import {decodeBackup,encodeBackup,PREFIX} from '@/services/backup';
-import {addProfile,markSessionStep,migrate,type State} from '@/learn/learner';
+import {addProfile,markStep,migrate,type State} from '@/learn/learner';
 
 const sample=()=>{
   const st=migrate(null);addProfile(st,{avatar:'wizard',world:'ocean'});
-  const p=st.profiles.p1;markSessionStep(p,1,'warmup');markSessionStep(p,1,'learn');
+  const p=st.profiles.p1;markStep(p,'jt10','learn');markStep(p,'jt10','help');
   p.kit={head:'flower-crown',pet:'ladybird',main:null};p.pose={hero:{x:40,y:70},ladybird:{x:70,y:80}};
   p.quests.jt10={done:['learn','help']};st.rate=1.1;
   return st;

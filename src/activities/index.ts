@@ -10,6 +10,5 @@ import magice from './magice';
 import tens from './tens';
 import bonds from './bonds';
 import read from './read';
-import think from './think';
 
-export const MODULES:Record<string,ActivityModule>={add10,groups,blend,heart,sentence,sub10,magice,tens,bonds,read,think};
+export const MODULES:Record<string,ActivityModule>={add10,groups,blend,heart,sentence,sub10,magice,tens,bonds,read};

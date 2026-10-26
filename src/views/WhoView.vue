@@ -10,7 +10,7 @@ const P=useProgress(),router=useRouter();
 setHeader({title:'Hero Quest'});
 const ids=Object.keys(P.st.profiles);
 say(ids.length?'Who’s playing? Tap your hero.':'Hello! Let’s make your hero.');
-function pick(id:string){audio();sfx.pop();P.st.active=id;router.push('/term')}
+function pick(id:string){audio();sfx.pop();P.st.active=id;router.push('/hub')}
 </script>
 
 <template>

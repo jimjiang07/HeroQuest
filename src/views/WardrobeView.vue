@@ -8,22 +8,22 @@ import {setHeader} from '@/stores/ui';
 import {GEAR_SAY,QUESTS} from '@/content';
 import {STARTER} from '@/art/rig';
 import {ITEMS,SLOT_NAME,WEAR_SLOTS,dressAll,itemSvg,wearInfo,type WearKit,type WearSlot} from '@/art/wear';
-import {REWARDS} from '@/term';
+import {REWARDS} from '@/rewards';
 import * as L from '@/learn/learner';
 import {audio,say,sfx,shake} from '@/services/audio';
 import HeroAvatar from '@/components/HeroAvatar.vue';
 import Icon from '@/components/Icon.vue';
 
 const P=useProgress(),router=useRouter();
-setHeader({title:'Wardrobe',back:()=>router.push('/term'),backLabel:'Map'});
+setHeader({title:'Wardrobe',back:()=>router.push('/hub'),backLabel:'Quests'});
 const p=computed(()=>P.hero!);
 
 const pics=new Map<string,string>();
 const pic=(id:string)=>{let u=pics.get(id);if(!u){u='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(itemSvg(id));pics.set(id,u)}return u};
 const slotOf=(id:string)=>wearInfo(id)?.slot as WearSlot|undefined;
 const nameOf=(id:string)=>wearInfo(id)?.name??id;
-// every winnable piece in the order it is won: term rewards first, then boss gear
-const ORDER=[...new Set([...REWARDS.stones.flatMap(s=>[...REWARDS.steps.map(k=>s.small[k]),s.medium,s.chest,s.land]),...REWARDS.thinker,
+// every winnable piece in a fixed order: stone items, boss rewards, thinker badges, then boss gear
+const ORDER=[...new Set([...REWARDS.small,...REWARDS.boss.flat(),...REWARDS.thinker,
   ...QUESTS.flatMap(q=>q.reward)].filter((i):i is string=>!!i&&!!wearInfo(i)))];
 const TAB_PIC=Object.fromEntries(WEAR_SLOTS.map(s=>[s,Object.values(ITEMS).find(i=>i.slot===s)!.id])) as Record<WearSlot,string>;
 

@@ -6,34 +6,20 @@ big things at once** (tested at phone 390×844 and tablet 820×1180).
 
 ## Flow
 
-Who's playing (`/who`, `/new`) → the **term map** (`/term`: 20 stones, one per session, 5 lands) → a stone's session
-(`/session/:n`: its 9 steps) → a step (`/sp/:n/:key`) → the item reveal → back to the session. The term map also opens
-the wardrobe (`/wardrobe`, with the play area `/play-area`) and **More quests** (`/hub` → `/quest/:id` →
-`/play/:id/:step`), the older one-skill quests, each with an optional worksheet.
+Who's playing (`/who`, `/new`) → choose a quest (`/hub`: Maths and English tabs, six cards a page) → the quest's map
+(`/quest/:id`) → a step (`/play/:id/:step`) → the item reveal. The hub also opens the wardrobe (`/wardrobe`, with the
+play area `/play-area`). The quest map has an optional Worksheet button (the quest's PDF).
 
-### Term sessions
+### Item rewards
 
-- `data/term/2026-t4.json`: the stones and what each holds (`warmup`, `maths`, `english`, `think`: unit ids), the lands and
-  the minutes guide. `src/term.ts` reads it (`stoneDef` puts a grown-up's `st.plan` on top; Grown-ups > Plan edits it).
-- A session's steps, in order: `warmup` (practice on the warm-up quest) · `learn`, `training` (help then own), `game`,
-  `boss` on the maths quest · `read`, `words`, `infer` on the English unit (`read` module) · `think` (the `think` module's
-  game). `SessionPlayView` builds each as a `StepRunner` run and marks both the session step and the matching quest steps.
-  Maths units used by the term are quests with `"term": true` in `data/quests.json` (left out of More quests).
-- Rewards: `data/rewards.json` gives each stone's item per step, its medium item and every 4th stone's chest (big item +
-  land scene), plus the thinker badges. `itemsWon` / `newItems` / `nextItem` (`src/learn/learner.ts`) work them out from
-  progress, so nothing is stored that could be lost. `RewardReveal` plays at the end of a step and holds Next until it ends.
+- `data/rewards.json`: `small` (one per quest stone finished the first time, in this order), `boss` (one entry per boss
+  beaten: a medium item, and every 4th a big item plus a place), `thinker` (kept trying after a "Try again", or the boss
+  bonus). `itemsWon` / `newItems` / `nextItem` (`src/learn/learner.ts`) work them out from progress, so nothing is stored
+  that could be lost. `PlayView` wraps each step's finish in `newItems` and `RewardReveal` plays on the end screen,
+  holding Next until it ends.
 - Items are drawn on the hero rig: `src/art/wear.js` (twelve slots, `dressAll`, `heroFullSvg`, `itemSvg`) and
-  `src/art/items/*.js`. The approved catalogue and unlock order: `docs/rewards-catalogue.png`, `docs/rewards-order.png`.
+  `src/art/items/*.js`. The approved catalogue: `docs/rewards-catalogue.png` (numbered in the original term order).
 - Backup: Grown-ups > Heroes has the file backup and a copy-paste code (`src/services/backup.ts`, `HQ1-…`).
-
-Each quest is one skill with 5 steps and a boss: **learn** (the activity's own learning steps) → **help** (shared practice,
-help levels 1–2) → **own** (shared practice, adaptive help 1–4) → **game** (the activity's games) → **challenge** (shared,
-the module's `challenge()`: maths story problems, english spelling with letter tiles) → **boss** (shared, no pictures, then a
-bonus stretch question). Beating the boss = Growing and wins its first gear piece; a rematch won on a later day = Secure
-and wins the second.
-
-The child plays alone, so every step checks a real answer: nothing is "say it out loud" or ticked off. Answers are hidden
-and Next is off until the voice has read the question.
 
 ## Where things live
 
@@ -54,8 +40,8 @@ and Next is off until the voice has read the question.
 | `src/heroes.ts` | The starter heroes and worlds, and `art(name)` → `art/<name>.svg` |
 | `src/components/Icon.vue`, `HeroAvatar.vue` | Doodle UI icons; a hero (`full` for the whole body) |
 | `scripts/make-art.mjs` | Draws every SVG in `public/art/` and the contact sheet `docs/art-kit.html` (`npm run art`). Style: `docs/art-style.md` |
-| `print/` | Worksheet page, a second Vite entry: `#<quest id>` (one sheet per quest), `#stone-<n>-maths` / `#stone-<n>-english` (double-sided session sheets; maths content in `data/print/stone-<n>-maths.json`, English from the stone's reading unit), `#term-map`, `#stickers` |
-| `public/worksheets/quests/<quest id>.pdf`, `public/worksheets/term/` | Pre-made sheets (`npm run pdfs`) |
+| `print/` | Worksheet page (`print/index.html#<quest id>`, and `#stickers`), a second Vite entry |
+| `public/worksheets/quests/<quest id>.pdf` | Pre-made sheets (`npm run pdfs`) |
 
 ## An activity module
 

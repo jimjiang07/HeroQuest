@@ -3,13 +3,12 @@
 Maths and English quests for young children (Kindergarten to Year 2, NSW curriculum, with stretch for keen learners), on
 phones, tablets and laptops. Two parts share one set of content files:
 
-1. **The app** (`index.html` + `src/`, Vue 3 + Vite + TypeScript): a **term map** of 20 stones, one stone per session
-   (two sessions a week). A session = warm-up, maths (learn, training, game, boss), English (read, words, "How do you
-   know?") and a thinking game. Underneath, one quest per skill (Learn it → With help → On your own → Game → Challenge →
-   Boss), still playable from "More quests". Help fades or comes back as the child answers. Several children can share a
-   device (heroes, no names). Every finished step wins a wearable item for the hero's wardrobe.
-2. **Printable worksheets** (`print/`): two double-sided A4 sheets per session (maths, English), the term map and a
-   sticker sheet; older quests keep one optional A4 sheet each. Done together with a grown-up. Writing stays on paper
+1. **The app** (`index.html` + `src/`, Vue 3 + Vite + TypeScript): a list of maths quests and a list of English quests
+   (Jim prefers this to a term map; a 20-stone term map was tried in Oct 2026 and removed). One quest per skill, each with
+   its own map of 6 stones: Learn it → With help → On your own → Game → Challenge → Boss. Help fades or comes back as the
+   child answers. Several children can share a device (heroes, no names). Every stone finished wins a wearable item.
+2. **Printable worksheets** (`print/`): one optional sheet per quest, a download from the quest map (not a step); the
+   newer quests' sheets are double-sided (front learning side, back practice). Plus a sticker sheet of the big rewards. Done together with a grown-up. Writing stays on paper
    on purpose.
 
 This repo is **public** (GitHub Pages). Never put names, schools, addresses, photos or anything personal in code, data or docs.
@@ -38,9 +37,9 @@ This repo is **public** (GitHub Pages). Never put names, schools, addresses, pho
 - **No loot-drop section** and no repeating the boss question in a different costume.
 - **Boss battles**: the voice reads each question, then the child answers on their own (no pictures). The bonus star is one
   tricky question (missing number, spelling, a sentence gap): reward thinking, not speed.
-- **Rewards are wearable items only.** No coins, gems, stars to spend, shop or currency. Every finished step (9 per
-  session) wins a small item, a finished session a medium item, and every 4th stone opens the land's chest (a big item
-  plus a castle scene). Thinker badges reward effort and strategy (kept trying after "Try again", the boss bonus), never
+- **Rewards are wearable items only.** No coins, gems, stars to spend, shop or currency. Every quest stone finished for
+  the first time wins the next small item; every boss beaten wins a medium item, and every 4th boss also opens a chest
+  (a big item plus a castle scene). Thinker badges reward effort and strategy (kept trying after "Try again", the boss bonus), never
   speed. Items come in a fixed order (`data/rewards.json`, never random), are worked out from progress (`itemsWon`) so
   they can never be lost, and a wrong answer never removes or holds one back. No streaks, nothing taken away.
 - **The item reveal** at the end of each step is a rewarding animation that **cannot be skipped** (Next stays off until
@@ -52,9 +51,9 @@ This repo is **public** (GitHub Pages). Never put names, schools, addresses, pho
   draw them in the same style, add them to the catalogue, and show Jim the catalogue image before building.
 - **Boss gear**: the older quests' bosses still give one gear piece when first beaten and a second when the rematch is
   won (`reward` in `data/quests.json`). Gear must fit the hero rig (`src/art/rig.js`).
-- **Two sessions a week, not daily** (daily was too much). A session is about 40 minutes: maths ~20 (with a 3–4 minute
-  warm-up from the other topic), English ~12, thinking game ~8 (tunable in `data/term/2026-t4.json` `minutes`). About
-  20 minutes of it is on screen; the rest is the two worksheets. Keep each step short and finishable.
+- **Two sessions a week, not daily** (daily was too much), about 40 minutes each: maths ~20 (with a short warm-up from
+  the other topic), English ~12, and (later) a thinking game ~8. About 20 minutes of it is on screen; the rest is the
+  worksheets. Keep each step short and finishable.
 - **Boss battles in the app** are read aloud and answered on the pad by the child alone. On paper the boss box is "say
   it, then write it", done with a grown-up.
 - **Doodle art, never emoji.** Every hero, boss, quest picture and button icon is a doodle SVG: thick wobbly navy
@@ -96,23 +95,14 @@ Vue 3 + Vite + TypeScript, Pinia, Vue Router (hash). No CDN scripts; fonts are s
 A new kind of interaction needs a module in `src/activities/<name>/` (copy `add10`), registered in `src/activities/index.ts`,
 and a play-through test in `tests/e2e/`.
 
-## The term and the worksheets
-
-- `data/term/2026-t4.json`: 20 stones in 5 lands (Castle Gate, Tournament Field, Royal Garden, Castle Walls, Dragon
-  Hill); each stone names its warm-up, maths, English and thinking units. The map shows stone numbers only (topic-free):
-  Jim chooses and reorders content in Grown-ups > Plan (saved per device as `st.plan`).
-- Each session has two double-sided A4 sheets (maths and English): front = learning side (look, read and say aloud,
-  minimal writing, worked example in pictures), back = practice side (~20 exercises, help fading down the page, the boss
-  box). Plus a printable term map (colour a stone after each session, open a chest per land) and a sticker sheet.
-  Writing practice stays on paper.
-
 ## Term 4 2026 plan (10 weeks × 2 sessions)
 
 Goal: a calm, fingers-free foundation. He counts up on his fingers for multiplication and add/sub is the bottleneck:
 replace counting-up with skip counting, equal-group pictures, ten-frames and "known fact + one more group". Session A =
 add/sub focus, Session B = multiplication focus, each with a warm-up from the other topic.
-- Weeks 1–2 (built): A bonds to 10 then 20, subtraction within 10 then 20 on ten-frames and number lines; B skip
-  counting 2s, 5s, 10s with equal groups, ×2 ×10 ×5. Thinking: patterns, odd one out, who is taller, shapes.
+- Weeks 1–2 (built as quests): Make 10, Make 20 (bonds and subtraction on ten-frames and number lines), Twos and Tens,
+  Count by 5s (skip counting with equal groups, ×2 ×10 ×5); English reading quests Pip and Peg, Dot and the Pup, Gus the
+  Dragon, The Drawbridge. Thinking games are on hold for now.
 - Weeks 3–4: A bonds to 20, doubles/near doubles and make-10 as small worked examples inside quests (not named quests);
   B ×3 (×2 plus one group), ×4 (double the doubles).
 - Week 5: A mixed within 20; B a shape-hunt break session (2D shapes around the house) plus light multiplication review.
@@ -121,8 +111,8 @@ add/sub focus, Session B = multiplication focus, each with a warm-up from the ot
 - Week 9: mixed review; word problems where he draws first, then writes the equation.
 - Week 10: review and celebration ("Legend" level). Checkpoints Jim observes (nothing timed shown to him): add/sub within
   20 without fingers; ×2, ×5, ×10 recalled calmly.
-- English each session: read aloud for fluency (decodable, then early chapter books), vocabulary, "How do you know?"
-  inference on a short passage. Thinking games rotate patterns, odd one out, simple logic, shapes, number sequences.
+- English: read aloud for fluency (decodable, then early chapter books), vocabulary, "How do you know?" inference on a
+  short passage (the `read` module: Learn it = the story, Game = Words then How do you know?).
 
 ## Long-term plan (content should grow toward this)
 

@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {fits,playBoss,hero,next,quiet,saved,seed,watchErrors} from './helpers';
 
-test('a first-time player makes a hero and reaches the term map',async({page})=>{
+test('a first-time player makes a hero and reaches the quests',async({page})=>{
   const errors=watchErrors(page);
   await quiet(page);
   await page.goto('./');
@@ -9,7 +9,7 @@ test('a first-time player makes a hero and reaches the term map',async({page})=>
   await page.getByText('Make your hero').click();await fits(page,'pick hero');
   await page.locator('[data-a="ranger"]').click();await fits(page,'pick world');
   await page.locator('[data-w="jungle"]').click();
-  await expect(page).toHaveURL(/#\/term$/);await expect(page.locator('.tstone[data-n="1"]')).toHaveClass(/cur/);await fits(page,'term map');
+  await expect(page).toHaveURL(/#\/hub$/);await expect(page.locator('.qcard').first()).toBeVisible();await fits(page,'hub');
   const st=await saved(page);
   expect(Object.values(st.profiles)).toHaveLength(1);
   expect(st.profiles[st.active].avatar).toBe('ranger');
@@ -32,10 +32,14 @@ test('quests show both subjects, and a locked quest says what opens it',async({p
   await seed(page,hero({unlockAll:false,profiles:{p1:{avatar:'knight',world:'castle',created:'2026-10-01',quests:{jt10:{done:all},blend:{done:all},heart:{done:['learn']}},skills:{jt10:sk('2026-10-01'),blend:sk('2026-10-01')},feedback:[]}}}));
   await page.goto('./#/hub');
   await expect(page.locator('.rematch')).toBeVisible();
-  await expect(page.locator('.qcard')).toHaveCount(6);
+  await expect(page.locator('.qcard')).toHaveCount(10);
   await page.locator('.tab.english').click();await fits(page,'english tab');
-  await expect(page.locator('.qcard')).toHaveCount(6);
+  await expect(page.locator('.qcard')).toHaveCount(10);
   await page.locator('.tab.maths').click();
+  // the quest list is the one part that scrolls; the page and the rest of the screen stay put
+  await page.locator('.qcard[data-q="tens"]').scrollIntoViewIfNeeded();
+  await expect(page.locator('.qcard[data-q="tens"]')).toBeInViewport();
+  await fits(page,'maths list scrolled');
   await expect(page.locator('.qcard[data-q="arrays"]')).toContainText('Opens after');
   await page.locator('.qcard[data-q="arrays"]').click();
   await expect(page).toHaveURL(/#\/hub$/);                       // locked: shakes, stays put
@@ -98,7 +102,7 @@ test('grown-ups: press and hold opens the dialog; skills, feedback and heroes wo
   const gear=page.getByRole('button',{name:/grown-ups/i});
   await gear.dispatchEvent('pointerdown');await page.waitForTimeout(1200);await gear.dispatchEvent('pointerup');
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.locator('.srow')).toHaveCount(16);
+  await expect(page.locator('.srow')).toHaveCount(20);
   await page.locator('.srow').first().getByRole('button',{name:'Treat as secure'}).click();
   await expect(page.locator('.srow').first().locator('.schip')).toHaveText(/Secure/);
   await page.getByRole('tab',{name:'How did it go?'}).click();
@@ -116,7 +120,7 @@ test('grown-ups: press and hold opens the dialog; skills, feedback and heroes wo
 test('an old save keeps its stars as the first hero',async({page})=>{
   await seed(page,{acts:{jt10:{plays:1,done:[1,2]},blend:{plays:2,done:[]}},voice:true});
   await page.goto('./');
-  await expect(page).toHaveURL(/#\/term$/);                  // one hero: home is the term map
+  await expect(page).toHaveURL(/#\/hub$/);                   // one hero: straight to the quests
   const st=await saved(page);
   expect(st.schema).toBe(3);
   await page.goto('./#/hub');
@@ -124,8 +128,8 @@ test('an old save keeps its stars as the first hero',async({page})=>{
   await expect(page.locator('.qcard[data-q="jt10"] .qp.ok')).toHaveCount(4);
 });
 
-/* short screens (phone sideways, browser bars showing): the quest list and term screens still fit with nothing cut off */
-for(const [w,h] of [[844,390],[390,600],[390,620],[1180,740]])test(`More quests, the term map and a stone fit at ${w}×${h}`,async({page})=>{
+/* short screens (phone sideways, browser bars showing): the quest list and a quest map still fit with nothing cut off */
+for(const [w,h] of [[844,390],[390,600],[390,620],[1180,740]])test(`the quests and a quest map fit at ${w}×${h}`,async({page})=>{
   await page.setViewportSize({width:w,height:h});
   // the busiest hub: Keep going, a rematch due and every card
   const sk=(bossDay:string)=>({status:'growing',help:2,diff:0,recent:[],bossDay,secureDay:null,last:null,override:null});
@@ -134,6 +138,7 @@ for(const [w,h] of [[844,390],[390,600],[390,620],[1180,740]])test(`More quests,
   await page.goto('./#/hub');
   await expect(page.locator('.rematch')).toBeVisible();
   for(const tab of ['Maths','English']){await page.getByRole('tab',{name:tab}).click();await expect(page.locator('.qcard').first()).toBeVisible();await fits(page,`hub ${tab} ${w}×${h}`)}
-  await page.goto('./#/term');await expect(page.locator('.tmap')).toBeVisible();await fits(page,`term ${w}×${h}`);
-  await page.goto('./#/session/1');await page.waitForTimeout(400);await fits(page,`stone 1 ${w}×${h}`);
+  await page.locator('.quests .qcard').last().scrollIntoViewIfNeeded();await expect(page.locator('.quests .qcard').last()).toBeInViewport();
+  await expect(page.locator('header.top')).toBeInViewport();      // only the list moved
+  await page.goto('./#/quest/bonds10');await expect(page.locator('.stone2')).toHaveCount(6);await fits(page,`quest map ${w}×${h}`);
 });
