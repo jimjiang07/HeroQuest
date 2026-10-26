@@ -1,0 +1,174 @@
+{
+ "note": "Reward order for the term (fixed, never random): each stone gives one small item per step finished, a medium item when the whole session is done, and every 4th stone opens its land chest (a big item plus the land scene). Thinker badges come in order, one per session where the child kept trying or got the boss bonus. Item art: src/art/items. Matches the approved catalogue (docs/rewards-catalogue.png).",
+ "steps": [ "warmup", "learn", "training", "game", "boss", "read", "words", "infer", "think"
+ ],
+ "stones": [
+  {
+   "stone": 1,
+   "small": { "warmup": "round-glasses", "learn": "butterfly-net", "training": "flower-crown", "game": "red-scarf", "boss": "rain-boots", "read": "balloon", "words": "ladybird", "infer": "mittens", "think": "butterfly-wings"
+   },
+   "medium": "dragon-helmet",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 2,
+   "small": { "warmup": "star-badge", "learn": "wooden-sword", "training": "star-glasses", "game": "star-headband", "boss": "red-sneakers", "read": "snail", "words": "striped-scarf", "infer": "teddy", "think": "garden-gloves"
+   },
+   "medium": "star-cape",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 3,
+   "small": { "warmup": "knight-satchel", "learn": "bubble-wand", "training": "heart-badge", "game": "heart-glasses", "boss": "snow-boots", "read": "mouse", "words": "coif", "infer": "bandana", "think": "potion"
+   },
+   "medium": "castle-bg",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 4,
+   "small": { "warmup": "paintbrush", "learn": "sparkle-gloves", "training": "sunglasses", "game": "short-cape", "boss": "sabatons", "read": "chick", "words": "cat-ears", "infer": "shield-badge", "think": "bow-tie"
+   },
+   "medium": "hero-suit",
+   "chest": "baby-dragon",
+   "land": "drawbridge-bg"
+  },
+  {
+   "stone": 5,
+   "small": { "warmup": "seal-scroll", "learn": "toy-lance", "training": "swim-goggles", "game": "gauntlets", "boss": "riding-boots", "read": "frog-prince", "words": "pinwheel", "infer": "beanie", "think": "courage-medal"
+   },
+   "medium": "crystal-sword",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 6,
+   "small": { "warmup": "teddy-pack", "learn": "treasure-map", "training": "crown-badge", "game": "explorer-goggles", "boss": "ranch-boots", "read": "castle-cat", "words": "torch", "infer": "riding-gloves", "think": "circlet"
+   },
+   "medium": "dragon-shield",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 7,
+   "small": { "warmup": "bead-necklace", "learn": "buckler", "training": "shield-paint", "game": "blue-cloak", "boss": "castle-banner", "read": "bunny-slippers", "words": "hedgehog", "infer": "dragon-badge", "think": "dragon-gloves"
+   },
+   "medium": "lion-hood",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 8,
+   "small": { "warmup": "jester-hat", "learn": "crystal-pendant", "training": "wooden-shield", "game": "herald-horn", "boss": "dragon-paint", "read": "sandals", "words": "owlet", "infer": "ranger-cloak", "think": "wizard-gloves"
+   },
+   "medium": "royal-cape",
+   "chest": "knight-pony",
+   "land": "tournament-bg"
+  },
+  {
+   "stone": 9,
+   "small": { "warmup": "squire-cap", "learn": "flower-lei", "training": "hobby-horse", "game": "kite-shield", "boss": "lightning-paint", "read": "sword-badge", "words": "rainbow-socks", "infer": "bunny", "think": "sceptre"
+   },
+   "medium": "throne-room-bg",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 10,
+   "small": { "warmup": "jester-cape", "learn": "visor-helmet", "training": "castle-key", "game": "star-paint", "boss": "hero-gloves", "read": "castle-lantern", "words": "dragon-boots", "infer": "puppy", "think": "castle-badge"
+   },
+   "medium": "royal-tabard",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 11,
+   "small": { "warmup": "castle-wand", "learn": "rainbow-paint", "training": "castle-wizard-hat", "game": "dragon-scale", "boss": "light-up-sneakers", "read": "goblet", "words": "squirrel", "infer": "jester-gloves", "think": "dragon-tail"
+   },
+   "medium": "flame-sword",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 12,
+   "small": { "warmup": "ribbon-wand", "learn": "hero-mask", "training": "horse-badge", "game": "dragon-horns", "boss": "dino-slippers", "read": "duckling", "words": "gorget", "infer": "magic-mirror", "think": "dragon-kite"
+   },
+   "medium": "horned-helmet",
+   "chest": "phoenix-wings",
+   "land": "garden-bg"
+  },
+  {
+   "stone": 13,
+   "small": { "warmup": "archer-bracers", "learn": "little-dragon-wings", "training": "crown-paint", "game": "jester-shoes", "boss": "goat-kid", "read": "carrot-bunch", "words": "laurel-wreath", "infer": "ruff-collar", "think": "dragon-egg"
+   },
+   "medium": "night-cape",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 14,
+   "small": { "warmup": "key-badge", "learn": "smith-gloves", "training": "sword-paint", "game": "broom", "boss": "back-shield", "read": "royal-slippers", "words": "lamb", "infer": "archer-hood", "think": "gold-chain"
+   },
+   "medium": "space-bg",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 15,
+   "small": { "warmup": "crystal-ball", "learn": "watering-can", "training": "castle-paint", "game": "royal-gloves", "boss": "sun-badge", "read": "gold-boots", "words": "piglet", "infer": "paper-crown", "think": "lion-pendant"
+   },
+   "medium": "sun-shield",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 16,
+   "small": { "warmup": "scabbard", "learn": "royal-orb", "training": "hand-bell", "game": "sun-paint", "boss": "wizard-boots", "read": "dove", "words": "ice-gauntlets", "infer": "feathered-beret", "think": "whistle-cord"
+   },
+   "medium": "dragon-armour",
+   "chest": "star-fox",
+   "land": "battlements-bg"
+  },
+  {
+   "stone": 17,
+   "small": { "warmup": "feather-duster", "learn": "book-badge", "training": "mini-chest", "game": "moon-paint", "boss": "back-pennant", "read": "archer-boots", "words": "tortoise", "infer": "gold-gauntlets", "think": "foam-sword"
+   },
+   "medium": "rainbow-sword",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 18,
+   "small": { "warmup": "bucket-helm", "learn": "acorn-necklace", "training": "dragon-book", "game": "freckle-dots", "boss": "lion-slippers", "read": "hen", "words": "owl-badge", "infer": "lute", "think": "bedroll-pack"
+   },
+   "medium": "plume-helmet",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 19,
+   "small": { "warmup": "flame-gloves", "learn": "owl-headband", "training": "star-pendant", "game": "toy-castle", "boss": "wizard-specs", "read": "cosy-socks", "words": "butterfly", "infer": "giant-key", "think": "flag-badge"
+   },
+   "medium": "lion-cape",
+   "chest": null,
+   "land": null
+  },
+  {
+   "stone": 20,
+   "small": { "warmup": "griffin-feathers", "learn": "page-cap", "training": "heart-locket", "game": "dragon-goggles", "boss": "feather-gloves", "read": "apple", "words": "star-sneakers", "infer": "bouquet", "think": "goldfish"
+   },
+   "medium": "jungle-bg",
+   "chest": "legend-armour",
+   "land": "dragon-hill-bg"
+  }
+ ],
+ "thinker": [
+  "two-ways-badge",
+  "bulb-badge",
+  "magnifier-badge",
+  "puzzle-badge",
+  "ten-frame-badge"
+ ]
+}
