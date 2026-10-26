@@ -146,6 +146,7 @@ Is there another way?"
 
 - Test before you push: `npm ci && npx playwright install chromium && npm test` (Vitest unit tests, then Playwright at
   phone and tablet sizes, which also fails if any screen scrolls).
-- Deploy = push to `main`. The GitHub Action builds, tests and publishes `dist/` to Pages at the same URL. Progress is
+- Deploy = push to `main`. The GitHub Action only builds and publishes `dist/` to Pages at the same URL (no tests there:
+  the suite takes ~25 minutes), so run the full `npm test` locally and only push when it passes. Progress is
   stored per device in `localStorage` under `hq-v1`, so do not change the URL or the key casually.
 - Ask before adding anything that collects data, needs a login, or shows ads. The answer is almost certainly no.

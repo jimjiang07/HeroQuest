@@ -1,4 +1,4 @@
-# Build, test, then publish dist/ to GitHub Pages on every push to main.
+# Build, then publish dist/ to GitHub Pages on every push to main. Tests run locally before pushing (npm test).
 # One-time setup: repo Settings → Pages → Source: "GitHub Actions".
 name: Deploy
 
@@ -26,11 +26,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
       - run: npm run build
-      - run: npm test
-        env:
-          CI: '1'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
