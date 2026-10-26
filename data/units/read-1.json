@@ -1,0 +1,158 @@
+{
+ "app": {
+  "id": "read1",
+  "module": "read",
+  "title": "Pip and Peg",
+  "intro": {
+   "title": "Read: Pip and Peg",
+   "say": "Pip is a squire. Peg is a pony. Listen to the story, and read along. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read"
+   ],
+   "game": [
+    "words",
+    "infer"
+   ],
+   "help": 5,
+   "own": 6,
+   "challenge": 4,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "cap",
+      "bag",
+      "map"
+     ]
+    },
+    {
+     "words": [
+      "cap",
+      "bag",
+      "map",
+      "hill"
+     ]
+    }
+   ]
+  },
+  "pages": [
+   {
+    "text": "Pip has a red cap.",
+    "pic": "squire-cap"
+   },
+   {
+    "text": "Peg is a pony. Peg can run fast.",
+    "pic": "knight-pony"
+   },
+   {
+    "text": "Pip has a big bag.",
+    "pic": "knight-satchel",
+    "tap": "bag"
+   },
+   {
+    "text": "In the bag is a map.",
+    "pic": "treasure-map"
+   },
+   {
+    "text": "Pip and Peg run up the hill. The sun is hot.",
+    "pic": "dragon-hill-bg",
+    "tap": "hill"
+   }
+  ],
+  "words": [
+   {
+    "w": "cap",
+    "pic": "squire-cap",
+    "mean": "A cap is a soft hat."
+   },
+   {
+    "w": "bag",
+    "pic": "knight-satchel",
+    "mean": "A bag is for carrying things."
+   },
+   {
+    "w": "map",
+    "pic": "treasure-map",
+    "mean": "A map shows you the way to go."
+   },
+   {
+    "w": "hill",
+    "pic": "dragon-hill-bg",
+    "mean": "A hill is high ground. You go up a hill."
+   }
+  ],
+  "heart": [
+   "the",
+   "is"
+  ],
+  "questions": [
+   {
+    "q": "Who is Peg?",
+    "options": [
+     {
+      "v": "pony",
+      "pic": "knight-pony"
+     },
+     {
+      "v": "cat",
+      "pic": "castle-cat"
+     },
+     {
+      "v": "hen",
+      "pic": "hen"
+     }
+    ],
+    "answer": "pony",
+    "clues": [
+     "Pip has a red cap.",
+     "Peg is a pony.",
+     "In the bag is a map."
+    ],
+    "clue": "Peg is a pony."
+   },
+   {
+    "q": "Is Peg fast or slow?",
+    "options": [
+     {
+      "v": "fast"
+     },
+     {
+      "v": "slow"
+     }
+    ],
+    "answer": "fast",
+    "clues": [
+     "Pip has a big bag.",
+     "Peg can run fast.",
+     "The sun is hot."
+    ],
+    "clue": "Peg can run fast.",
+    "say": "Is Peg fast, or slow?"
+   },
+   {
+    "q": "Is it day or night?",
+    "options": [
+     {
+      "v": "day"
+     },
+     {
+      "v": "night"
+     }
+    ],
+    "answer": "day",
+    "clues": [
+     "Pip has a red cap.",
+     "In the bag is a map.",
+     "The sun is hot."
+    ],
+    "clue": "The sun is hot.",
+    "say": "Is it day, or night?"
+   }
+  ]
+ }
+}

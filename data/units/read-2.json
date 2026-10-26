@@ -1,0 +1,153 @@
+{
+ "app": {
+  "id": "read2",
+  "module": "read",
+  "title": "Dot and the Pup",
+  "intro": {
+   "title": "Read: Dot and the Pup",
+   "say": "Dot is the castle cat. Listen to the story, and read along. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read"
+   ],
+   "game": [
+    "words",
+    "infer"
+   ],
+   "help": 5,
+   "own": 6,
+   "challenge": 4,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "cat",
+      "pup",
+      "hen"
+     ]
+    },
+    {
+     "words": [
+      "cat",
+      "pup",
+      "hen",
+      "box"
+     ]
+    }
+   ]
+  },
+  "pages": [
+   {
+    "text": "Dot is a cat. Dot has a nap.",
+    "pic": "castle-cat"
+   },
+   {
+    "text": "A pup runs in. The pup is wet.",
+    "pic": "puppy"
+   },
+   {
+    "text": "The pup runs at the hen. The hen pecks the pup!",
+    "pic": "hen",
+    "tap": "hen"
+   },
+   {
+    "text": "Dot hops up on a box. The pup can not get up.",
+    "pic": "mini-chest"
+   },
+   {
+    "text": "Then Dot and the pup nap in the sun.",
+    "pic": "garden-bg",
+    "tap": "sun"
+   }
+  ],
+  "words": [
+   {
+    "w": "cat",
+    "pic": "castle-cat",
+    "mean": "A cat is a soft pet that says meow."
+   },
+   {
+    "w": "pup",
+    "pic": "puppy",
+    "mean": "A pup is a baby dog."
+   },
+   {
+    "w": "hen",
+    "pic": "hen",
+    "mean": "A hen is a bird that lays eggs."
+   },
+   {
+    "w": "box",
+    "pic": "mini-chest",
+    "mean": "A box holds things. You can put things in it."
+   }
+  ],
+  "heart": [
+   "the",
+   "is",
+   "to"
+  ],
+  "questions": [
+   {
+    "q": "Does the hen like the pup?",
+    "options": [
+     {
+      "v": "yes"
+     },
+     {
+      "v": "no"
+     }
+    ],
+    "answer": "no",
+    "clues": [
+     "A pup runs in.",
+     "The hen pecks the pup!",
+     "Dot has a nap."
+    ],
+    "clue": "The hen pecks the pup!",
+    "say": "Does the hen like the pup? Yes, or no?"
+   },
+   {
+    "q": "Why does Dot hop up on the box?",
+    "options": [
+     {
+      "v": "to get away from the pup"
+     },
+     {
+      "v": "to eat a bun"
+     }
+    ],
+    "answer": "to get away from the pup",
+    "clues": [
+     "Dot is a cat.",
+     "The pup can not get up.",
+     "The pup is wet."
+    ],
+    "clue": "The pup can not get up."
+   },
+   {
+    "q": "Are Dot and the pup friends at the end?",
+    "options": [
+     {
+      "v": "yes"
+     },
+     {
+      "v": "no"
+     }
+    ],
+    "answer": "yes",
+    "clues": [
+     "The pup runs at the hen.",
+     "Dot hops up on a box.",
+     "Then Dot and the pup nap in the sun."
+    ],
+    "clue": "Then Dot and the pup nap in the sun.",
+    "say": "Are Dot and the pup friends at the end? Yes, or no?"
+   }
+  ]
+ }
+}
