@@ -26,8 +26,12 @@ test('the voice plays recorded clips, not the device voice',async({page})=>{
 });
 
 test('quests show both subjects, and a locked quest says what opens it',async({page})=>{
-  await seed(page,hero({unlockAll:false}));
+  // the busiest hub: Keep going, a rematch due and every card
+  const sk=(bossDay:string)=>({status:'growing',help:2,diff:0,recent:[],bossDay,secureDay:null,last:null,override:null});
+  const all=['learn','help','own','game','challenge','boss'];
+  await seed(page,hero({unlockAll:false,profiles:{p1:{avatar:'knight',world:'castle',created:'2026-10-01',quests:{jt10:{done:all},blend:{done:all},heart:{done:['learn']}},skills:{jt10:sk('2026-10-01'),blend:sk('2026-10-01')},feedback:[]}}}));
   await page.goto('./#/hub');
+  await expect(page.locator('.rematch')).toBeVisible();
   await expect(page.locator('.qcard')).toHaveCount(6);
   await page.locator('.tab.english').click();await fits(page,'english tab');
   await expect(page.locator('.qcard')).toHaveCount(6);
@@ -121,10 +125,14 @@ test('an old save keeps its stars as the first hero',async({page})=>{
 });
 
 /* short screens (phone sideways, browser bars showing): the quest list and term screens still fit with nothing cut off */
-for(const [w,h] of [[844,390],[390,600],[1180,740]])test(`More quests, the term map and a stone fit at ${w}×${h}`,async({page})=>{
+for(const [w,h] of [[844,390],[390,600],[390,620],[1180,740]])test(`More quests, the term map and a stone fit at ${w}×${h}`,async({page})=>{
   await page.setViewportSize({width:w,height:h});
-  await seed(page,hero({unlockAll:false}));
+  // the busiest hub: Keep going, a rematch due and every card
+  const sk=(bossDay:string)=>({status:'growing',help:2,diff:0,recent:[],bossDay,secureDay:null,last:null,override:null});
+  const all=['learn','help','own','game','challenge','boss'];
+  await seed(page,hero({unlockAll:false,profiles:{p1:{avatar:'knight',world:'castle',created:'2026-10-01',quests:{jt10:{done:all},blend:{done:all},heart:{done:['learn']}},skills:{jt10:sk('2026-10-01'),blend:sk('2026-10-01')},feedback:[]}}}));
   await page.goto('./#/hub');
+  await expect(page.locator('.rematch')).toBeVisible();
   for(const tab of ['Maths','English']){await page.getByRole('tab',{name:tab}).click();await expect(page.locator('.qcard').first()).toBeVisible();await fits(page,`hub ${tab} ${w}×${h}`)}
   await page.goto('./#/term');await expect(page.locator('.tmap')).toBeVisible();await fits(page,`term ${w}×${h}`);
   await page.goto('./#/session/1');await page.waitForTimeout(400);await fits(page,`stone 1 ${w}×${h}`);

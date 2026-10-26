@@ -23,8 +23,9 @@
 :root[data-theme="dark"][data-sub="english"]{--bg:#16242e;--c:#6cc5c9;--soft:#1d3544;--mid:#2b5a6b}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{overscroll-behavior:none}
-body{margin:0;overscroll-behavior:none;background:var(--doodle) 0 0/220px 220px,var(--bg);color:var(--ink);font-family:var(--body);height:100dvh;overflow:hidden;touch-action:manipulation}
+/* iOS scrolls the page even with overflow hidden, so the page itself is pinned to the screen */
+html,body{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
+body{margin:0;background:var(--doodle) 0 0/220px 220px,var(--bg);color:var(--ink);font-family:var(--body);height:100dvh;overflow:hidden;touch-action:manipulation}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible{outline:4px solid var(--gold);outline-offset:3px}
 svg{display:block}
@@ -563,6 +564,7 @@ main.screen:has(.keep),main.screen:has(.tabs){justify-content:flex-start}
 /* short screens (phone sideways, browser bars showing): the list itself says Keep going, so the big card goes first, then the status line */
 @media (max-height:720px){main.screen:has(.quests) .keep{display:none}}
 @media (max-height:600px){.qcard .qs{display:none}.qcard{padding:8px 10px}}
+@media (max-height:480px){.rematch{padding-block:4px}.rmboss{width:36px;height:36px}.hubtop .tab,.hubtop .wardb{min-height:48px}main.screen:has(.quests){gap:8px}.qcard{padding:5px 10px}.qcard .qart{width:40px}.qcard .qn{font-size:19px}}
 .hubtop .tabs{flex:1;min-width:0}
 .wardb{position:relative;flex:none;min-height:56px;min-width:76px;display:flex;align-items:center;justify-content:center;gap:2px;padding:2px 8px 2px 4px;border:4px solid var(--ink);border-radius:var(--rd-s);background:var(--card)}
 .wardb .av{--avs:44px!important;border-width:3px}
