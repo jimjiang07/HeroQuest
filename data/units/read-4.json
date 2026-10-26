@@ -1,0 +1,157 @@
+{
+ "app": {
+  "id": "read4",
+  "module": "read",
+  "title": "The Drawbridge",
+  "intro": {
+   "title": "Read: The Drawbridge",
+   "say": "Meg and Sam need to get into the castle. Listen to the story, and read along. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read"
+   ],
+   "game": [
+    "words",
+    "infer"
+   ],
+   "help": 5,
+   "own": 6,
+   "challenge": 4,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "horn",
+      "chest",
+      "chick"
+     ]
+    },
+    {
+     "words": [
+      "horn",
+      "chest",
+      "chick"
+     ]
+    }
+   ]
+  },
+  "pages": [
+   {
+    "text": "Meg and Sam got to the castle. The drawbridge was shut.",
+    "pic": "castle-bg",
+    "tap": "shut"
+   },
+   {
+    "text": "“Let us in!” said Meg. Sam got his horn.",
+    "pic": "herald-horn"
+   },
+   {
+    "text": "The king got up from his nap. “What is that?” he said.",
+    "pic": "throne-room-bg",
+    "tap": "nap"
+   },
+   {
+    "text": "The king got the big key. Thud, down went the drawbridge!",
+    "pic": "drawbridge-bg"
+   },
+   {
+    "text": "Meg and Sam ran in with a chest for the king.",
+    "pic": "mini-chest",
+    "tap": "chest"
+   },
+   {
+    "text": "In the chest was a chick! “Thank you!” said the king.",
+    "pic": "chick"
+   }
+  ],
+  "words": [
+   {
+    "w": "horn",
+    "pic": "herald-horn",
+    "mean": "A horn makes a loud sound when you blow it. Toot!"
+   },
+   {
+    "w": "chest",
+    "pic": "mini-chest",
+    "mean": "A chest is a big box with a lid."
+   },
+   {
+    "w": "chick",
+    "pic": "chick",
+    "mean": "A chick is a baby hen."
+   }
+  ],
+  "heart": [
+   "the",
+   "was",
+   "said",
+   "he",
+   "to"
+  ],
+  "questions": [
+   {
+    "q": "Why did Sam get his horn?",
+    "options": [
+     {
+      "v": "to ask to get in"
+     },
+     {
+      "v": "to play a game"
+     }
+    ],
+    "answer": "to ask to get in",
+    "clues": [
+     "Meg and Sam got to the castle.",
+     "“Let us in!” said Meg.",
+     "The king got the big key."
+    ],
+    "clue": "“Let us in!” said Meg."
+   },
+   {
+    "q": "Who was asleep?",
+    "options": [
+     {
+      "v": "the king"
+     },
+     {
+      "v": "Meg"
+     },
+     {
+      "v": "Sam"
+     }
+    ],
+    "answer": "the king",
+    "clues": [
+     "The king got up from his nap.",
+     "Sam got his horn.",
+     "Meg and Sam ran in with a chest for the king."
+    ],
+    "clue": "The king got up from his nap.",
+    "say": "Who was asleep? The king, Meg, or Sam?"
+   },
+   {
+    "q": "Was the king glad to get the chick?",
+    "options": [
+     {
+      "v": "yes"
+     },
+     {
+      "v": "no"
+     }
+    ],
+    "answer": "yes",
+    "clues": [
+     "The drawbridge was shut.",
+     "The king got the big key.",
+     "“Thank you!” said the king."
+    ],
+    "clue": "“Thank you!” said the king.",
+    "say": "Was the king glad to get the chick? Yes, or no?"
+   }
+  ]
+ }
+}

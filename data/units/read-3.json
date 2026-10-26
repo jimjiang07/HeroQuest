@@ -1,0 +1,149 @@
+{
+ "app": {
+  "id": "read3",
+  "module": "read",
+  "title": "Gus the Dragon",
+  "intro": {
+   "title": "Read: Gus the Dragon",
+   "say": "Gus is a friendly dragon who lives on a hill. Listen to the story, and read along. Tap Start."
+  },
+  "quest": {
+   "learn": [
+    "read"
+   ],
+   "game": [
+    "words",
+    "infer"
+   ],
+   "help": 5,
+   "own": 6,
+   "challenge": 4,
+   "boss": 5
+  },
+  "practice": {
+   "gen": "words",
+   "levels": [
+    {
+     "words": [
+      "egg",
+      "bell",
+      "hug"
+     ]
+    },
+    {
+     "words": [
+      "egg",
+      "bell",
+      "hug"
+     ]
+    }
+   ]
+  },
+  "pages": [
+   {
+    "text": "Gus was a big dragon. Gus was not bad.",
+    "pic": "dragon-hill-bg",
+    "tap": "big"
+   },
+   {
+    "text": "Gus sat on an egg. The egg was hot.",
+    "pic": "dragon-egg"
+   },
+   {
+    "text": "Kit and Tam ran up to Gus. Tam had a bell.",
+    "pic": "hand-bell",
+    "tap": "bell"
+   },
+   {
+    "text": "Crack! A tiny dragon got out of the egg.",
+    "pic": "baby-dragon"
+   },
+   {
+    "text": "Gus was so glad. Kit and Tam got a big hug.",
+    "pic": "heart-badge",
+    "tap": "hug"
+   }
+  ],
+  "words": [
+   {
+    "w": "egg",
+    "pic": "dragon-egg",
+    "mean": "An egg is where a baby bird, or a baby dragon, comes from."
+   },
+   {
+    "w": "bell",
+    "pic": "hand-bell",
+    "mean": "A bell rings when you shake it. Ding!"
+   },
+   {
+    "w": "hug",
+    "pic": "heart-badge",
+    "mean": "A hug is when you put your arms around someone you love."
+   }
+  ],
+  "heart": [
+   "the",
+   "is",
+   "was",
+   "to"
+  ],
+  "questions": [
+   {
+    "q": "Is Gus a kind dragon?",
+    "options": [
+     {
+      "v": "yes"
+     },
+     {
+      "v": "no"
+     }
+    ],
+    "answer": "yes",
+    "clues": [
+     "The egg was hot.",
+     "Tam had a bell.",
+     "Kit and Tam got a big hug."
+    ],
+    "clue": "Kit and Tam got a big hug.",
+    "say": "Is Gus a kind dragon? Yes, or no?"
+   },
+   {
+    "q": "Why did Gus sit on the egg?",
+    "options": [
+     {
+      "v": "to keep it warm"
+     },
+     {
+      "v": "to have a nap"
+     }
+    ],
+    "answer": "to keep it warm",
+    "clues": [
+     "Gus was a big dragon.",
+     "The egg was hot.",
+     "Tam had a bell."
+    ],
+    "clue": "The egg was hot."
+   },
+   {
+    "q": "How did Gus feel at the end?",
+    "options": [
+     {
+      "v": "happy"
+     },
+     {
+      "v": "cross"
+     }
+    ],
+    "answer": "happy",
+    "clues": [
+     "Gus was not bad.",
+     "Kit and Tam ran up to Gus.",
+     "Gus was so glad."
+    ],
+    "clue": "Gus was so glad.",
+    "say": "How did Gus feel at the end? Happy, or cross?"
+   }
+  ]
+ }
+}
