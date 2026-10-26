@@ -17,8 +17,6 @@ export interface Feedback{quest:string;level:string|null;fun:string|null;tags:st
 export type Kit=Partial<Record<'head'|'face'|'neck'|'badge'|'outfit'|'back'|'main'|'off'|'gloves'|'feet'|'pet'|'bg',string|null>>;
 export interface Profile{avatar:string;world:string;created:string;quests:Record<string,{done:QuestStep[]}>;skills:Record<string,Skill>;feedback:Feedback[];kit?:Kit;
   thinker?:number;   // thinker badges earned (kept trying after a Try again, or a boss bonus)
-  /** stones and bosses already done when item rewards arrived: only progress after this wins items */
-  itemsFrom?:{stones:number;bosses:number};
   /** play area: where the hero ('hero') and each pet (item id) stand, in % of the place */
   pose?:Record<string,{x:number;y:number}>}
 export interface State{
@@ -37,7 +35,7 @@ const tidy=(st:State)=>{
   delete (st as {plan?:unknown}).plan;   // the term map came and went (Oct 2026)
   for(const p of Object.values(st.profiles)){
     p.avatar=OLD_AVATAR[p.avatar]??p.avatar;delete (p as {noPrinter?:boolean}).noPrinter;delete (p as {term?:unknown}).term;
-    p.itemsFrom??={stones:stonesDone(p),bosses:bossesBeaten(p)};
+    delete (p as {itemsFrom?:unknown}).itemsFrom;   // a starting point tried briefly; items now belong to stones
     for(const q of Object.values(p.quests??{}))q.done=q.done.filter(s=>QUEST_STEPS.includes(s));
   }
   return st;
@@ -59,7 +57,7 @@ export function migrate(raw:unknown):State{
 export function addProfile(st:State,{avatar,world}:{avatar:string;world:string}):string{
   let n=1;while(st.profiles['p'+n])n++;
   const id='p'+n;
-  st.profiles[id]={avatar,world,created:today(),quests:{},skills:{},feedback:[],itemsFrom:{stones:0,bosses:0}};
+  st.profiles[id]={avatar,world,created:today(),quests:{},skills:{},feedback:[]};
   st.active=id;
   return id;
 }
@@ -110,22 +108,27 @@ export function newGear(p:Profile,quests:{id:string;reward:readonly string[]}[],
 
 export function addFeedback(p:Profile,entry:Omit<Feedback,'day'>,day=today()){p.feedback=[...(p.feedback||[]),{...entry,day}].slice(-100)}
 
-/* ---------- Reward items (data/rewards.json): the next small item for every quest stone finished, the next boss reward
-   for every boss beaten, and a thinker badge each time the hero kept trying or got the boss bonus ---------- */
-export interface RewardPlan{small:string[];boss:string[][];thinker:string[]}
-function stonesDone(p:Profile){return Object.values(p.quests??{}).reduce((n,q)=>n+q.done.length,0)}
-function bossesBeaten(p:Profile){return Object.keys(p.quests??{}).filter(id=>stepDone(p,id,'boss')).length}
-// counted from when item rewards arrived, so old progress doesn't hand out a pile of items at once
-const stonesNew=(p:Profile)=>Math.max(0,stonesDone(p)-(p.itemsFrom?.stones??0));
-const bossesNew=(p:Profile)=>Math.max(0,bossesBeaten(p)-(p.itemsFrom?.bosses??0));
-/* every item the hero has, in unlock order; worked out from progress, so nothing can be lost or taken away */
-export const itemsWon=(p:Profile,r:RewardPlan):string[]=>
-  [...r.small.slice(0,stonesNew(p)),...r.boss.slice(0,bossesNew(p)).flat(),...r.thinker.slice(0,p.thinker??0)];
+/* ---------- Reward items (data/rewards.json): every quest stone has its own item and every boss its own reward, so
+   the items a hero has are exactly the stones and bosses they have done ---------- */
+export interface RewardPlan{quests:string[];small:string[];boss:string[][];thinker:string[]}
+/* every item the hero has; worked out from progress, so a stone already done has its item and nothing can be lost */
+export function itemsWon(p:Profile,r:RewardPlan):string[]{
+  const out:string[]=[];
+  r.quests.forEach((id,i)=>{
+    QUEST_STEPS.forEach((s,j)=>{if(stepDone(p,id,s))out.push(r.small[i*QUEST_STEPS.length+j])});
+    if(stepDone(p,id,'boss'))out.push(...(r.boss[i]??[]));
+  });
+  return [...out.filter(Boolean),...r.thinker.slice(0,p.thinker??0)];
+}
 /* the items a change of progress just won (for the reveal at the end of a step) */
 export function newItems(p:Profile,r:RewardPlan,change:()=>void){
   const had=new Set(itemsWon(p,r));change();
   return itemsWon(p,r).filter(i=>!had.has(i));
 }
-/* the next item a stone will win (shown as a silhouette); null once every one is won */
-export const nextItem=(p:Profile,r:RewardPlan):string|null=>r.small[stonesNew(p)]??null;
+/* the item a stone gives, and the next one still to win in a quest (or overall), for the silhouettes */
+export const stoneItem=(r:RewardPlan,quest:string,step:QuestStep)=>{const i=r.quests.indexOf(quest);return i<0?null:r.small[i*QUEST_STEPS.length+QUEST_STEPS.indexOf(step)]??null};
+export function nextItem(p:Profile,r:RewardPlan,quest?:string):string|null{
+  for(const id of quest?[quest]:r.quests){const s=nextStep(p,id);if(s)return stoneItem(r,id,s)}
+  return null;
+}
 export function markThinker(p:Profile){p.thinker=(p.thinker??0)+1}

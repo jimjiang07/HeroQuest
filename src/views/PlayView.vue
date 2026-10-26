@@ -77,7 +77,7 @@ const end=computed(()=>step==='boss'
 function done(){
   if(!Q)return;
   items.value=[...items.value,...L.newItems(p,REWARDS,()=>{if(step!=='boss')L.markStep(p,Q.id,step);if(thinker&&!props.rematch)L.markThinker(p)})];
-  next.value=L.nextItem(p,REWARDS);hold.value=items.value.length>0;
+  next.value=L.nextItem(p,REWARDS,Q.id)??L.nextItem(p,REWARDS);hold.value=items.value.length>0;
 }
 </script>
 

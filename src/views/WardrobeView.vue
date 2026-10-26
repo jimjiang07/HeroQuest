@@ -141,7 +141,7 @@ const isOn=(t:Tile)=>t.kind==='none'?!wearing.value:t.kind==='item'&&t.id===wear
 .wd-grid{flex:1;min-width:0;height:100%;container-type:size}
 .wd-gridin{--gap:clamp(6px,1.2vw,12px);--t:min(calc((100cqw - (var(--cols) - 1)*var(--gap))/var(--cols)),calc((100cqh - var(--gap))/2),150px);
   display:grid;grid-template-columns:repeat(var(--cols),var(--t));grid-auto-rows:var(--t);gap:var(--gap);justify-content:center;align-content:center;height:100%}
-.wd-tile{position:relative;width:var(--t);height:var(--t);display:grid;place-items:center;padding:5px;border:4px solid var(--ink);border-radius:var(--rd);background:var(--card);box-shadow:0 4px 0 var(--ink)}
+.wd-tile{position:relative;width:var(--t);height:var(--t);display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr);place-items:center;padding:5px;border:4px solid var(--ink);border-radius:var(--rd);background:var(--card);box-shadow:0 4px 0 var(--ink)}
 .wd-tile img{width:100%;height:100%;object-fit:contain}
 .wd-tile[aria-pressed="true"]{background:#fff3c4;outline:5px solid var(--gold);outline-offset:2px}
 .wd-tile.later{border-style:dashed;box-shadow:none;background:transparent}

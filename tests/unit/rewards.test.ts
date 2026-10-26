@@ -2,6 +2,7 @@ import {describe,expect,it} from 'vitest';
 import * as L from '@/learn/learner';
 import {REWARDS as R} from '@/rewards';
 import {ITEMS} from '@/art/wear';
+import {QUESTS} from '@/content';
 
 const fresh=()=>{const st=L.migrate(null);L.addProfile(st,{avatar:'knight',world:'castle'});return {st,p:L.active(st)!}};
 const ALL=['learn','help','own','game','challenge'] as const;
@@ -11,36 +12,46 @@ describe('the reward plan',()=>{
     const ids=[...R.small,...R.boss.flat(),...R.thinker];
     expect(ids.filter(id=>!ITEMS[id])).toEqual([]);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(R.small.length).toBeGreaterThanOrEqual(120);    // enough for every stone of 20 quests
   });
-  it('every 4th boss also opens a chest: a big item and a place',()=>{
-    R.boss.forEach((b,i)=>expect(b.length).toBe(i%4===3?3:1));
+  it('every quest has its six stone items and a boss reward; every 4th boss also opens a chest',()=>{
+    for(const id of QUESTS.map(q=>q.id))expect(R.quests).toContain(id);
+    expect(R.small.length).toBeGreaterThanOrEqual(R.quests.length*6);
+    R.quests.forEach((_,i)=>expect(R.boss[i]).toHaveLength(i%4===3?3:1));
   });
 });
 
 describe('items won',()=>{
-  it('a new hero has none and the first stone item is next',()=>{
+  const q0=R.quests[0],q1=R.quests[1];
+  it('a new hero has none, and the next item is the first quest\'s first stone',()=>{
     const {p}=fresh();
     expect(L.itemsWon(p,R)).toEqual([]);
     expect(L.nextItem(p,R)).toBe(R.small[0]);
   });
-  it('each stone finished the first time wins the next small item, in order, whichever quest it is',()=>{
+  it('each stone gives its own item, whatever order the stones are played in',()=>{
     const {p}=fresh();
-    expect(L.newItems(p,R,()=>L.markStep(p,'jt10','learn'))).toEqual([R.small[0]]);
-    expect(L.newItems(p,R,()=>L.markStep(p,'heart','learn'))).toEqual([R.small[1]]);
-    expect(L.newItems(p,R,()=>L.markStep(p,'jt10','learn'))).toEqual([]);   // playing a stone again wins nothing new
+    expect(L.newItems(p,R,()=>L.markStep(p,q1,'learn'))).toEqual([R.small[6]]);
+    expect(L.newItems(p,R,()=>L.markStep(p,q0,'help'))).toEqual([R.small[1]]);
+    expect(L.newItems(p,R,()=>L.markStep(p,q1,'learn'))).toEqual([]);   // playing a stone again wins nothing new
   });
-  it('beating a boss wins its stone item and the next boss reward; a rematch wins no item',()=>{
+  it('beating a boss wins its stone item and its own boss reward; a rematch wins no item',()=>{
     const {p}=fresh();
-    ALL.forEach(s=>L.markStep(p,'jt10',s));
-    expect(L.newItems(p,R,()=>L.bossWon(p,'jt10','2026-10-01'))).toEqual([R.small[5],...R.boss[0]]);
-    expect(L.newItems(p,R,()=>L.rematchWon(p,'jt10','2026-10-02'))).toEqual([]);
+    ALL.forEach(s=>L.markStep(p,q1,s));
+    expect(L.newItems(p,R,()=>L.bossWon(p,q1,'2026-10-01'))).toEqual([R.small[11],...R.boss[1]]);
+    expect(L.newItems(p,R,()=>L.rematchWon(p,q1,'2026-10-02'))).toEqual([]);
   });
-  it('the 4th boss opens the chest',()=>{
+  it('the 4th quest\'s boss opens the chest',()=>{
     const {p}=fresh();
-    const got=['jt10','groups','blend'].flatMap(id=>L.newItems(p,R,()=>L.bossWon(p,id)));
-    expect(got).toEqual([R.small[0],R.boss[0][0],R.small[1],R.boss[1][0],R.small[2],R.boss[2][0]]);
-    expect(L.newItems(p,R,()=>L.bossWon(p,'heart'))).toEqual([R.small[3],...R.boss[3]]);
+    expect(L.newItems(p,R,()=>L.bossWon(p,R.quests[3]))).toEqual([R.small[23],...R.boss[3]]);
+    expect(R.boss[3]).toHaveLength(3);
+  });
+  it('progress from before item rewards is backfilled: each stone already done has its item, nothing else',()=>{
+    const {st}=fresh();
+    const old=JSON.parse(JSON.stringify(st));old.profiles.p1.itemsFrom={stones:7,bosses:1};
+    old.profiles.p1.quests={[q0]:{done:['learn','help','own','game','challenge','boss']},[q1]:{done:['learn']}};
+    const p=L.migrate(old).profiles.p1;
+    expect((p as {itemsFrom?:unknown}).itemsFrom).toBeUndefined();
+    expect(L.itemsWon(p,R)).toEqual([...R.small.slice(0,6),...R.boss[0],R.small[6]]);
+    expect(L.nextItem(p,R)).toBe(R.small[7]);
   });
   it('thinker badges come one at a time, in order',()=>{
     const {p}=fresh();
@@ -52,15 +63,5 @@ describe('items won',()=>{
     const old=JSON.parse(JSON.stringify(st));old.plan={1:{maths:'bonds10'}};old.profiles.p1.term={1:{done:['warmup']}};
     const out=L.migrate(old);
     expect((out as {plan?:unknown}).plan).toBeUndefined();expect((out.profiles.p1 as {term?:unknown}).term).toBeUndefined();
-  });
-  it('progress from before item rewards wins nothing: items start with the next stone played',()=>{
-    const {st}=fresh();
-    const old=JSON.parse(JSON.stringify(st));delete old.profiles.p1.itemsFrom;
-    old.profiles.p1.quests={jt10:{done:['learn','help','own','game','challenge','boss']},heart:{done:['learn']}};
-    const p=L.migrate(old).profiles.p1;
-    expect(p.itemsFrom).toEqual({stones:7,bosses:1});
-    expect(L.itemsWon(p,R)).toEqual([]);
-    expect(L.newItems(p,R,()=>L.markStep(p,'heart','help'))).toEqual([R.small[0]]);
-    expect(L.newItems(p,R,()=>L.bossWon(p,'heart'))).toEqual([R.small[1],...R.boss[0]]);
   });
 });

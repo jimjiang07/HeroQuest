@@ -22,7 +22,11 @@
 :root[data-theme="dark"]{--bg:#1b1e33;--card:#262a48;--ink:#f3f4fc;--c:#ff8a6b;--soft:#2c2447;--mid:#6b3b4a;--gold:#ffd166;--or:#ffa04d;--ok:#6fd08f;--muted:#a9aed0;--lane-m:#ff8a6b;--lane-e:#6cc5c9;--doodle:none}
 :root[data-theme="dark"][data-sub="english"]{--bg:#16242e;--c:#6cc5c9;--soft:#1d3544;--mid:#2b5a6b}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+/* little fingers: no text selection, no long-press menu, no dragging pictures (typing boxes still select) */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+img,svg{-webkit-user-drag:none}
+input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 /* iOS scrolls the page even with overflow hidden, so the page itself is pinned to the screen */
 html,body{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
 body{margin:0;background:var(--doodle) 0 0/220px 220px,var(--bg);color:var(--ink);font-family:var(--body);height:100dvh;overflow:hidden;touch-action:manipulation}

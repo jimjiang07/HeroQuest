@@ -5,7 +5,7 @@ const ALL=['learn','help','own','game','challenge','boss'];
 const QUESTS=['bonds10','skip210','bonds20','skip5','jt10','groups','arrays','bt10','skip','tens','read1','read2','read3','read4','blend','digraph','heart','magice','heart2','sentence'];
 const SLOTS=['head','face','neck','badge','outfit','back','main','off','gloves','feet','pet','bg'];
 // a wizard who has finished every stone of the first n quests (so 6n stone items and n boss rewards), plus anything else
-const termHero=(n:number,over:Record<string,unknown>={})=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],skills:{},itemsFrom:{stones:0,bosses:0},
+const termHero=(n:number,over:Record<string,unknown>={})=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],skills:{},
   quests:Object.fromEntries(QUESTS.slice(0,n).map(id=>[id,{done:ALL}])),...over}}});
 // the Crystal Dragon beaten yesterday: its first piece is won, the rematch piece is not
 const beaten=()=>hero({profiles:{p1:{avatar:'wizard',world:'ocean',created:'2026-10-20',feedback:[],
@@ -33,9 +33,9 @@ test('wear and take off term rewards in several slots, including a pet and a pla
   expect((await kit(page)).head).toBeNull();
   await tile(page,'wizard').click();                                         // the starter's own hat needs no record
   expect((await kit(page)).head).toBeUndefined();
-  // pets: nothing, the three won, then one silhouette that says it is coming later and changes nothing
+  // pets: nothing, the two won, then one silhouette that says it is coming later and changes nothing
   await tab(page,'pet');
-  await expect(page.locator('.wd-tile')).toHaveCount(5);
+  await expect(page.locator('.wd-tile')).toHaveCount(4);
   await page.locator('.wd-tile.later').click();
   await expect(page.locator('.wd-note')).toHaveText('Coming later');
   expect(await kit(page)).toEqual({});
@@ -77,8 +77,9 @@ test('a big slot shows a page at a time with arrows, and opens on the page of wh
   }
   for(const g of await page.locator('.wd-tile').evaluateAll(els=>els.map(e=>(e as HTMLElement).dataset.g!)))seen.add(g);
   for(const g of ['none','staff','butterfly-net','wooden-sword'])expect(seen.has(g)).toBe(true);
-  expect(seen.size).toBeGreaterThanOrEqual(28);                              // nothing, the staff and all 26 hand rewards
-  // wear something from the last page, leave the tab and come back: it opens on that page
+  expect(seen.size).toBeGreaterThanOrEqual(20);                              // nothing, the staff and the hand rewards won by 20 bosses
+  // wear something from the last page with items (the very last may hold only the "coming later" shape), leave the tab and come back: it opens on that page
+  if(!(await page.locator('.wd-tile.item').count())){const pg=Number(await grid.getAttribute('data-page'));await back.click();await expect(grid).toHaveAttribute('data-page',String(pg-1))}
   const last=await page.locator('.wd-tile.item').last().getAttribute('data-g');
   await page.locator('.wd-tile.item').last().click();
   expect((await kit(page)).main).toBe(last);
@@ -98,7 +99,7 @@ test('play area: hero and pets stand in the place; drag saves, a tap hops, poses
   await expect(page).toHaveURL(/#\/play-area$/);
   await fits(page,'play area');
   await expect(page.locator('.pa-place')).toHaveAttribute('data-place','castle-bg');
-  await expect(page.locator('.pa-actor')).toHaveCount(4);                    // the hero and three pets
+  await expect(page.locator('.pa-actor')).toHaveCount(3);                    // the hero and two pets
   const heroA=page.locator('.pa-actor[data-id="hero"]'),place=page.locator('.pa-place');
   const pb=(await place.boundingBox())!,hb=(await heroA.boundingBox())!;
   const sx=hb.x+hb.width/2,sy=hb.y+hb.height*.6,tx=pb.x+pb.width*.7,ty=pb.y+pb.height*.8;
